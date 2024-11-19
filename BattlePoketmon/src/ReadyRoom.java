@@ -7,21 +7,27 @@ public class ReadyRoom {
 	private int currentPlayerCount=0;
 	private boolean enable;
 	private int id;
-	
-	public ReadyRoom(String roomName, ReadyRoomPlayer user, int maxPlayerCount, int id) {
+	private ReadyRoomFrame frame;
+	public ReadyRoom(String roomName, Player user, int maxPlayerCount, int id) {
 		this.roomName=roomName;
-		this.users.add(user);
+		ReadyRoomPlayer roomUser = new ReadyRoomPlayer(user);
+		this.users.add(roomUser);
 		this.maxPlayerCount=maxPlayerCount;
 		this.currentPlayerCount=1;
 		this.enable=true;
 		this.id = id;
+		this.frame = new ReadyRoomFrame(this);
+		this.frame.create();
 	}
-	public void enterRoom(ReadyRoomPlayer user) {
-		this.users.add(user);
+	public void enterRoom(Player user) {
+		ReadyRoomPlayer roomUser = new ReadyRoomPlayer(user);
+		this.users.add(roomUser);
+		poketmonPick(roomUser);
 		this.currentPlayerCount++;
 		if(this.currentPlayerCount >= this.maxPlayerCount) {
 			this.enable=false;
 		}
+		this.frame.repaint();
 	}
 	public void exitRoom(ReadyRoomPlayer user) {
 		this.users.remove(user);
@@ -39,5 +45,18 @@ public class ReadyRoom {
 	}
 	public void poketmonPick(ReadyRoomPlayer user) {
 		poketmonPick(user, 0);
+	}
+	public String getRoomName() {
+		return roomName;
+	}
+	public int getMaxPlayerCount() {
+		return maxPlayerCount;
+	}
+	public int getCurrentPlayerCount() {
+		return currentPlayerCount;
+	}
+	public static void main(String[] args) {
+		new ReadyRoom("123", new Player(), 4, 0);
+
 	}
 }
