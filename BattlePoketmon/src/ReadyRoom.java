@@ -55,6 +55,7 @@ public class ReadyRoom {
 	public int getCurrentPlayerCount() {
 		return currentPlayerCount;
 	}
+	
 	public static void main(String[] args) {
 		new ReadyRoom("123", new Player(), 4, 0);
 
