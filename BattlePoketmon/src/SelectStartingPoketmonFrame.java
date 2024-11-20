@@ -12,9 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class SelectStartingPoketmonFrame {
-	private ReadyRoomPlayer player;
+	private Player player;
 	private JFrame frame;
-	public SelectStartingPoketmonFrame(ReadyRoomPlayer player) {
+	public SelectStartingPoketmonFrame(Player player) {
 		this.player = player;
 	}
 	public JFrame create() {

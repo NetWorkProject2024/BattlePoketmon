@@ -24,29 +24,30 @@ public class Home extends JFrame{
 	private JScrollPane scrollPane;
 	private JButton b_createRoom;
 	private Player player;
+	private static Server s;
 	
 	public Home() {
 		super("Battle Poketmon");
-		player = new Player("나");//홈 들어오면 '나'생성
-		
-		// 미리 방 생성해두기(스크롤 확인용)
-        createReadyRoom(player, "방 1", 2);
-        createReadyRoom(player, "방 2", 4);createReadyRoom(player, "방 1", 2);
-        createReadyRoom(player, "방 2", 4);createReadyRoom(player, "방 1", 2);
-        createReadyRoom(player, "방 2", 4);createReadyRoom(player, "방 1", 2);
-        createReadyRoom(player, "방 2", 4);
+//		player = new Player("나");//홈 들어오면 '나'생성
+//		
+//		// 미리 방 생성해두기(스크롤 확인용)
+//        createReadyRoom(player, "방 1", 2);
+//        createReadyRoom(player, "방 2", 4);createReadyRoom(player, "방 6", 2);
+//        createReadyRoom(player, "방 3", 4);createReadyRoom(player, "방 7", 2);
+//        createReadyRoom(player, "방 4", 4);createReadyRoom(player, "방 8", 2);
+//        createReadyRoom(player, "방 5", 4);
         
 		buildHomeGUI();
 		setSize(400,300);
 		setLocation(500,0);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
 	
 	private void buildHomeGUI() {
 		setLayout(new BorderLayout());
 		add(topPanel(), BorderLayout.NORTH);
-		add(roomListPanel(), BorderLayout.CENTER);
+//		add(roomListPanel(), BorderLayout.CENTER);
 		
 	}
 	private JPanel topPanel() {
@@ -135,6 +136,7 @@ public class Home extends JFrame{
 	            // 방 생성 및 대기방으로 이동
 	            joinReadyRoom(createReadyRoom(player, roomName, maxPlayers[0]), player);	 
 	            createRoomFrame.dispose();
+	            updateRoomListPanel();
 	        }
 	    });
 
@@ -155,23 +157,28 @@ public class Home extends JFrame{
 	    createRoomFrame.setVisible(true);
 	}
 
+	private void updateRoomListPanel() {
+        roomListPanel.removeAll();
+        scrollPane = roomListPanel();
+        roomListPanel.add(scrollPane, BorderLayout.CENTER);
+        roomListPanel.revalidate();
+        roomListPanel.repaint();
+    }
 	
 	
 	public ReadyRoom createReadyRoom(Player user, String roomName, int maxPlayers) {
 		ReadyRoom readyRoom = new ReadyRoom(roomName, user, maxPlayers, roomCount++);
 		rooms.add(readyRoom);
-		System.out.println(readyRoom.getRoomName());
-		System.out.println(roomCount);
-		System.out.println(user.getPlayerName() + "->" + readyRoom.getRoomName() + " 방 생성");
+		s.printDisplay(user.getPlayerName() + "->" + readyRoom.getRoomName() + " 방 생성");
+		
+		
+		
 		return readyRoom;
 	}
 	
 	public void joinReadyRoom(ReadyRoom room, Player user) {
-		System.out.println(room.getRoomName() + " 대기방으로 ㄱㄱ");
+		s.printDisplay(room.getRoomName() + " 대기방으로 ㄱㄱ");
 		room.enterRoom(user);
 	}
 	
-	public static void main(String[] args) {
-		Home h = new Home();
-	}
 }

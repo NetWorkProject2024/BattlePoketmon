@@ -30,7 +30,7 @@ public class ReadyRoomFrame{
 		entirePanel.add(createBelowPanel(),BorderLayout.SOUTH);
 		frame.add(entirePanel);
 		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		return frame;
 		
 	}
@@ -64,7 +64,7 @@ public class ReadyRoomFrame{
 		b_select.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new SelectStartingPoketmonFrame(new ReadyRoomPlayer(new Player("userName"), roomInfo)).create();
+//				new SelectStartingPoketmonFrame(new ReadyRoomPlayer(new Player("userName"), roomInfo)).create();
 			}
 		});
 		b_ready.addActionListener(new ActionListener() {
@@ -78,7 +78,7 @@ public class ReadyRoomFrame{
 		belowPanel.add(b_ready);
 		return belowPanel;
 	}
-	public JPanel createUserPanel(ReadyRoomPlayer player) {
+	public JPanel createUserPanel(Player player) {
 		JPanel userPanel = new JPanel(new BorderLayout());
 		//ImageIcon img =player.getImage();
 		//userPanel.add(img);
@@ -101,7 +101,7 @@ public class ReadyRoomFrame{
 		
 		return userInfoPanel;
 	}
-	public void addUser(ReadyRoomPlayer player) {
+	public void addUser(Player player) {
 		centerPanel.add(createUserPanel(player));
 		
 	}

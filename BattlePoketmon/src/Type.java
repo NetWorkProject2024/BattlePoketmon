@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Type {
+public class Type implements Serializable{
 	private String name;
 	private Type strength;
 	private Type weakness;

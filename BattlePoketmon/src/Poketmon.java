@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Vector;
 
-public class Poketmon {
+public class Poketmon implements Serializable{
 	private String name;
 	private Type type;
 	private Skill[] skills = new Skill[4];
