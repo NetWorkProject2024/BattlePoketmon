@@ -143,7 +143,7 @@ public class Player implements Serializable{
 		this.serverAddress=serverAddress;
 		this.serverPort = serverPort;
 		
-		home = new Home();
+		home = new Home(this);
 		try {
 			connectToServer();
 			sendUserID();
@@ -151,23 +151,6 @@ public class Player implements Serializable{
 			
 		}
 	}
-	public Player(String name, ReadyRoom room, String serverAddress, int serverPort) {
-		this.playerName = name;
-		this.id = userId++;
-	    this.room = room;
-	    this.serverAddress=serverAddress;
-		this.serverPort = serverPort;
-		
-		home = new Home();
-		try {
-			connectToServer();
-			sendUserID();
-		}catch(IOException e) {
-			
-		}
-	}
-
-	
 	private String getLocalAddr() {
 		InetAddress local = null;
 		String addr = "";
@@ -207,7 +190,8 @@ public class Player implements Serializable{
 						}
 						
 					} catch (IOException e) {
-						System.err.println("서버 연결 실패: " + e.getMessage());
+						System.err.println("서버 연결 끊김: " + e.getMessage());
+						System.exit(-1);
 					}catch (ClassNotFoundException e) {
 
 					}
@@ -264,7 +248,10 @@ public class Player implements Serializable{
 	private void sendUserID() {
 		send(new ChatMsg(this, ChatMsg.MODE_LOGIN));	
 	}
-	
+	public void sendMessage(String msg) {
+		if (msg.isEmpty()) return;
+		send(new ChatMsg(this, ChatMsg.MODE_TX_STRING, msg));
+    }
 	
 	public void setPoketmonIdx(int poketmonIdx) {
 		this.poketmonIdx = poketmonIdx;

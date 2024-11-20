@@ -196,6 +196,7 @@ public class Server extends JFrame{
 				ChatMsg msg;
 				while ((msg = (ChatMsg)in.readObject()) != null){
 					if(msg.mode == ChatMsg.MODE_LOGIN) {
+						client=msg.player;
 						uid = client.getPlayerName();
 						printDisplay("새 참가자: " + uid);
 						printDisplay("현재 참가자 수: " + users.size());
