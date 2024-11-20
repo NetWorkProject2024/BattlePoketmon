@@ -64,7 +64,7 @@ public class ReadyRoomFrame{
 		b_select.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new SelectStartingPoketmonFrame(new ReadyRoomPlayer(new Player())).create();
+				new SelectStartingPoketmonFrame(new ReadyRoomPlayer(new Player("userName"), roomInfo)).create();
 			}
 		});
 		b_ready.addActionListener(new ActionListener() {

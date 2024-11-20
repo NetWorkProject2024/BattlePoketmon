@@ -10,7 +10,7 @@ public class ReadyRoom {
 	private ReadyRoomFrame frame;
 	public ReadyRoom(String roomName, Player user, int maxPlayerCount, int id) {
 		this.roomName=roomName;
-		ReadyRoomPlayer roomUser = new ReadyRoomPlayer(user);
+		ReadyRoomPlayer roomUser = new ReadyRoomPlayer(user, this);
 		this.users.add(roomUser);
 		this.maxPlayerCount=maxPlayerCount;
 		this.currentPlayerCount=1;
@@ -20,7 +20,7 @@ public class ReadyRoom {
 		this.frame.create();
 	}
 	public void enterRoom(Player user) {
-		ReadyRoomPlayer roomUser = new ReadyRoomPlayer(user);
+		ReadyRoomPlayer roomUser = new ReadyRoomPlayer(user, this);
 		this.users.add(roomUser);
 		poketmonPick(roomUser);
 		this.currentPlayerCount++;
@@ -57,7 +57,7 @@ public class ReadyRoom {
 	}
 	
 	public static void main(String[] args) {
-		new ReadyRoom("123", new Player(), 4, 0);
+		new ReadyRoom("123", new Player("testUser"), 4, 0);
 
 	}
 }
