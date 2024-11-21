@@ -1,90 +1,3 @@
-////
-////public class Player {
-////	private static int userId = 1;
-////	private String playerName = "";
-////	private int id = 0;
-////	
-////	public Player(String name) {
-////		this.playerName = name;
-////		this.id = userId++;
-////	}
-////	
-////	public int getId() {
-////		return id;
-////	}
-////	
-////	public void setId(int id) {
-////		this.id = id;
-////	}
-////	
-////	public String getPlayerName() {
-////        return playerName;
-////    }
-////	
-////	
-////	 @Override
-////	    public String toString() {
-////	        return "BattlePlayer [Name=" + getPlayerName() + ", ID=" + getId() + "]";
-////	    }
-////
-////	
-////}
-//
-//
-//
-//public class Player {
-//	private static int userId = 1;
-//	private String playerName = "";
-//	private int id = 0;
-//	private int poketmonIdx = 0;
-//	private boolean ready = false;
-//	private ReadyRoom room = null;
-//	
-//	public Player(String name) {
-//		this.playerName = name;
-//		this.id = userId++;
-//	}
-//	
-//	public Player(String name, ReadyRoom room) {
-//		 this.playerName = name;
-//		this.id = userId++;
-//	     this.room = room;		
-//	}
-//
-//	public void setPoketmonIdx(int poketmonIdx) {
-//		this.poketmonIdx = poketmonIdx;
-//	}
-//	
-//	public void getReady() {
-//		this.ready = true;
-//	}
-//	
-//	 @Override
-//	    public String toString() {// 테스트용
-//	        return "ReadyRoomPlayer [Name=" + getPlayerName() +
-//	                ", ID=" + getId() +
-//	                ", Ready=" + ready +
-//	                ", PoketmonIdx=" + poketmonIdx + "]";
-//	    }
-//	
-//	
-//	public int getId() {
-//		return id;
-//	}
-//	
-//	public void setId(int id) {
-//		this.id = id;
-//	}
-//	
-//	public String getPlayerName() {
-//        return playerName;
-//    }
-//	
-//
-//
-//	
-//}
-
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -171,13 +84,14 @@ public class Player implements Serializable{
 						case ChatMsg.MODE_ROOM_UPDATE:
 			                home.updateRooms(inMsg.room);			                
 							SwingUtilities.invokeLater(() -> {
-	                            home.updateRoomListPanel();
+	                            home.updateRoomListPanel();	                          
 	                        });
 	                        break;
 						case ChatMsg.MODE_ROOM_LIST_REQUEST:
                             home.rooms.add(inMsg.room);
                             SwingUtilities.invokeLater(() -> {
 	                            home.updateRoomListPanel();
+	                        });                            
 						}
 						
 					} catch (IOException e) {

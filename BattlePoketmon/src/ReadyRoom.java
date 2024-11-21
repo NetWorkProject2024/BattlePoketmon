@@ -7,19 +7,19 @@ public class ReadyRoom implements Serializable{
 	private int maxPlayerCount;
 	private int currentPlayerCount=0;
 	private boolean enable;
-	private int id;
+	public static int roomId = 0;
 	private transient ReadyRoomFrame frame;
 	
-	public ReadyRoom(String roomName, Player user, int maxPlayerCount, int id) {
+	public ReadyRoom(String roomName, Player user, int maxPlayerCount) {
 		this.roomName=roomName;
 		this.users.add(user);
 		this.maxPlayerCount=maxPlayerCount;
-		this.currentPlayerCount=1;
+		this.currentPlayerCount=0;
 		this.enable=true;
-		this.id = id;
+		this.roomId+=1;
 		this.frame = new ReadyRoomFrame(this);
-
 	}
+	
 	public void enterRoom(Player user) {
 		if (this.frame == null) {
             this.frame = new ReadyRoomFrame(this); // frame 객체가 없으면 새로 생성

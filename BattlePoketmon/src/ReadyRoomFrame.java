@@ -106,6 +106,6 @@ public class ReadyRoomFrame{
 		
 	}
 	public void repaint() {
-		userCountLabel.repaint();
+		userCountLabel.setText(roomInfo.getCurrentPlayerCount()+"/"+roomInfo.getMaxPlayerCount());
 	}
 }

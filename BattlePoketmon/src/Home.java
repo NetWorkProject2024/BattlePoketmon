@@ -57,9 +57,9 @@ public class Home extends JFrame{
 		return topP;
 	}
 	
-	public void updateRooms(ReadyRoom updatedRooms) {
+	public void updateRooms(ReadyRoom updatedRoom) {
 		System.out.println("서버로부터 룸들 받아오기");
-	    this.rooms.add(updatedRooms);
+	    this.rooms.add(updatedRoom);
 	    updateRoomListPanel();
 	}
 	
@@ -156,7 +156,6 @@ public class Home extends JFrame{
 	            joinReadyRoom(newRoom, player);
 	            updateRoomListPanel();
 	            createRoomFrame.dispose();
-
 	        }
 	    });
 
@@ -178,7 +177,7 @@ public class Home extends JFrame{
 	}
 
 	public ReadyRoom createReadyRoom(Player user, String roomName, int maxPlayers) {
-		ReadyRoom readyRoom = new ReadyRoom(roomName, user, maxPlayers, roomCount++);
+		ReadyRoom readyRoom = new ReadyRoom(roomName, user, maxPlayers);
 //		rooms.add(readyRoom);
 		player.sendMessage("방을 만들었습니다.");
 		player.setReadyRoom(readyRoom);
@@ -192,6 +191,7 @@ public class Home extends JFrame{
 		user.setReadyRoom(room);
 		updateRoomListPanel();
 		room.enterRoom(user);
+		System.out.println(room.roomId  + "<- roomId");
 	}
 	
 }
