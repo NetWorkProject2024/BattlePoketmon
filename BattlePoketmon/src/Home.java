@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 
 public class Home extends JFrame{
 
-	private Vector<ReadyRoom> rooms = new Vector<>();
+	public Vector<ReadyRoom> rooms = new Vector<>();
 	public static int roomCount = 0;//방 만들때++
 	private JPanel roomListPanel;
 	private JScrollPane scrollPane;

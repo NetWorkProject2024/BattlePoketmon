@@ -202,6 +202,9 @@ public class Server extends JFrame{
 						uid = client.getPlayerName();
 						printDisplay("새 참가자: " + uid);
 						printDisplay("현재 참가자 수: " + users.size());
+						
+						sendRoomList(client);
+						
 						continue;
 					}else if (msg.mode == ChatMsg.MODE_LOGOUT) {
 						break;
@@ -210,7 +213,7 @@ public class Server extends JFrame{
 						printDisplay(message);
 						broadcasting(msg);
 					}else if (msg.mode == ChatMsg.MODE_ROOM_UPDATE) {
-						System.out.println(msg.room + "ㄴㄷㄱㅍㄷㄱ");
+						System.out.println(msg.room + "-업데이트");
 						rooms.add(msg.room);
 						broadcasting(msg);
 					}
@@ -231,6 +234,12 @@ public class Server extends JFrame{
 	            }
 			}
 		}
+		private void sendRoomList(Player user) {
+			for (ReadyRoom room : rooms) {
+				send(new ChatMsg(user, ChatMsg.MODE_ROOM_LIST_REQUEST, room));
+	        }
+		}
+
 		
 		private void broadcasting(ChatMsg msg) {
 			for (ClientHandler c : users) {

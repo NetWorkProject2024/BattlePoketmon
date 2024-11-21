@@ -169,13 +169,15 @@ public class Player implements Serializable{
 						case ChatMsg.MODE_TX_STRING:
 							break;
 						case ChatMsg.MODE_ROOM_UPDATE:
-							System.out.println(inMsg.room + "Sssss");
-			                home.updateRooms(inMsg.room);
-			                
+			                home.updateRooms(inMsg.room);			                
 							SwingUtilities.invokeLater(() -> {
 	                            home.updateRoomListPanel();
 	                        });
 	                        break;
+						case ChatMsg.MODE_ROOM_LIST_REQUEST:
+                            home.rooms.add(inMsg.room);
+                            SwingUtilities.invokeLater(() -> {
+	                            home.updateRoomListPanel();
 						}
 						
 					} catch (IOException e) {
@@ -229,7 +231,7 @@ public class Player implements Serializable{
 	
 	
 	private void sendUserID() {
-		send(new ChatMsg(this, ChatMsg.MODE_LOGIN));	
+		send(new ChatMsg(this, ChatMsg.MODE_LOGIN));		
 	}
 	public void sendMessage(String msg) {
 		if (msg.isEmpty()) return;
@@ -239,7 +241,7 @@ public class Player implements Serializable{
 		if (room == null) {
 		    System.err.println("room 객체가 null 상태입니다");
 		} else {
-			send(new ChatMsg(this, ChatMsg.MODE_ROOM_UPDATE, this.room, "룸"));
+			send(new ChatMsg(this, ChatMsg.MODE_ROOM_UPDATE, this.room));
 		    System.out.println(room.getRoomName());
 		}
 	}
