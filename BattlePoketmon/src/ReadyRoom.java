@@ -7,7 +7,7 @@ public class ReadyRoom implements Serializable{
 	private int maxPlayerCount;
 	private int currentPlayerCount=0;
 	private boolean enable;
-	public static int roomId = 0;
+	public int roomId = 0;
 	private transient ReadyRoomFrame frame;
 	
 	public ReadyRoom(String roomName, Player user, int maxPlayerCount) {

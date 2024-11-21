@@ -203,7 +203,8 @@ public class Server extends JFrame{
 						printDisplay("새 참가자: " + uid);
 						printDisplay("현재 참가자 수: " + users.size());
 						
-						sendRoomList(client);
+//						sendRoomList(client);
+						sendLogin(client);
 						
 						continue;
 					}else if (msg.mode == ChatMsg.MODE_LOGOUT) {
@@ -215,6 +216,8 @@ public class Server extends JFrame{
 					}else if (msg.mode == ChatMsg.MODE_ROOM_UPDATE) {
 						System.out.println(msg.room + "-업데이트");
 						rooms.add(msg.room);
+						msg.serverRooms=rooms;
+						System.out.println(msg.serverRooms + "-방송전");
 						broadcasting(msg);
 					}
 				}
@@ -239,9 +242,14 @@ public class Server extends JFrame{
 				send(new ChatMsg(user, ChatMsg.MODE_ROOM_LIST_REQUEST, room));
 	        }
 		}
+		private void sendLogin(Player user) {
+			send(new ChatMsg(user, ChatMsg.MODE_LOGIN, rooms));
+		}
 
 		
 		private void broadcasting(ChatMsg msg) {
+
+            System.out.println(msg.serverRooms +"방송중");
 			for (ClientHandler c : users) {
 	            c.send(msg);
 	        }

@@ -25,7 +25,7 @@ public class Player implements Serializable{
 	private transient ObjectOutputStream out;
 	
 	private transient Thread receiveThread = null;
-	private static int userId = 1;
+	private int userId = 1;
 	private String playerName = "";
 	private int id = 0;
 	private int poketmonIdx = 0;
@@ -38,9 +38,9 @@ public class Player implements Serializable{
 		this.serverAddress=serverAddress;
 		this.serverPort = serverPort;
 		
-		home = new Home(this);
+		
 		try {
-			connectToServer();
+			connectToServer(this);
 			sendUserID();
 		}catch(IOException e) {
 			
@@ -59,12 +59,11 @@ public class Player implements Serializable{
 		return addr;		
 	}
 	
-	private void connectToServer() throws UnknownHostException, IOException {
+	private void connectToServer(Player player) throws UnknownHostException, IOException {
 			socket = new Socket();
 			SocketAddress sa = new InetSocketAddress(serverAddress, serverPort);
 			socket.connect(sa,3000);		
 			out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-			
 			send(new ChatMsg(this, ChatMsg.MODE_ROOM_LIST_REQUEST));
 			
 			receiveThread = new Thread(new Runnable() {
@@ -79,19 +78,23 @@ public class Player implements Serializable{
 							return;
 						}
 						switch(inMsg.mode) {
+						case ChatMsg.MODE_LOGIN:
+							home = new Home(player, inMsg.serverRooms);
 						case ChatMsg.MODE_TX_STRING:
 							break;
 						case ChatMsg.MODE_ROOM_UPDATE:
-			                home.updateRooms(inMsg.room);			                
-							SwingUtilities.invokeLater(() -> {
-	                            home.updateRoomListPanel();	                          
-	                        });
+//			                home.updateRooms(inMsg.room);			                
+//							SwingUtilities.invokeLater(() -> {
+//	                            home.updateRoomListPanel();	                          
+//	                        });
+							System.out.println(inMsg.serverRooms + "<- 뭐가 넘어오니");
+							home.updateRoomListPanel(inMsg.serverRooms);
 	                        break;
 						case ChatMsg.MODE_ROOM_LIST_REQUEST:
-                            home.rooms.add(inMsg.room);
-                            SwingUtilities.invokeLater(() -> {
-	                            home.updateRoomListPanel();
-	                        });                            
+//                            home.rooms.add(inMsg.room);
+//                            SwingUtilities.invokeLater(() -> {
+//	                            home.updateRoomListPanel();
+//	                        });                            
 						}
 						
 					} catch (IOException e) {
