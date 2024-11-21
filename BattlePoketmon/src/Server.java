@@ -40,6 +40,9 @@ public class Server extends JFrame{
 	private JButton b_exit;
 	
 	private static Vector<ReadyRoom> rooms = new Vector<ReadyRoom>();
+	private static int roomIdCounter = 0;
+	private static int userIdCounter = 0;
+	
 	
 	public Server(int port) {
 		super("BattlePoketmon_Server");
@@ -135,6 +138,13 @@ public class Server extends JFrame{
 		}
 	}
 	
+	private synchronized int generateRoomId() {
+	    return ++roomIdCounter;
+	}
+	
+	private synchronized int generateUserId() {
+	    return ++userIdCounter;
+	}
 
 	
 	public void printDisplay(String msg) {
@@ -199,8 +209,9 @@ public class Server extends JFrame{
 				while ((msg = (ChatMsg)in.readObject()) != null){
 					if(msg.mode == ChatMsg.MODE_LOGIN) {
 						client=msg.player;
+						client.setId(generateUserId());
 						uid = client.getPlayerName();
-						printDisplay("새 참가자: " + uid);
+						printDisplay("새 참가자: " + uid + client.getId());
 						printDisplay("현재 참가자 수: " + users.size());
 						
 //						sendRoomList(client);
@@ -215,8 +226,10 @@ public class Server extends JFrame{
 						broadcasting(msg);
 					}else if (msg.mode == ChatMsg.MODE_ROOM_UPDATE) {
 						System.out.println(msg.room + "-업데이트");
+						msg.room.roomId = generateRoomId();
 						rooms.add(msg.room);
-						msg.serverRooms=rooms;
+//						msg.serverRooms=rooms;
+						msg.serverRooms = new Vector<>(rooms); // rooms 값을 복사하여 설정
 						System.out.println(msg.serverRooms + "-방송전");
 						broadcasting(msg);
 					}
@@ -243,7 +256,7 @@ public class Server extends JFrame{
 	        }
 		}
 		private void sendLogin(Player user) {
-			send(new ChatMsg(user, ChatMsg.MODE_LOGIN, rooms));
+			send(new ChatMsg(user, ChatMsg.MODE_LOGIN, rooms, userIdCounter));
 		}
 
 		

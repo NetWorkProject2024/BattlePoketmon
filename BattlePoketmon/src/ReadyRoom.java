@@ -10,13 +10,13 @@ public class ReadyRoom implements Serializable{
 	public int roomId = 0;
 	private transient ReadyRoomFrame frame;
 	
-	public ReadyRoom(String roomName, Player user, int maxPlayerCount) {
+	public ReadyRoom(String roomName, Player user, int maxPlayerCount, int id) {
 		this.roomName=roomName;
 		this.users.add(user);
 		this.maxPlayerCount=maxPlayerCount;
 		this.currentPlayerCount=0;
 		this.enable=true;
-		this.roomId+=1;
+		this.roomId =id;
 		this.frame = new ReadyRoomFrame(this);
 	}
 	
@@ -31,7 +31,10 @@ public class ReadyRoom implements Serializable{
 		if(this.currentPlayerCount >= this.maxPlayerCount) {
 			this.enable=false;
 		}
+		this.frame.addUser(user);
+//		this.frame.createUserInfoPanel(user.getPlayerName(), false); // 플레이어 목록 업데이트
 		this.frame.repaint();
+		this.frame.updateUserList();
 	}
 	public void exitRoom(Player user) {
 		this.users.remove(user);
@@ -56,6 +59,17 @@ public class ReadyRoom implements Serializable{
 	public int getMaxPlayerCount() {
 		return maxPlayerCount;
 	}
+	
+	public Vector<Player> getUsers() {
+	    return users;
+	}
+	public void addUser(Player player) {
+	    if (!users.contains(player)) {//중복X
+	        users.add(player);
+	        currentPlayerCount++;
+	    }
+	}
+	
 	public int getCurrentPlayerCount() {
 		return currentPlayerCount;
 	}

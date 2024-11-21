@@ -25,16 +25,15 @@ public class Player implements Serializable{
 	private transient ObjectOutputStream out;
 	
 	private transient Thread receiveThread = null;
-	private int userId = 1;
+	private int userId = 0;
 	private String playerName = "";
-	private int id = 0;
 	private int poketmonIdx = 0;
 	private boolean ready = false;
 	private ReadyRoom room = null;
 	
 	public Player(String name, String serverAddress, int serverPort) {
 		this.playerName = name;
-		this.id = userId++;
+//		this.id = userId++;
 		this.serverAddress=serverAddress;
 		this.serverPort = serverPort;
 		
@@ -80,6 +79,8 @@ public class Player implements Serializable{
 						switch(inMsg.mode) {
 						case ChatMsg.MODE_LOGIN:
 							home = new Home(player, inMsg.serverRooms);
+							setId(inMsg.size);
+							System.out.println("id바뀜??" +player.getId());
 						case ChatMsg.MODE_TX_STRING:
 							break;
 						case ChatMsg.MODE_ROOM_UPDATE:
@@ -158,10 +159,12 @@ public class Player implements Serializable{
 		if (room == null) {
 		    System.err.println("room 객체가 null 상태입니다");
 		} else {
-			send(new ChatMsg(this, ChatMsg.MODE_ROOM_UPDATE, this.room));
+			send(new ChatMsg(this, ChatMsg.MODE_ROOM_UPDATE, room, 0));
 		    System.out.println(room.getRoomName());
 		}
 	}
+	
+	
 	
 	public void setPoketmonIdx(int poketmonIdx) {
 		this.poketmonIdx = poketmonIdx;
@@ -169,6 +172,9 @@ public class Player implements Serializable{
 	
 	public void getReady() {
 		this.ready = true;
+	}
+	public boolean isReady() {
+		return this.ready;
 	}
 	public void setReadyRoom(ReadyRoom myRoom) {
 		this.room = myRoom;
@@ -183,16 +189,17 @@ public class Player implements Serializable{
 	
 	
 	public int getId() {
-		return id;
+		return userId;
 	}
 	
-	public void setId(int id) {
-		this.id = id;
+	public void setId(long size) {
+		this.userId = (int) size;
 	}
 	
 	public String getPlayerName() {
-        return playerName;
+        return this.playerName;
     }
+	
 	public static void main(String[] args) {
 		String serverAddress = "localhost";
 		int serverPort = 54321;

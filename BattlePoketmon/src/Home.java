@@ -57,23 +57,18 @@ public class Home extends JFrame{
 		return topP;
 	}
 	
-//	public void updateRooms(ReadyRoom updatedRoom) {
-//		System.out.println("서버로부터 룸들 받아오기");
-////	    this.rooms.add(updatedRoom);
-//	    updateRoomListPanel();
-//	}
 	
 	private JScrollPane createRoomListPanel(Vector<ReadyRoom> severRooms) {
 	    roomListPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
 	    
 //	    // 방 버튼 추가
-//	    for (ReadyRoom room : rooms) {
-//	        roomListPanel.add(createRoomBtn(room));
-//	    }
+	    for (ReadyRoom room : severRooms) {
+	        roomListPanel.add(createRoomBtn(room));
+	    }
 	    updateRoomListPanel(severRooms);
 	    JScrollPane scrollPane = new JScrollPane(roomListPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-//	    roomListPanel.setPreferredSize(calculatePreferredSize()); 
+	    roomListPanel.setPreferredSize(calculatePreferredSize(severRooms)); 
 	    
 	    return scrollPane;
 	}
@@ -153,7 +148,7 @@ public class Home extends JFrame{
 	                return;
 	            }
 	            // 방 생성 및 대기방으로 이동
-	            ReadyRoom newRoom = createReadyRoom(player, roomName, maxPlayers[0]);
+	            ReadyRoom newRoom = createReadyRoom(player, roomName, maxPlayers[0], 0);
 	            joinReadyRoom(newRoom, player);
 	            createRoomFrame.dispose();
 	        }
@@ -176,8 +171,8 @@ public class Home extends JFrame{
 	    createRoomFrame.setVisible(true);
 	}
 
-	public ReadyRoom createReadyRoom(Player user, String roomName, int maxPlayers) {
-		ReadyRoom readyRoom = new ReadyRoom(roomName, user, maxPlayers);
+	public ReadyRoom createReadyRoom(Player user, String roomName, int maxPlayers, int id) {
+		ReadyRoom readyRoom = new ReadyRoom(roomName, user, maxPlayers, id);
 		player.sendMessage("방을 만들었습니다.");
 		player.setReadyRoom(readyRoom);
 		player.sendCreateRoom(readyRoom);	
@@ -186,10 +181,8 @@ public class Home extends JFrame{
 
 	
 	public void joinReadyRoom(ReadyRoom room, Player user) {
-		player.sendMessage("대기방 ㄱㄱ");
+		player.sendMessage(user.getId() + "가 "+room.roomId + "대기방 ㄱㄱ");
 		user.setReadyRoom(room);
-//		updateRoomListPanel();
-		//
 		room.enterRoom(user);
 		System.out.println(room.roomId  + "<- roomId");
 	}

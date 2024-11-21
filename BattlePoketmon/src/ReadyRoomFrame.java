@@ -82,7 +82,7 @@ public class ReadyRoomFrame{
 		JPanel userPanel = new JPanel(new BorderLayout());
 		//ImageIcon img =player.getImage();
 		//userPanel.add(img);
-		//userPanel.add(createUserInfoPanel(player.getName(),player.getReady()));
+		userPanel.add(createUserInfoPanel(player.getPlayerName() + player.getId(),player.isReady()));
 		return userPanel;
 	}
 	public JPanel createUserInfoPanel(String name, boolean readyState) {
@@ -101,10 +101,26 @@ public class ReadyRoomFrame{
 		
 		return userInfoPanel;
 	}
-	public void addUser(Player player) {
-		centerPanel.add(createUserPanel(player));
-		
+	
+	public void updateUserList() {
+	    centerPanel.removeAll(); // 기존 사용자 패널 제거
+
+	    // roomInfo의 모든 유저를 표시
+	    for (Player player : roomInfo.getUsers()) {
+	        centerPanel.add(createUserPanel(player));
+	    }
+
+	    centerPanel.revalidate(); // 패널 레이아웃 갱신
+	    centerPanel.repaint();    // 패널 다시 그리기
+	    repaint();                // 상단 사용자 수 정보 갱신
 	}
+
+	
+	public void addUser(Player player) {
+	    roomInfo.addUser(player);  // ReadyRoom 클래스에 유저 추가
+	    updateUserList();          // 사용자 목록 갱신
+	}
+	
 	public void repaint() {
 		userCountLabel.setText(roomInfo.getCurrentPlayerCount()+"/"+roomInfo.getMaxPlayerCount());
 	}
