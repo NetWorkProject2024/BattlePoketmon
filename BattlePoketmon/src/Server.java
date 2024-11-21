@@ -39,6 +39,8 @@ public class Server extends JFrame{
 	private JTextArea t_display;
 	private JButton b_exit;
 	
+	private static Vector<ReadyRoom> rooms = new Vector<ReadyRoom>();
+	
 	public Server(int port) {
 		super("BattlePoketmon_Server");
 		
@@ -207,8 +209,9 @@ public class Server extends JFrame{
 						String message = uid + ": " + msg.message;
 						printDisplay(message);
 						broadcasting(msg);
-					}else if (msg.mode == ChatMsg.MODE_TX_IMAGE) {
-						printDisplay(uid + ": " + msg.message);
+					}else if (msg.mode == ChatMsg.MODE_ROOM_UPDATE) {
+						System.out.println(msg.room + "ㄴㄷㄱㅍㄷㄱ");
+						rooms.add(msg.room);
 						broadcasting(msg);
 					}
 				}
@@ -240,6 +243,7 @@ public class Server extends JFrame{
 			receiveMessages(clientSocket);
 		}
 	}
+    
 	public static void main(String[] args) {
 		int port = 54321;
 		Server s = new Server(port);

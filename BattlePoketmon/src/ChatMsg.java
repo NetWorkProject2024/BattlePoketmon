@@ -106,6 +106,8 @@ public class ChatMsg implements Serializable{
 	public final static int MODE_TX_FILE = 0x20;
 	public final static int MODE_TX_IMAGE = 0x40;
 	public final static int MODE_TX_POS = 0x100;
+	public final static int MODE_ROOM_UPDATE = 0x3;
+	public final static int MODE_ROOM_LIST_REQUEST = 0x4;
 	
 	public Player player;
 	int mode;
@@ -113,20 +115,22 @@ public class ChatMsg implements Serializable{
 	ImageIcon image;/////
 	Object object;
 	long size;
+	ReadyRoom room;
 	
-	public ChatMsg(Player player, int code, String message, Object object, long size) {
+	public ChatMsg(Player player, int code, String message, Object object, long size, ReadyRoom room) {
 		this.player = player;
 		this.mode = code;
 		this.message = message;
 		this.object = object;
 		this.size = size;
+		this.room = null;
 	}
 	
 	public ChatMsg(Player player, int code, String message,  Object object) {
-		this(player, code, null, object, 0);
+		this(player, code, null, object, 0, null);
 	}
 	public ChatMsg(Player player, int code) {
-		this(player, code, null, null);
+		this(player, code, null, null, 0, null);
 	}
 	public ChatMsg(Player player, int code, String message) {
 //		this(player, code, message, null);
@@ -135,12 +139,21 @@ public class ChatMsg implements Serializable{
 	      this.message = message;
 	      this.object = null;
 	      this.size =0;
-	}	
+	}
+	public ChatMsg(Player player, int code, ReadyRoom room, String r) {
+//		this(player, code, null, null, 0, room);
+		this.player=player;
+	      this.mode = code;
+	      this.message = null;
+	      this.object = null;
+	      this.size =0;
+	      this.room = room;
+	}
 	public ChatMsg(Player player, int code, Object object) {
-		this(player, code, null, object, 0);
+		this(player, code, null, object, 0, null);
 	}
 	public ChatMsg(Player player, int code, String filename, long size) {
-		this(player, code, filename, null, size);
+		this(player, code, filename, null, size, null);
 	}
 	
 	public static void main(String[] args) {

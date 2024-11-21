@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 
 public class Home extends JFrame{
 
-	public Vector<ReadyRoom> rooms = new Vector<ReadyRoom>();
+	private Vector<ReadyRoom> rooms = new Vector<>();
 	public static int roomCount = 0;//방 만들때++
 	private JPanel roomListPanel;
 	private JScrollPane scrollPane;
@@ -57,6 +57,11 @@ public class Home extends JFrame{
 		return topP;
 	}
 	
+	public void updateRooms(ReadyRoom updatedRooms) {
+		System.out.println("서버로부터 룸들 받아오기");
+	    this.rooms.add(updatedRooms);
+	    updateRoomListPanel();
+	}
 	
 	private JScrollPane createRoomListPanel() {
 	    roomListPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
@@ -79,7 +84,7 @@ public class Home extends JFrame{
 	    return new Dimension(400, panelHeight);
 	}
 	
-   private void updateRoomListPanel() {
+   public void updateRoomListPanel() {
 	   roomListPanel.removeAll();
 	    for (ReadyRoom room : rooms) {
 	        roomListPanel.add(createRoomBtn(room));
@@ -172,17 +177,20 @@ public class Home extends JFrame{
 	    createRoomFrame.setVisible(true);
 	}
 
-	
 	public ReadyRoom createReadyRoom(Player user, String roomName, int maxPlayers) {
 		ReadyRoom readyRoom = new ReadyRoom(roomName, user, maxPlayers, roomCount++);
-		rooms.add(readyRoom);
-		player.sendMessage("방을 만들었습니다.");		
-		
+//		rooms.add(readyRoom);
+		player.sendMessage("방을 만들었습니다.");
+		player.setReadyRoom(readyRoom);
+		player.sendCreateRoom(readyRoom);	
 		return readyRoom;
 	}
+
 	
 	public void joinReadyRoom(ReadyRoom room, Player user) {
 		player.sendMessage("대기방 ㄱㄱ");
+		user.setReadyRoom(room);
+		updateRoomListPanel();
 		room.enterRoom(user);
 	}
 	

@@ -8,7 +8,7 @@ public class ReadyRoom implements Serializable{
 	private int currentPlayerCount=0;
 	private boolean enable;
 	private int id;
-	private ReadyRoomFrame frame;
+	private transient ReadyRoomFrame frame;
 	public ReadyRoom(String roomName, Player user, int maxPlayerCount, int id) {
 		this.roomName=roomName;
 		this.users.add(user);
@@ -21,7 +21,6 @@ public class ReadyRoom implements Serializable{
 	}
 	public void enterRoom(Player user) {
 		this.frame.create();
-//		Player roomUser = new Player();
 		this.users.add(user);
 		poketmonPick(user);
 		this.currentPlayerCount++;

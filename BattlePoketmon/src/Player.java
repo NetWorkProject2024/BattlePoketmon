@@ -86,15 +86,8 @@
 //}
 
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -104,20 +97,9 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
+import java.util.Vector;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultStyledDocument;
+import javax.swing.SwingUtilities;
 
 public class Player implements Serializable{
 	private transient Home home = null;
@@ -170,6 +152,8 @@ public class Player implements Serializable{
 			socket.connect(sa,3000);		
 			out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
 			
+			send(new ChatMsg(this, ChatMsg.MODE_ROOM_LIST_REQUEST));
+			
 			receiveThread = new Thread(new Runnable() {
 				
 				private ObjectInputStream in; 
@@ -184,16 +168,21 @@ public class Player implements Serializable{
 						switch(inMsg.mode) {
 						case ChatMsg.MODE_TX_STRING:
 							break;
-						case ChatMsg.MODE_TX_IMAGE:
-
-							break;
+						case ChatMsg.MODE_ROOM_UPDATE:
+							System.out.println(inMsg.room + "Sssss");
+			                home.updateRooms(inMsg.room);
+			                
+							SwingUtilities.invokeLater(() -> {
+	                            home.updateRoomListPanel();
+	                        });
+	                        break;
 						}
 						
 					} catch (IOException e) {
 						System.err.println("서버 연결 끊김: " + e.getMessage());
 						System.exit(-1);
 					}catch (ClassNotFoundException e) {
-
+						e.printStackTrace();
 					}
 				}
 				
@@ -225,13 +214,7 @@ public class Player implements Serializable{
 		}
 	}
 	
-	private void send(ChatMsg msg) {		
-//		try {
-//			out.writeObject(msg);
-//			out.flush();
-//		} catch(IOException e) {
-//			System.err.println("클라이언트 일반 전송 오류> " + e.getMessage());
-//		}
+	private void send(ChatMsg msg) {
 		if (socket == null || socket.isClosed() || !socket.isConnected()) {
 	        System.err.println("소켓 연결 상태를 확인하세요.");
 	        return;
@@ -252,6 +235,14 @@ public class Player implements Serializable{
 		if (msg.isEmpty()) return;
 		send(new ChatMsg(this, ChatMsg.MODE_TX_STRING, msg));
     }
+	public void sendCreateRoom(ReadyRoom room) {
+		if (room == null) {
+		    System.err.println("room 객체가 null 상태입니다");
+		} else {
+			send(new ChatMsg(this, ChatMsg.MODE_ROOM_UPDATE, this.room, "룸"));
+		    System.out.println(room.getRoomName());
+		}
+	}
 	
 	public void setPoketmonIdx(int poketmonIdx) {
 		this.poketmonIdx = poketmonIdx;
@@ -260,7 +251,9 @@ public class Player implements Serializable{
 	public void getReady() {
 		this.ready = true;
 	}
-	
+	public void setReadyRoom(ReadyRoom myRoom) {
+		this.room = myRoom;
+	}
 	 @Override
 	 public String toString() {// 테스트용
 	     return "ReadyRoomPlayer [Name=" + getPlayerName() +
