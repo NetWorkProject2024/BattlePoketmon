@@ -24,22 +24,23 @@ public class Home extends JFrame{
 	private JScrollPane scrollPane;
 	private JButton b_createRoom;
 	private Player player;
+	public static Vector<RoomBtn> roomBtns = new Vector<RoomBtn>();
 	
-	public Home(Player player, Vector<ReadyRoom> severRooms) {
+	public Home(Player player, Vector<ReadyRoom> serverRooms) {
 		super("Battle Poketmon");
 
         this.player = player;
-		buildHomeGUI(severRooms);
+		buildHomeGUI(serverRooms);
 		setSize(400,300);
 		setLocation(500,0);
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
 	
-	private void buildHomeGUI(Vector<ReadyRoom> severRooms) {
+	private void buildHomeGUI(Vector<ReadyRoom> serverRooms) {
 		setLayout(new BorderLayout());
 		add(topPanel(), BorderLayout.NORTH);
-		add(createRoomListPanel(severRooms), BorderLayout.CENTER);
+		add(createRoomListPanel(serverRooms), BorderLayout.CENTER);
 		
 	}
 	private JPanel topPanel() {
@@ -58,17 +59,17 @@ public class Home extends JFrame{
 	}
 	
 	
-	private JScrollPane createRoomListPanel(Vector<ReadyRoom> severRooms) {
+	private JScrollPane createRoomListPanel(Vector<ReadyRoom> serverRooms) {
 	    roomListPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
 	    
 //	    // 방 버튼 추가
-	    for (ReadyRoom room : severRooms) {
+	    for (ReadyRoom room : serverRooms) {
 	        roomListPanel.add(createRoomBtn(room));
 	    }
-	    updateRoomListPanel(severRooms);
+	    updateRoomListPanel(serverRooms);
 	    JScrollPane scrollPane = new JScrollPane(roomListPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-	    roomListPanel.setPreferredSize(calculatePreferredSize(severRooms)); 
+	    roomListPanel.setPreferredSize(calculatePreferredSize(serverRooms)); 
 	    
 	    return scrollPane;
 	}
@@ -92,19 +93,21 @@ public class Home extends JFrame{
     }
 	
 	private JButton createRoomBtn(ReadyRoom room) {
-		JLabel roomNameLabel = new JLabel(room.getRoomName(), JLabel.LEFT);
-        JLabel playerCountLabel = new JLabel(String.format("(%d / %d)", room.getCurrentPlayerCount(), room.getMaxPlayerCount()), JLabel.RIGHT);
+//		JLabel roomNameLabel = new JLabel(room.getRoomName(), JLabel.LEFT);
+//        JLabel playerCountLabel = new JLabel(String.format("(%d / %d)", room.getCurrentPlayerCount(), room.getMaxPlayerCount()), JLabel.RIGHT);
 
-        JButton roomBtn = new JButton();
-        roomBtn.setLayout(new BorderLayout());
-        roomBtn.add(roomNameLabel, BorderLayout.WEST);
-        roomBtn.add(playerCountLabel, BorderLayout.EAST);
+//        JButton roomBtn = new JButton();
+//        roomBtn.setLayout(new BorderLayout());
+//        roomBtn.add(roomNameLabel, BorderLayout.WEST);
+//        roomBtn.add(playerCountLabel, BorderLayout.EAST);
 
-        roomBtn.setPreferredSize(new Dimension(180, 50));
+//        roomBtn.setPreferredSize(new Dimension(180, 50));
         
         // 방 버튼 클릭 -> 입장
-        roomBtn.addActionListener(e -> joinReadyRoom(room, player));
-		return roomBtn;
+//        roomBtn.addActionListener(e -> joinReadyRoom(room));
+		RoomBtn newBtn = new RoomBtn(room);
+        addBtn(newBtn);
+		return newBtn.roomBtn;
 	}
 	
 	//방 만들기
@@ -149,7 +152,7 @@ public class Home extends JFrame{
 	            }
 	            // 방 생성 및 대기방으로 이동
 	            ReadyRoom newRoom = createReadyRoom(player, roomName, maxPlayers[0], 0);
-	            joinReadyRoom(newRoom, player);
+	            joinReadyRoom(newRoom);
 	            createRoomFrame.dispose();
 	        }
 	    });
@@ -180,11 +183,50 @@ public class Home extends JFrame{
 	}
 
 	
-	public void joinReadyRoom(ReadyRoom room, Player user) {
-		player.sendMessage(user.getId() + "가 "+room.roomId + "대기방 ㄱㄱ");
-		user.setReadyRoom(room);
-		room.enterRoom(user);
+	public void joinReadyRoom(ReadyRoom room) {
+		player.sendMessage(player.getId() + "가 "+room.roomId + "대기방 ㄱㄱ");
+		player.setReadyRoom(room);
+		room.enterRoom(player);
+		player.sendEnterRoom(room);
 		System.out.println(room.roomId  + "<- roomId");
 	}
-	
+	public void addBtn(RoomBtn newBtn) {
+		if(!roomBtns.contains(newBtn)) roomBtns.add(newBtn);
+	}
+	public void repaint() {
+		for(int i=0; i < roomBtns.size(); i++) {
+			roomBtns.elementAt(i).setPlayerCount();
+			roomBtns.elementAt(i).repaint();
+			System.out.println("버튼을 다시 그리는 중입니다.");
+		}
+	}
+	class RoomBtn {
+		JLabel roomNameLabel;
+        JLabel playerCountLabel;
+        JButton roomBtn;
+        ReadyRoom room;
+		RoomBtn(ReadyRoom room){
+			this.room = room;
+			roomNameLabel = new JLabel(room.getRoomName(), JLabel.LEFT);
+			playerCountLabel = new JLabel(String.format("(%d / %d)", this.room.getCurrentPlayerCount(), this.room.getMaxPlayerCount()), JLabel.RIGHT);
+			roomBtn = new JButton();
+	        roomBtn.setLayout(new BorderLayout());
+	        roomBtn.add(roomNameLabel, BorderLayout.WEST);
+	        roomBtn.add(playerCountLabel, BorderLayout.EAST);
+	        
+	        roomBtn.setPreferredSize(new Dimension(180, 50));
+	        
+	        // 방 버튼 클릭 -> 입장
+	        roomBtn.addActionListener(e -> joinReadyRoom(room));
+		}
+		void setPlayerCount() {
+			System.out.println("setPlayerCount에서의 방의 현재 인원수 : "+this.room.getCurrentPlayerCount());
+			playerCountLabel.setText(String.format("(%d / %d)", this.room.getCurrentPlayerCount(), this.room.getMaxPlayerCount()));
+		}
+		void repaint() {
+			roomNameLabel.repaint();
+			playerCountLabel.repaint();
+			roomBtn.repaint();
+		}
+	}
 }

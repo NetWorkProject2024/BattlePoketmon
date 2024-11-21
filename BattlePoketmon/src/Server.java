@@ -232,6 +232,11 @@ public class Server extends JFrame{
 						msg.serverRooms = new Vector<>(rooms); // rooms 값을 복사하여 설정
 						System.out.println(msg.serverRooms + "-방송전");
 						broadcasting(msg);
+					}else if (msg.mode == ChatMsg.MODE_ROOM_ENTER) {
+						System.out.println("방에 "+msg.player+"가 들어왔습니다");
+						System.out.println(msg.room);
+						System.out.println(msg.room.getCurrentPlayerCount()+"방의 현재 인원수");
+						broadcasting(msg);
 					}
 				}
 				users.removeElement(this);
@@ -248,6 +253,14 @@ public class Server extends JFrame{
 	                System.err.println("서버 닫기 오류> " + e.getMessage());
 	                System.exit(-1);
 	            }
+			}
+		}
+		private void increaseCurrentPlayerCount(ReadyRoom room) {
+			for(int i=0; i <rooms.size(); i++) {
+				if(rooms.elementAt(i).roomId==room.roomId) {
+					rooms.remove(rooms.elementAt(i));
+					rooms.add(i, room);
+				}
 			}
 		}
 		private void sendRoomList(Player user) {

@@ -106,6 +106,7 @@ public class ReadyRoomFrame{
 	    centerPanel.removeAll(); // 기존 사용자 패널 제거
 
 	    // roomInfo의 모든 유저를 표시
+	    
 	    for (Player player : roomInfo.getUsers()) {
 	        centerPanel.add(createUserPanel(player));
 	    }

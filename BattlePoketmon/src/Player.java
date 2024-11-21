@@ -29,7 +29,7 @@ public class Player implements Serializable{
 	private String playerName = "";
 	private int poketmonIdx = 0;
 	private boolean ready = false;
-	private ReadyRoom room = null;
+	private ReadyRoom room = new ReadyRoom();
 	
 	public Player(String name, String serverAddress, int serverPort) {
 		this.playerName = name;
@@ -95,7 +95,16 @@ public class Player implements Serializable{
 //                            home.rooms.add(inMsg.room);
 //                            SwingUtilities.invokeLater(() -> {
 //	                            home.updateRoomListPanel();
-//	                        });                            
+//	                        });
+							break;
+						case ChatMsg.MODE_ROOM_ENTER:
+							System.out.println("버튼 다시 그리기");
+							if(player.room.roomId == inMsg.room.roomId) {
+								player.room=inMsg.room;
+								System.out.println("room 세팅");
+								System.out.println("방의 유저 수 : "+player.room.getCurrentPlayerCount());
+							}
+							home.repaint();
 						}
 						
 					} catch (IOException e) {
@@ -163,7 +172,14 @@ public class Player implements Serializable{
 		    System.out.println(room.getRoomName());
 		}
 	}
-	
+	public void sendEnterRoom(ReadyRoom room) {
+		if (room == null) {
+		    System.err.println("room 객체가 null 상태입니다");
+		} else {
+			send(new ChatMsg(this, ChatMsg.MODE_ROOM_ENTER, room, 0));
+		    System.out.println(room.getRoomName());
+		}
+	}
 	
 	
 	public void setPoketmonIdx(int poketmonIdx) {
