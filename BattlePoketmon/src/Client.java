@@ -86,6 +86,7 @@ public class Client{
 //							SwingUtilities.invokeLater(() -> {
 //	                            home.updateRoomListPanel();	                          
 //	                        });
+							player.setReadyRoom(inMsg.room);
 							System.out.println(inMsg.serverRooms + "<- 뭐가 넘어오니");
 							home.updateRoomListPanel(inMsg.serverRooms);
 	                        break;
@@ -96,19 +97,19 @@ public class Client{
 //	                        });
 							break;
 						case ChatMsg.MODE_ROOM_ENTER:
-							System.out.println("방에 누가 들어옴 클라이언트의 roomId : "+player.getReadyRoom().roomId+", 서버가 보낸 roomId : "+inMsg.room.roomId);
+							//System.out.println("방에 누가 들어옴 클라이언트의 roomId : "+player.getReadyRoom().roomId+", 서버가 보낸 roomId : "+inMsg.room.roomId);
 						
 							if(player.getReadyRoom().roomId == inMsg.room.roomId) {
 								player.setReadyRoom(inMsg.room);
 								System.out.println("room 세팅");
-								System.out.println("방의 유저 수 : "+player.getReadyRoom().getCurrentPlayerCount());
+								System.out.println("방의 유저 수 : "+player.getReadyRoom().getUsers().size());
 							}
 							home.repaint();
 							break;
-							case ChatMsg.MODE_ROOM_CREATE:
-								System.out.println("방 서버가 생성");
-								home.joinReadyRoom(inMsg.room);
-								home.repaint();
+						case ChatMsg.MODE_ROOM_CREATE:
+							System.out.println("방 서버가 생성");
+							home.joinReadyRoom(inMsg.room);
+							home.repaint();
 								
 						}
 						
@@ -177,6 +178,7 @@ public class Client{
 		if (room == null) {
 		    System.err.println("room 객체가 null 상태입니다");
 		} else {
+			System.out.println(room.getUsers() + "룸에 있는 사람들");
 			send(new ChatMsg(this.player, ChatMsg.MODE_ROOM_ENTER, room, 0));
 		    System.out.println(room.getRoomName());
 		}

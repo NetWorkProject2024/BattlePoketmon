@@ -183,6 +183,9 @@ public class Home extends JFrame{
 	public void joinReadyRoom(ReadyRoom room) {
 		player.getClient().sendMessage(player.getId() + "가 "+room.roomId + "대기방 ㄱㄱ");
 		player.setReadyRoom(room);
+		if(room.getUsers().contains(player)) {
+			return;
+		}
 		room.enterRoom(player);
 		player.getClient().sendEnterRoom(room);
 		System.out.println(room.roomId  + "<- roomId");
@@ -205,7 +208,7 @@ public class Home extends JFrame{
 		RoomBtn(ReadyRoom room){
 			this.room = room;
 			roomNameLabel = new JLabel(room.getRoomName(), JLabel.LEFT);
-			playerCountLabel = new JLabel(String.format("(%d / %d)", this.room.getCurrentPlayerCount(), this.room.getMaxPlayerCount()), JLabel.RIGHT);
+			playerCountLabel = new JLabel(String.format("(%d / %d)", this.room.getUsers().size(), this.room.getMaxPlayerCount()), JLabel.RIGHT);
 			roomBtn = new JButton();
 	        roomBtn.setLayout(new BorderLayout());
 	        roomBtn.add(roomNameLabel, BorderLayout.WEST);
@@ -214,11 +217,18 @@ public class Home extends JFrame{
 	        roomBtn.setPreferredSize(new Dimension(180, 50));
 	        
 	        // 방 버튼 클릭 -> 입장
-	        roomBtn.addActionListener(e -> joinReadyRoom(room));
+	        
+	        roomBtn.addActionListener(e -> 
+	        {
+	        	System.out.println(this.room);
+	        	player.getClient().sendEnterRoom(this.room);
+	        	joinReadyRoom(this.room);
+	        }
+	        );
 		}
 		void setPlayerCount() {
-			System.out.println("setPlayerCount에서의 방의 현재 인원수 : "+this.room.getCurrentPlayerCount());
-			playerCountLabel.setText(String.format("(%d / %d)", this.room.getCurrentPlayerCount(), this.room.getMaxPlayerCount()));
+			System.out.println("setPlayerCount에서의 방의 현재 인원수 : "+this.room.getUsers().size());
+			playerCountLabel.setText(String.format("(%d / %d)", this.room.getUsers().size(), this.room.getMaxPlayerCount()));
 		}
 		void repaint() {
 			roomNameLabel.repaint();

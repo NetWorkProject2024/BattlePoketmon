@@ -38,7 +38,7 @@ public class ReadyRoomFrame{
 		JPanel abovePanel = new JPanel(new GridLayout(1,3));
 		JLabel roomNameSign = new JLabel("방 이름");
 		JLabel roomNameLabel = new JLabel(roomInfo.getRoomName());
-		userCountLabel = new JLabel(roomInfo.getCurrentPlayerCount()+"/"+roomInfo.getMaxPlayerCount());
+		userCountLabel = new JLabel(roomInfo.getUsers().size()+"/"+roomInfo.getMaxPlayerCount());
 		abovePanel.add(roomNameSign);
 		abovePanel.add(roomNameLabel);
 		abovePanel.add(userCountLabel);
@@ -123,8 +123,8 @@ public class ReadyRoomFrame{
 	}
 	
 	public void repaint() {
-		System.out.println("현재 인원수 : "+roomInfo.getCurrentPlayerCount());
-		userCountLabel.setText(roomInfo.getCurrentPlayerCount()+"/"+roomInfo.getMaxPlayerCount());
+		System.out.println("현재 인원수 : "+roomInfo.getUsers().size());
+		userCountLabel.setText(roomInfo.getUsers().size()+"/"+roomInfo.getMaxPlayerCount());
 		userCountLabel.repaint();
 	}
 }
