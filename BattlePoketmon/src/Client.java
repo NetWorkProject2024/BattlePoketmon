@@ -61,7 +61,7 @@ public class Client{
 			SocketAddress sa = new InetSocketAddress(serverAddress, serverPort);
 			socket.connect(sa,3000);		
 			out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-			send(new ChatMsg(player, ChatMsg.MODE_ROOM_LIST_REQUEST));
+//			send(new ChatMsg(player, ChatMsg.MODE_ROOM_LIST_REQUEST));
 			
 			receiveThread = new Thread(new Runnable() {
 				
@@ -150,13 +150,14 @@ public class Client{
 	        out.writeObject(msg);
 	        out.flush();
 	    } catch (IOException e) {
-	        System.err.println("메시지 전송 오류: " + e.getMessage());
+	        System.err.println("메시지 전송 오류: " + e.getMessage() + e.toString());
 	    }
 	}
 	
 	
 	private void sendUserID() {
-		send(new ChatMsg(this.player, ChatMsg.MODE_LOGIN));		
+		send(new ChatMsg(this.player, ChatMsg.MODE_LOGIN));
+		send(new ChatMsg(player, ChatMsg.MODE_ROOM_LIST_REQUEST));
 	}
 	public void sendMessage(String msg) {
 		if (msg.isEmpty()) return;

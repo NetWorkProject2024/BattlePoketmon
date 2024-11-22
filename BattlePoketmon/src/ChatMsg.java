@@ -110,7 +110,6 @@ public class ChatMsg implements Serializable{
 	public Player player;
 	int mode;
 	String message;
-	ImageIcon image;/////
 	Object object;
 	long size;
 	public ReadyRoom room;
@@ -123,7 +122,8 @@ public class ChatMsg implements Serializable{
 		this.message = message;
 		this.object = object;
 		this.size = size;
-		this.room = null;
+		this.room = room;
+		this.serverRooms = null;
 		
 	}
 	
@@ -133,6 +133,7 @@ public class ChatMsg implements Serializable{
 	public ChatMsg(Player player, int code) {
 		this(player, code, null, null, 0, null);
 	}
+	
 	public ChatMsg(Player player, int code, String message) {
 //		this(player, code, message, null);
 		this.player=player;
@@ -157,7 +158,6 @@ public class ChatMsg implements Serializable{
 	    this.object = null;
 	    this.size =userN;
 	    this.serverRooms = serverRooms;
-	    System.out.println(serverRooms + "메시지");
 	}
 	public ChatMsg(Player player, int code, long c) {
 		this(player, code, null, null, c, null);

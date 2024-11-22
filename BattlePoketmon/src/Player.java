@@ -23,7 +23,7 @@ public class Player implements Serializable{
 	private int poketmonIdx = 0;
 	private boolean ready = false;
 	private ReadyRoom room = new ReadyRoom();
-	private Client client;
+	private transient Client client;
 	
 	public Player(String name, Client client) {
 		this.playerName = name;
