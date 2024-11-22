@@ -123,6 +123,8 @@ public class ReadyRoomFrame{
 	}
 	
 	public void repaint() {
+		System.out.println("현재 인원수 : "+roomInfo.getCurrentPlayerCount());
 		userCountLabel.setText(roomInfo.getCurrentPlayerCount()+"/"+roomInfo.getMaxPlayerCount());
+		userCountLabel.repaint();
 	}
 }

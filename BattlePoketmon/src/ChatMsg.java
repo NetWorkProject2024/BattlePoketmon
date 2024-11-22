@@ -106,6 +106,7 @@ public class ChatMsg implements Serializable{
 	public final static int MODE_ROOM_UPDATE = 0x3;
 	public final static int MODE_ROOM_LIST_REQUEST = 0x4;
 	public final static int MODE_ROOM_ENTER = 0x5;
+	public final static int MODE_ROOM_CREATE = 0x6;
 	
 	public Player player;
 	int mode;

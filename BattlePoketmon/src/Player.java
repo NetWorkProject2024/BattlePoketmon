@@ -15,14 +15,11 @@ import java.util.Vector;
 import javax.swing.SwingUtilities;
 
 public class Player implements Serializable{
-	private transient Home home = null;
-	
-	
 	private int userId = 0;
 	private String playerName = "";
 	private int poketmonIdx = 0;
 	private boolean ready = false;
-	private ReadyRoom room = new ReadyRoom();
+	private ReadyRoom room;
 	private transient Client client;
 	
 	public Player(String name, Client client) {

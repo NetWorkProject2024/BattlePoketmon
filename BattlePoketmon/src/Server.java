@@ -237,7 +237,14 @@ public class Server extends JFrame{
 						System.out.println(msg.room);
 						System.out.println(msg.room.getCurrentPlayerCount()+"방의 현재 인원수");
 						broadcasting(msg);
+					}else if(msg.mode == ChatMsg.MODE_ROOM_CREATE) {
+						ReadyRoom newRoom = new ReadyRoom(msg.message, msg.player, (int)msg.size, generateRoomId());
+						rooms.add(newRoom);
+						Vector<ReadyRoom> readyRooms = new Vector<ReadyRoom>(rooms);
+						broadcasting(new ChatMsg(msg.player, ChatMsg.MODE_ROOM_UPDATE, readyRooms,0));
+						send(new ChatMsg(msg.player, ChatMsg.MODE_ROOM_CREATE, newRoom, newRoom.roomId));
 					}
+					
 				}
 				users.removeElement(this);
 				printDisplay(uid + "퇴장. 현재 참가자 수: " + users.size());				

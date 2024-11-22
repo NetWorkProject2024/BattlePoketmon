@@ -31,7 +31,7 @@ public class ReadyRoom implements Serializable{
 		this.frame.addUser(user);
 		poketmonPick(user);
 		this.currentPlayerCount++;
-		System.out.println("방의 인원수 : "+currentPlayerCount+" enterRoom 호출");
+		System.out.println("방의 인원수 : "+currentPlayerCount+" enterRoom에서 호출");
 		if(this.currentPlayerCount >= this.maxPlayerCount) {
 			this.enable=false;
 		}
@@ -72,6 +72,7 @@ public class ReadyRoom implements Serializable{
 	        users.add(player);
 	        currentPlayerCount++;
 	    }
+	    player.getClient().sendEnterRoom(this);
 	}
 	
 	public int getCurrentPlayerCount() {

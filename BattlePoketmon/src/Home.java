@@ -151,8 +151,7 @@ public class Home extends JFrame{
 	                return;
 	            }
 	            // 방 생성 및 대기방으로 이동
-	            ReadyRoom newRoom = createReadyRoom(player, roomName, maxPlayers[0], 0);
-	            joinReadyRoom(newRoom);
+	            createReadyRoom(player, roomName, maxPlayers[0]);
 	            createRoomFrame.dispose();
 	        }
 	    });
@@ -174,12 +173,10 @@ public class Home extends JFrame{
 	    createRoomFrame.setVisible(true);
 	}
 
-	public ReadyRoom createReadyRoom(Player user, String roomName, int maxPlayers, int id) {
-		ReadyRoom readyRoom = new ReadyRoom(roomName, user, maxPlayers, id);
-		player.getClient().sendMessage("방을 만들었습니다.");
-		player.setReadyRoom(readyRoom);
-		player.getClient().sendCreateRoom(readyRoom);	
-		return readyRoom;
+	public void createReadyRoom(Player user, String roomName, int maxPlayers) {
+		System.out.println("방 생성 메세지 만들기");
+		user.getClient().sendCreateRoom(roomName, (long)maxPlayers);
+		return;
 	}
 
 	

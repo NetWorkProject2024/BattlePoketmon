@@ -27,7 +27,7 @@ public class Client{
 	private transient Thread receiveThread = null;
 	private int userId = 0;
 	private Player player;
-	private ReadyRoom room = new ReadyRoom();
+	private ReadyRoom room;
 	
 	public Client(String name, String serverAddress, int serverPort) {
 //		this.id = userId++;
@@ -96,13 +96,20 @@ public class Client{
 //	                        });
 							break;
 						case ChatMsg.MODE_ROOM_ENTER:
-							System.out.println("버튼 다시 그리기");
+							System.out.println("방에 누가 들어옴 클라이언트의 roomId : "+player.getReadyRoom().roomId+", 서버가 보낸 roomId : "+inMsg.room.roomId);
+						
 							if(player.getReadyRoom().roomId == inMsg.room.roomId) {
 								player.setReadyRoom(inMsg.room);
 								System.out.println("room 세팅");
 								System.out.println("방의 유저 수 : "+player.getReadyRoom().getCurrentPlayerCount());
 							}
 							home.repaint();
+							break;
+							case ChatMsg.MODE_ROOM_CREATE:
+								System.out.println("방 서버가 생성");
+								home.joinReadyRoom(inMsg.room);
+								home.repaint();
+								
 						}
 						
 					} catch (IOException e) {
@@ -163,13 +170,8 @@ public class Client{
 		if (msg.isEmpty()) return;
 		send(new ChatMsg(this.player, ChatMsg.MODE_TX_STRING, msg));
     }
-	public void sendCreateRoom(ReadyRoom room) {
-		if (room == null) {
-		    System.err.println("room 객체가 null 상태입니다");
-		} else {
-			send(new ChatMsg(this.player, ChatMsg.MODE_ROOM_UPDATE, room, 0));
-		    System.out.println(room.getRoomName());
-		}
+	public void sendCreateRoom(String name, long size) {
+		send(new ChatMsg(this.player, ChatMsg.MODE_ROOM_CREATE, name, size));
 	}
 	public void sendEnterRoom(ReadyRoom room) {
 		if (room == null) {
