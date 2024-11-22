@@ -20,7 +20,12 @@ public class ReadyRoomFrame{
 	}
 
 
-	public JFrame create() {
+	public void create() {
+		if(frame != null) {
+			repaint();
+			System.out.println("화면 다시 그리기");
+			return;
+		}
 		frame = new JFrame("대기방");
 		frame.setBounds(50,50,200,200);
 		JPanel entirePanel = new JPanel(new BorderLayout());
@@ -31,7 +36,7 @@ public class ReadyRoomFrame{
 		frame.add(entirePanel);
 		frame.setVisible(true);
 //		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		return frame;
+		//return frame;
 		
 	}
 	public JPanel createAbovePanel() {

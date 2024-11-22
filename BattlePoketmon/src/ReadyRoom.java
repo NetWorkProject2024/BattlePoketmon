@@ -18,7 +18,7 @@ public class ReadyRoom implements Serializable{
 		this.maxPlayerCount=maxPlayerCount;
 		this.enable=true;
 		this.roomId =id;
-		this.frame = new ReadyRoomFrame(this);
+		//this.frame = new ReadyRoomFrame(this);
 	}
 	
 	public void enterRoom(Player user) {
