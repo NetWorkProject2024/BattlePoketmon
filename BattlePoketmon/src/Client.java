@@ -86,6 +86,10 @@ public class Client{
 //	                            home.updateRoomListPanel();	                          
 //	                        });
 							System.out.println(inMsg.serverRooms + "<- 뭐가 넘어오니");
+							for(int i=0; i < inMsg.serverRooms.size(); i++) {
+								System.out.println("Update 될 때의 각 방의 현재 인원: "+inMsg.serverRooms.elementAt(i).getUsers());
+							}
+							
 							home.updateRoomListPanel(inMsg.serverRooms);
 							home.repaint();
 	                        break;

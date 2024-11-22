@@ -63,6 +63,9 @@ public class ReadyRoom implements Serializable{
 	public int getMaxPlayerCount() {
 		return maxPlayerCount;
 	}
+	public void setMaxPlayerCount(int maxPlayerCount) {
+		this.maxPlayerCount=maxPlayerCount;
+	}
 	public void setRoomName(String name) {
 		this.roomName=new String(name);
 	}

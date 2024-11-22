@@ -226,9 +226,10 @@ public class Server extends JFrame{
 						broadcasting(msg);
 					}else if (msg.mode == ChatMsg.MODE_ROOM_UPDATE) {
 						System.out.println(msg.room + "-업데이트");
-						msg.room.roomId = generateRoomId();
-						msg.room.addUser(msg.player);
-						rooms.add(msg.room);
+						//msg.room.roomId = generateRoomId();
+						//msg.room.addUser(msg.player);
+						//roomUpdate(msg.room);
+//						rooms.add(msg.room);
 //						msg.serverRooms=rooms;
 						
 						msg.serverRooms = new Vector<>(rooms); // rooms 값을 복사하여 설정
@@ -251,14 +252,19 @@ public class Server extends JFrame{
 						broadcastingInSameRoom(msg);
 						send(msg);
 						client.setReadyRoom(msg.room);
-						System.out.println(msg.room.getUsers()+"방의 현재 인원수");
+						System.out.println("copy후의 >>"+msg.room.getUsers()+"방의 현재 인원수");
 						
-						Vector<ReadyRoom> readyRooms = new Vector<ReadyRoom>(rooms);
+						Vector<ReadyRoom> readyRooms = new Vector<ReadyRoom>();
+						roomCopy(rooms, readyRooms);
+						for(int i=0; i <rooms.size(); i++) {
+							System.out.println("readyRooms 의 유저 >> "+readyRooms.elementAt(i).getUsers() + "check!!");
+						}
 						broadcasting(new ChatMsg(msg.player, ChatMsg.MODE_ROOM_UPDATE, readyRooms, 0));
 					}else if(msg.mode == ChatMsg.MODE_ROOM_CREATE) {
 						ReadyRoom newRoom = new ReadyRoom(msg.message, msg.player, (int)msg.size, generateRoomId());
 						rooms.add(newRoom);
-						Vector<ReadyRoom> readyRooms = new Vector<ReadyRoom>(rooms);
+						Vector<ReadyRoom> readyRooms = new Vector<ReadyRoom>();
+						roomCopy(rooms, readyRooms);
 						send(new ChatMsg(msg.player, ChatMsg.MODE_ROOM_CREATE, newRoom, newRoom.roomId));
 						broadcasting(new ChatMsg(msg.player, ChatMsg.MODE_ROOM_UPDATE, readyRooms,0));
 						
@@ -288,6 +294,16 @@ public class Server extends JFrame{
 				changed.addUser(origin.getUsers().elementAt(i));
 			}
 			changed.setRoomName(origin.getRoomName());
+			changed.setMaxPlayerCount(origin.getMaxPlayerCount());
+			
+		}
+		private void roomCopy(Vector<ReadyRoom> origin, Vector<ReadyRoom> changed) {
+			changed.clear();
+			for(int i=0; i < origin.size(); i++) {
+				ReadyRoom tmp = new ReadyRoom();
+				roomCopy(origin.elementAt(i), tmp);
+				changed.add(tmp);
+			}
 			
 		}
 		private void roomUpdate(ReadyRoom room) {
