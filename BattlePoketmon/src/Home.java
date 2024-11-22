@@ -176,18 +176,18 @@ public class Home extends JFrame{
 
 	public ReadyRoom createReadyRoom(Player user, String roomName, int maxPlayers, int id) {
 		ReadyRoom readyRoom = new ReadyRoom(roomName, user, maxPlayers, id);
-		player.sendMessage("방을 만들었습니다.");
+		player.getClient().sendMessage("방을 만들었습니다.");
 		player.setReadyRoom(readyRoom);
-		player.sendCreateRoom(readyRoom);	
+		player.getClient().sendCreateRoom(readyRoom);	
 		return readyRoom;
 	}
 
 	
 	public void joinReadyRoom(ReadyRoom room) {
-		player.sendMessage(player.getId() + "가 "+room.roomId + "대기방 ㄱㄱ");
+		player.getClient().sendMessage(player.getId() + "가 "+room.roomId + "대기방 ㄱㄱ");
 		player.setReadyRoom(room);
 		room.enterRoom(player);
-		player.sendEnterRoom(room);
+		player.getClient().sendEnterRoom(room);
 		System.out.println(room.roomId  + "<- roomId");
 	}
 	public void addBtn(RoomBtn newBtn) {
