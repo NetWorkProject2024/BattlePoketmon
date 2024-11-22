@@ -240,22 +240,17 @@ public class Server extends JFrame{
 						for(int i=0; i <rooms.size(); i++) {
 							if(rooms.elementAt(i).roomId==msg.room.roomId) {
 								rooms.elementAt(i).addUser(msg.player);
-								boolean isExist = false;
-								for(int j=0; j < msg.room.getUsers().size();j++) {
-									if(msg.room.getUsers().elementAt(j).getId() != msg.player.getId()) {
-										isExist = true;
-									}
-								}
-								if(!isExist) {
-									msg.room.addUser(msg.player);
-								}
-								
+								msg.room.roomId=rooms.elementAt(i).roomId;
+								roomCopy(rooms.elementAt(i), msg.room);
 								System.out.println(rooms.elementAt(i).getUsers() + "check!!");
 							}
 						}
 						
 //						roomUpdate(msg.room);
+						
+						broadcastingInSameRoom(msg);
 						send(msg);
+						client.setReadyRoom(msg.room);
 						System.out.println(msg.room.getUsers()+"방의 현재 인원수");
 						
 						Vector<ReadyRoom> readyRooms = new Vector<ReadyRoom>(rooms);
@@ -286,6 +281,15 @@ public class Server extends JFrame{
 	            }
 			}
 		}
+		private void roomCopy(ReadyRoom origin, ReadyRoom changed) {
+			changed.roomId=origin.roomId;
+			changed.clearUser();
+			for(int i=0; i < origin.getUsers().size(); i++) {
+				changed.addUser(origin.getUsers().elementAt(i));
+			}
+			changed.setRoomName(origin.getRoomName());
+			
+		}
 		private void roomUpdate(ReadyRoom room) {
 			for(int i=0; i <rooms.size(); i++) {
 				if(rooms.elementAt(i).roomId==room.roomId) {
@@ -311,7 +315,17 @@ public class Server extends JFrame{
 	            c.send(msg);
 	        }
 		}
-		
+		private void broadcastingInSameRoom(ChatMsg msg) {
+			for (ClientHandler c : users) {
+				System.out.println("broadcastingInSameRoom c.client.getReadyRoom().roomId : " +c.client.getReadyRoom().roomId);
+				System.out.println("broadcastingInSameRoom msg.room.roomId : " +msg.room.roomId);
+				if(c.client.getReadyRoom().roomId == msg.room.roomId) {
+					c.send(msg);
+					System.out.println("sameRoom broadcasting");
+				}
+	            
+	        }
+		}
 		@Override
 		public void run() {
 			receiveMessages(clientSocket);

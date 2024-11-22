@@ -101,6 +101,7 @@ public class Client{
 //							if(player.getReadyRoom().roomId == inMsg.room.roomId) {
 								player.setReadyRoom(inMsg.room);
 								System.out.println("내 room 세팅" + player.getReadyRoom().roomId + "메시지 내 룸: " + inMsg.room.roomId);
+								System.out.println("내 room 세팅" + player.getReadyRoom().getUsers() + "메시지 내 룸: " + inMsg.room.getUsers());
 								System.out.println("방의 유저 수 : "+player.getReadyRoom().getUsers() + "내 방 유저들");
 //							}
 //							home.repaint();

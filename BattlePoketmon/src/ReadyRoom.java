@@ -63,9 +63,14 @@ public class ReadyRoom implements Serializable{
 	public int getMaxPlayerCount() {
 		return maxPlayerCount;
 	}
-	
+	public void setRoomName(String name) {
+		this.roomName=new String(name);
+	}
 	public Vector<Player> getUsers() {
 	    return users;
+	}
+	public void clearUser() {
+		users.clear();
 	}
 	public void addUser(Player player) {
 	    if (!users.contains(player)) {//중복X
