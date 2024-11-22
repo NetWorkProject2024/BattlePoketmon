@@ -31,6 +31,11 @@ public class ReadyRoom implements Serializable{
 		if(this.users.size() >= this.maxPlayerCount) {
 			this.enable=false;
 		}
+//		this.frame.addUser(user);
+		
+		
+		
+		
 		
 //		this.frame.createUserInfoPanel(user.getPlayerName(), false); // 플레이어 목록 업데이트
 		this.frame.repaint();
@@ -65,6 +70,7 @@ public class ReadyRoom implements Serializable{
 	public void addUser(Player player) {
 	    if (!users.contains(player)) {//중복X
 	        users.add(player);
+	        System.out.println(users + "addUser!!!!!");
 	    }
 	    //player.getClient().sendEnterRoom(this);
 	}

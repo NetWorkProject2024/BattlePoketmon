@@ -27,14 +27,13 @@ public class Client{
 	private transient Thread receiveThread = null;
 	private int userId = 0;
 	private Player player;
-	private ReadyRoom room;
+	private ReadyRoom room = null;
 	
 	public Client(String name, String serverAddress, int serverPort) {
 //		this.id = userId++;
 		this.serverAddress=serverAddress;
 		this.serverPort = serverPort;
 		this.player = new Player(name, this);
-		
 		
 		try {
 			connectToServer(this.player);
@@ -86,9 +85,9 @@ public class Client{
 //							SwingUtilities.invokeLater(() -> {
 //	                            home.updateRoomListPanel();	                          
 //	                        });
-							player.setReadyRoom(inMsg.room);
 							System.out.println(inMsg.serverRooms + "<- 뭐가 넘어오니");
 							home.updateRoomListPanel(inMsg.serverRooms);
+							home.repaint();
 	                        break;
 						case ChatMsg.MODE_ROOM_LIST_REQUEST:
 //                            home.rooms.add(inMsg.room);
@@ -99,12 +98,13 @@ public class Client{
 						case ChatMsg.MODE_ROOM_ENTER:
 							//System.out.println("방에 누가 들어옴 클라이언트의 roomId : "+player.getReadyRoom().roomId+", 서버가 보낸 roomId : "+inMsg.room.roomId);
 						
-							if(player.getReadyRoom().roomId == inMsg.room.roomId) {
+//							if(player.getReadyRoom().roomId == inMsg.room.roomId) {
 								player.setReadyRoom(inMsg.room);
-								System.out.println("room 세팅");
-								System.out.println("방의 유저 수 : "+player.getReadyRoom().getUsers().size());
-							}
-							home.repaint();
+								System.out.println("내 room 세팅" + player.getReadyRoom().roomId + "메시지 내 룸: " + inMsg.room.roomId);
+								System.out.println("방의 유저 수 : "+player.getReadyRoom().getUsers() + "내 방 유저들");
+//							}
+//							home.repaint();
+							
 							break;
 						case ChatMsg.MODE_ROOM_CREATE:
 							System.out.println("방 서버가 생성");

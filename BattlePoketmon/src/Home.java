@@ -186,7 +186,7 @@ public class Home extends JFrame{
 		if(room.getUsers().contains(player)) {
 			return;
 		}
-		room.enterRoom(player);
+//		room.enterRoom(player);
 		player.getClient().sendEnterRoom(room);
 		System.out.println(room.roomId  + "<- roomId");
 	}

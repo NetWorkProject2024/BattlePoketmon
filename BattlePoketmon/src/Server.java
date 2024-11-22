@@ -231,7 +231,6 @@ public class Server extends JFrame{
 						rooms.add(msg.room);
 //						msg.serverRooms=rooms;
 						
-						
 						msg.serverRooms = new Vector<>(rooms); // rooms 값을 복사하여 설정
 						System.out.println(msg.serverRooms + "-방송전");
 						broadcasting(msg);
@@ -239,14 +238,26 @@ public class Server extends JFrame{
 						System.out.println("방에 "+msg.player+"가 들어왔습니다");
 						System.out.println(msg.room);
 						for(int i=0; i <rooms.size(); i++) {
-							if(rooms.elementAt(i).getRoomName()==msg.room.getRoomName()) {
+							if(rooms.elementAt(i).roomId==msg.room.roomId) {
 								rooms.elementAt(i).addUser(msg.player);
+								boolean isExist = false;
+								for(int j=0; j < msg.room.getUsers().size();j++) {
+									if(msg.room.getUsers().elementAt(j).getId() != msg.player.getId()) {
+										isExist = true;
+									}
+								}
+								if(!isExist) {
+									msg.room.addUser(msg.player);
+								}
+								
+								System.out.println(rooms.elementAt(i).getUsers() + "check!!");
 							}
 						}
 						
 //						roomUpdate(msg.room);
-						System.out.println(msg.room.getUsers()+"방의 현재 인원수");
 						send(msg);
+						System.out.println(msg.room.getUsers()+"방의 현재 인원수");
+						
 						Vector<ReadyRoom> readyRooms = new Vector<ReadyRoom>(rooms);
 						broadcasting(new ChatMsg(msg.player, ChatMsg.MODE_ROOM_UPDATE, readyRooms, 0));
 					}else if(msg.mode == ChatMsg.MODE_ROOM_CREATE) {
