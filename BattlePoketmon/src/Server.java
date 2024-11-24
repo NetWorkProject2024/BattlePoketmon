@@ -40,8 +40,10 @@ public class Server extends JFrame{
 	private JButton b_exit;
 	
 	private static Vector<ReadyRoom> rooms = new Vector<ReadyRoom>();
+	private static Vector<World> worlds = new Vector<World>();
 	private static int roomIdCounter = 0;
 	private static int userIdCounter = 0;
+	private static int worldIdCounter = 0;
 	
 	
 	public Server(int port) {
@@ -140,6 +142,9 @@ public class Server extends JFrame{
 	
 	private synchronized int generateRoomId() {
 	    return ++roomIdCounter;
+	}
+	private synchronized int generateWorldId() {
+	    return ++worldIdCounter;
 	}
 	
 	private synchronized int generateUserId() {
@@ -269,6 +274,9 @@ public class Server extends JFrame{
 						broadcasting(new ChatMsg(msg.player, ChatMsg.MODE_ROOM_UPDATE, readyRooms,0));
 						
 					}
+					else if(msg.mode == ChatMsg.MODE_ROOM_PLAYERREADY) {
+						
+					}
 					
 				}
 				users.removeElement(this);
@@ -306,6 +314,23 @@ public class Server extends JFrame{
 			}
 			
 		}
+		private void enterWorld(Player user) {
+			for(int i=0; i <rooms.size(); i++) {
+				if(rooms.elementAt(i).roomId == user.getReadyRoom().roomId) {
+					if(user.getReady()) {
+						rooms.elementAt(i).increaseCurrentReadyCount();
+					}
+					else {
+						rooms.elementAt(i).decreaseCurrentReadyCount();
+					}
+					if(rooms.elementAt(i).getCurrentReadyCount() == rooms.elementAt(i).getMaxPlayerCount()) {
+						World newWorld = new World(rooms.elementAt(i).getMaxPlayerCount(), rooms.elementAt(i).getUsers(), generateWorldId());
+						broadcastingInSameRoom(new ChatMsg(user, ChatMsg.MODE_WORlD_ENTER, newWorld));
+					}
+				}
+			}
+		}
+		
 		private void roomUpdate(ReadyRoom room) {
 			for(int i=0; i <rooms.size(); i++) {
 				if(rooms.elementAt(i).roomId==room.roomId) {

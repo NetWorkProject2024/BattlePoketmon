@@ -13,17 +13,20 @@ import javax.swing.JPanel;
 public class ReadyRoomFrame{
 	private JPanel centerPanel;
 	private ReadyRoom roomInfo;
-	JFrame frame;
-	JLabel userCountLabel;
+	private JFrame frame;
+	private JLabel userCountLabel;
+	private JFrame homeFrame;
+	private Player user;
 	public ReadyRoomFrame(ReadyRoom roomInfo) {
 		this.roomInfo=roomInfo;
 	}
 
 
-	public void create() {
+	public void create(JFrame homeFrame, Player user) {
 		if(frame != null) {
 			repaint();
-			System.out.println("화면 다시 그리기");
+			System.out.println("frame != null 확인!!");
+//			frame.dispose();
 			return;
 		}
 		frame = new JFrame("대기방");
@@ -35,6 +38,9 @@ public class ReadyRoomFrame{
 		entirePanel.add(createBelowPanel(),BorderLayout.SOUTH);
 		frame.add(entirePanel);
 		frame.setVisible(true);
+		this.homeFrame=homeFrame;
+		this.user = user;
+		homeFrame.setVisible(false);
 //		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//return frame;
 		
@@ -63,19 +69,20 @@ public class ReadyRoomFrame{
 		b_backward.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				homeFrame.setVisible(true);
 			}
 		});
 		b_select.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				new SelectStartingPoketmonFrame(new ReadyRoomPlayer(new Player("userName"), roomInfo)).create();
+				new SelectStartingPoketmonFrame(user).create();
 			}
 		});
 		b_ready.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				user.setReady(!user.getReady());
+				user.getClient().sendPlyaerReady(user.getReady());
 			}
 		});
 		belowPanel.add(b_backward);
@@ -87,7 +94,7 @@ public class ReadyRoomFrame{
 		JPanel userPanel = new JPanel(new BorderLayout());
 		//ImageIcon img =player.getImage();
 		//userPanel.add(img);
-		userPanel.add(createUserInfoPanel(player.getPlayerName() + player.getId(),player.isReady()));
+		userPanel.add(createUserInfoPanel(player.getPlayerName() + player.getId(),player.getReady()));
 		return userPanel;
 	}
 	public JPanel createUserInfoPanel(String name, boolean readyState) {

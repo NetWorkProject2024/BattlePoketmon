@@ -5,6 +5,7 @@ public class ReadyRoom implements Serializable{
 	private String roomName = "123";
 	private Vector<Player> users=new Vector<Player>();
 	private int maxPlayerCount;
+	private int currentReadyCount=0;
 	private boolean enable;
 	public int roomId = -1;
 	private transient ReadyRoomFrame frame;
@@ -25,7 +26,7 @@ public class ReadyRoom implements Serializable{
 		if (this.frame == null) {
             this.frame = new ReadyRoomFrame(this); // frame 객체가 없으면 새로 생성
         }
-		this.frame.create();
+		this.frame.create(user.getClient().getHome(), user);
 		poketmonPick(user);
 		System.out.println("방의 인원수 : "+users.size()+" enterRoom에서 호출");
 		if(this.users.size() >= this.maxPlayerCount) {
@@ -74,6 +75,15 @@ public class ReadyRoom implements Serializable{
 	}
 	public void clearUser() {
 		users.clear();
+	}
+	public int getCurrentReadyCount() {
+		return this.currentReadyCount;
+	}
+	public void increaseCurrentReadyCount() {
+		this.currentReadyCount++;
+	}
+	public void decreaseCurrentReadyCount() {
+		this.currentReadyCount--;
 	}
 	public void addUser(Player player) {
 	    if (!users.contains(player)) {//중복X

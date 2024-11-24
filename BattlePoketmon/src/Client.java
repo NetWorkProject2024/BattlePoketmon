@@ -4,15 +4,13 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
-import java.util.Vector;
 
-import javax.swing.SwingUtilities;
+import javax.swing.JFrame;
 
 public class Client{
 	private transient Home home = null;
@@ -116,8 +114,15 @@ public class Client{
 							System.out.println("방 서버가 생성");
 							home.joinReadyRoom(inMsg.room);
 							home.repaint();
-								
+							break;
+						case ChatMsg.MODE_WORlD_ENTER:
+							System.out.println("월드_서버가 생성");
+
+
+							
+							break;
 						}
+						
 						
 					} catch (IOException e) {
 						System.err.println("서버 연결 끊김: " + e.getMessage());
@@ -189,9 +194,14 @@ public class Client{
 		    System.out.println(room.getRoomName());
 		}
 	}
+	public void sendPlyaerReady(boolean state) {
+		send(new ChatMsg(this.player, ChatMsg.MODE_ROOM_PLAYERREADY, state));
+	}
 	
 	
-	
+	public JFrame getHome() {
+		return home;
+	}
 	public static void main(String[] args) {
 		String serverAddress = "localhost";
 		int serverPort = 54321;

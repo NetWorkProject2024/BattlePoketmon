@@ -29,14 +29,14 @@ public class Player implements Serializable{
 	
 	public void setPoketmonIdx(int poketmonIdx) {
 		this.poketmonIdx = poketmonIdx;
-		
 	}
 	
-	public void getReady() {
-		this.ready = true;
+	public boolean getReady() {
+		return ready;
 	}
-	public boolean isReady() {
-		return this.ready;
+	public void setReady(boolean ready) {
+		this.ready = ready;
+		System.out.println(this + "준비 됐나?");
 	}
 	public void setReadyRoom(ReadyRoom myRoom) {
 		this.room = myRoom;

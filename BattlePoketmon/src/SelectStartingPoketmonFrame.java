@@ -46,21 +46,28 @@ public class SelectStartingPoketmonFrame {
 	private JPanel createBelowPanel(PocketmonCheckBox[] checkBox) {
 		JPanel panel = new JPanel(new GridLayout(1, 2));
 		JButton b_save = new JButton("확인");
-		JButton b_cancel = new JButton("취소");
+		JButton b_cancle = new JButton("취소");
 		
 		b_save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				for(int i=0; i < 3; i++) {
 					if(checkBox[i].checkBox.isSelected()) {
-						//player.pocketmonID = checkBox[i].id;
+						player.setPoketmonIdx(checkBox[i].id);
 						frame.dispose();
 					}
 				}
 			}
 		});
+		
+		b_cancle.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		});
 		panel.add(b_save);
-		panel.add(b_cancel);
+		panel.add(b_cancle);
 		return panel;
 	}
 	private JPanel createPocketmonInfoPanel(Poketmon poketmon, PocketmonCheckBox checkBox) {

@@ -34,12 +34,10 @@ public class WorldFrame {
 	
 	public JPanel createAbovePanel() {
 		JPanel abovePanel = new JPanel(new GridLayout(2,3));
-		JLabel roomNameLabel = new JLabel("    <"+worldInfo.getRoomName()+">");
 		JLabel xLabel = new JLabel("");
 		timerLabel = new JLabel("TIMER : " + worldInfo.getTimer() + "          ");
 		timerLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		
-		abovePanel.add(roomNameLabel);
 		abovePanel.add(xLabel);
 		abovePanel.add(timerLabel);
 		//버튼들
@@ -73,12 +71,12 @@ public class WorldFrame {
 		return centerPanel;
 	}
 	
-	public static void main(String[] args) {
-		World worldInfo = new World();
-		WorldFrame c = new WorldFrame(worldInfo);
-		c.create();
-	}
-	
+//	public static void main(String[] args) {
+//		World worldInfo = new World();
+//		WorldFrame c = new WorldFrame(worldInfo);
+//		c.create();
+//	}
+//	
 	
 	
 	

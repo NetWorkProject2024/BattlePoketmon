@@ -28,7 +28,6 @@ public class Home extends JFrame{
 	
 	public Home(Player player, Vector<ReadyRoom> serverRooms) {
 		super("Battle Poketmon");
-
         this.player = player;
 		buildHomeGUI(serverRooms);
 		setSize(400,300);
@@ -207,6 +206,7 @@ public class Home extends JFrame{
         ReadyRoom room;
 		RoomBtn(ReadyRoom room){
 			this.room = room;
+			
 			roomNameLabel = new JLabel(room.getRoomName(), JLabel.LEFT);
 			playerCountLabel = new JLabel(String.format("(%d / %d)", this.room.getUsers().size(), this.room.getMaxPlayerCount()), JLabel.RIGHT);
 			roomBtn = new JButton();
@@ -217,12 +217,18 @@ public class Home extends JFrame{
 	        roomBtn.setPreferredSize(new Dimension(180, 50));
 	        
 	        // 방 버튼 클릭 -> 입장
-	        
+	        if(this.room.getUsers().size()>= this.room.getMaxPlayerCount()) {
+        		roomBtn.setEnabled(false);
+        	}
 	        roomBtn.addActionListener(e -> 
 	        {
 	        	System.out.println(this.room);
-	        	player.getClient().sendEnterRoom(this.room);
-	        	joinReadyRoom(this.room);
+	        	if(this.room.getUsers().size()< this.room.getMaxPlayerCount()) {
+	        		player.getClient().sendEnterRoom(this.room);
+		        	joinReadyRoom(this.room);
+		     
+	        	}
+	        	
 	        }
 	        );
 		}
