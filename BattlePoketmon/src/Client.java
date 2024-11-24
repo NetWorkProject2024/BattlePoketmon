@@ -109,14 +109,8 @@ public class Client{
 							home.repaint();
 							break;
 						case ChatMsg.MODE_ROOM_PLAYERREADY:
-							boolean state;
-							if(inMsg.size == (long)0) {
-								state = false;
-							}
-							else {
-								state = true;
-							}
-							player.getReadyRoom().changeReadyState();
+							System.out.println(player.getReady() + "서버한테 답 받았는데 너 상태 뭐니?");
+							System.out.println(player.getReadyRoom().getUsers() + "방에 있는 사람들 상태 좀 보자");					
 							break;							
 						case ChatMsg.MODE_WORlD_ENTER:
 							System.out.println("월드_서버가 생성");							
@@ -176,7 +170,6 @@ public class Client{
 	
 	private void sendUserID() {
 		send(new ChatMsg(this.player, ChatMsg.MODE_LOGIN));
-		send(new ChatMsg(player, ChatMsg.MODE_ROOM_LIST_REQUEST));
 	}
 	public void sendMessage(String msg) {
 		if (msg.isEmpty()) return;
@@ -195,7 +188,14 @@ public class Client{
 		}
 	}
 	public void sendPlayerReady(boolean state) {
-		send(new ChatMsg(this.player, ChatMsg.MODE_ROOM_PLAYERREADY, state));
+		int stateN = -1;
+		if(state==false) {
+			stateN = 0;
+		}else {
+			stateN = 1;
+		}
+		send(new ChatMsg(this.player, ChatMsg.MODE_ROOM_PLAYERREADY, stateN));
+		System.out.println(stateN + "준비 상태가 뭔지 보낼게");
 	}
 	
 	

@@ -9,11 +9,9 @@ public class ChatMsg implements Serializable{
 	public final static int MODE_LOGIN = 0x1;
 	public final static int MODE_LOGOUT = 0x2;
 	public final static int MODE_TX_STRING = 0x10;
-	public final static int MODE_TX_FILE = 0x20;
 	public final static int MODE_TX_IMAGE = 0x40;
 	public final static int MODE_TX_POS = 0x100;
 	public final static int MODE_ROOM_UPDATE = 0x3;
-	public final static int MODE_ROOM_LIST_REQUEST = 0x4;
 	public final static int MODE_ROOM_ENTER = 0x5;
 	public final static int MODE_ROOM_CREATE = 0x6;
 	public final static int MODE_ROOM_PLAYERREADY = 0x7;

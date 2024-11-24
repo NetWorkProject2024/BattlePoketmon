@@ -42,6 +42,13 @@ public class ReadyRoom implements Serializable{
 		this.frame.repaint();
 		this.frame.updateUserList();
 	}
+	
+	public void playerReadyUpdate() {
+		this.frame.repaint();
+		this.frame.updateUserList();
+	}
+	
+	
 	public void exitRoom(Player user) {
 		this.users.remove(user);
 		this.enable=true;
@@ -53,8 +60,10 @@ public class ReadyRoom implements Serializable{
 	}
 
 	public void changeReadyState() {
+		getPlayersReadyState(users);
 		this.frame.repaint();
 		this.frame.updateUserList();
+		System.out.println("준비상태 바꾸기");
 	}
 	public void poketmonPick(Player user, int idx) {
 		//user.setPoketmonIdx(idx);
@@ -98,6 +107,10 @@ public class ReadyRoom implements Serializable{
 	        System.out.println(users + "addUser!!!!!");
 	    }
 	    //player.getClient().sendEnterRoom(this);
+	}
+	
+	public void getPlayersReadyState(Vector<Player> users) {
+		System.out.println(users +"<- 유저들 상태확인용");
 	}
 	
 }

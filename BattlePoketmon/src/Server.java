@@ -269,11 +269,25 @@ public class Server extends JFrame{
 						
 					}
 					else if(msg.mode == ChatMsg.MODE_ROOM_PLAYERREADY) {
-						if(msg.size==(long)0) {
+						System.out.println(msg.size + "뭘 보내는게야ㅇㅇㅇㅇ");
+						if(msg.size==0) {
+							System.out.println("아냐");
 							msg.player.getReadyRoom().decreaseCurrentReadyCount();
+							for (ClientHandler c : users) {
+								if(c.client.getId() == msg.player.getId()) {
+									c.client.setReady(false);
+								}
+					        }
 						}
 						else {
+							System.out.println("준비됐어");
 							msg.player.getReadyRoom().increaseCurrentReadyCount();
+							for (ClientHandler c : users) {
+								if(c.client.getId() == msg.player.getId()) {
+									c.client.setReady(true);
+									System.out.println(c.client);
+								}
+					        }
 							
 						}
 						broadcastingInSameRoom(new ChatMsg(msg.player, msg.mode, msg.player.getReadyRoom(), msg.size));						
