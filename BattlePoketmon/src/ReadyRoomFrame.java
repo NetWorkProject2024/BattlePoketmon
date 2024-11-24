@@ -10,13 +10,17 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+
 public class ReadyRoomFrame{
 	private JPanel centerPanel;
 	private ReadyRoom roomInfo;
 	private JFrame frame;
 	private JLabel userCountLabel;
+	private JLabel userPoketmonLabel = new JLabel();
+	private JLabel userReadyStateLabel = new JLabel();
 	private JFrame homeFrame;
 	private Player user;
+	private ReadyRoomFrame readyRoomFrame=this;
 	public ReadyRoomFrame(ReadyRoom roomInfo) {
 		this.roomInfo=roomInfo;
 	}
@@ -75,14 +79,15 @@ public class ReadyRoomFrame{
 		b_select.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new SelectStartingPoketmonFrame(user).create();
+				SelectStartingPoketmonFrame selectFrame = new SelectStartingPoketmonFrame(user, readyRoomFrame);
+				selectFrame.create();
 			}
 		});
 		b_ready.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				user.setReady(!user.getReady());
-				user.getClient().sendPlyaerReady(user.getReady());
+				user.getClient().sendPlayerReady(user.getReady());
 			}
 		});
 		belowPanel.add(b_backward);
@@ -94,22 +99,33 @@ public class ReadyRoomFrame{
 		JPanel userPanel = new JPanel(new BorderLayout());
 		//ImageIcon img =player.getImage();
 		//userPanel.add(img);
-		userPanel.add(createUserInfoPanel(player.getPlayerName() + player.getId(),player.getReady()));
+		userPanel.add(createUserInfoPanel(player.getPlayerName() + player.getId(),player.getReady(), player.getId()));
 		return userPanel;
 	}
-	public JPanel createUserInfoPanel(String name, boolean readyState) {
+	public JPanel createUserInfoPanel(String name, boolean readyState, int id) {
 		JPanel userInfoPanel = new JPanel(new GridLayout(2,1));
 		JLabel userName = new JLabel(name);
+		JLabel userPoketmon = new JLabel("");
 		JLabel userReadyState;
+	
 		if(readyState) {
 			userReadyState= new JLabel("준비");
 		}
 		else {
 			userReadyState = new JLabel("준비 X");
 		}
-		 
+		if(id == this.user.getId()) {
+			userPoketmonLabel.setText(Poketmon.PoketmonArray.poketmons.elementAt(user.getPoketmonIdx()).getName());
+			userReadyStateLabel.setText(userReadyState.getText());
+			userInfoPanel.add(userPoketmonLabel);
+			userInfoPanel.add(userReadyStateLabel);
+		}
+		else {
+			userInfoPanel.add(userName);
+			userInfoPanel.add(userPoketmon);
+			userInfoPanel.add(userReadyState);
+		}
 		userInfoPanel.add(userName);
-		userInfoPanel.add(userReadyState);
 		
 		return userInfoPanel;
 	}
@@ -137,6 +153,15 @@ public class ReadyRoomFrame{
 	public void repaint() {
 		System.out.println("현재 인원수 : "+roomInfo.getUsers().size());
 		userCountLabel.setText(roomInfo.getUsers().size()+"/"+roomInfo.getMaxPlayerCount());
+		userPoketmonLabel.setText(Poketmon.PoketmonArray.poketmons.elementAt(user.getPoketmonIdx()).getName());
+		if(user.getReady()) {
+			userReadyStateLabel.setText("준비");
+		}
+		else {
+			userReadyStateLabel.setText("준비 X");
+		}
 		userCountLabel.repaint();
+		userPoketmonLabel.repaint();
+		userReadyStateLabel.repaint();
 	}
 }

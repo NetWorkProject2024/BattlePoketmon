@@ -86,17 +86,10 @@ public class Client{
 							System.out.println(inMsg.serverRooms + "<- 뭐가 넘어오니");
 							for(int i=0; i < inMsg.serverRooms.size(); i++) {
 								System.out.println("Update 될 때의 각 방의 현재 인원: "+inMsg.serverRooms.elementAt(i).getUsers());
-							}
-							
+							}							
 							home.updateRoomListPanel(inMsg.serverRooms);
 							home.repaint();
-	                        break;
-						case ChatMsg.MODE_ROOM_LIST_REQUEST:
-//                            home.rooms.add(inMsg.room);
-//                            SwingUtilities.invokeLater(() -> {
-//	                            home.updateRoomListPanel();
-//	                        });
-							break;
+	                        break;						
 						case ChatMsg.MODE_ROOM_ENTER:
 							//System.out.println("방에 누가 들어옴 클라이언트의 roomId : "+player.getReadyRoom().roomId+", 서버가 보낸 roomId : "+inMsg.room.roomId);
 						
@@ -115,11 +108,18 @@ public class Client{
 							home.joinReadyRoom(inMsg.room);
 							home.repaint();
 							break;
+						case ChatMsg.MODE_ROOM_PLAYERREADY:
+							boolean state;
+							if(inMsg.size == (long)0) {
+								state = false;
+							}
+							else {
+								state = true;
+							}
+							player.getReadyRoom().changeReadyState();
+							break;							
 						case ChatMsg.MODE_WORlD_ENTER:
-							System.out.println("월드_서버가 생성");
-
-
-							
+							System.out.println("월드_서버가 생성");							
 							break;
 						}
 						
@@ -194,7 +194,7 @@ public class Client{
 		    System.out.println(room.getRoomName());
 		}
 	}
-	public void sendPlyaerReady(boolean state) {
+	public void sendPlayerReady(boolean state) {
 		send(new ChatMsg(this.player, ChatMsg.MODE_ROOM_PLAYERREADY, state));
 	}
 	

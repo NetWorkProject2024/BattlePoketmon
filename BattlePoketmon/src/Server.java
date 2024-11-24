@@ -230,13 +230,7 @@ public class Server extends JFrame{
 						printDisplay(message);
 						broadcasting(msg);
 					}else if (msg.mode == ChatMsg.MODE_ROOM_UPDATE) {
-						System.out.println(msg.room + "-업데이트");
-						//msg.room.roomId = generateRoomId();
-						//msg.room.addUser(msg.player);
-						//roomUpdate(msg.room);
-//						rooms.add(msg.room);
-//						msg.serverRooms=rooms;
-						
+						System.out.println(msg.room + "-업데이트");						
 						msg.serverRooms = new Vector<>(rooms); // rooms 값을 복사하여 설정
 						System.out.println(msg.serverRooms + "-방송전");
 						broadcasting(msg);
@@ -275,7 +269,14 @@ public class Server extends JFrame{
 						
 					}
 					else if(msg.mode == ChatMsg.MODE_ROOM_PLAYERREADY) {
-						
+						if(msg.size==(long)0) {
+							msg.player.getReadyRoom().decreaseCurrentReadyCount();
+						}
+						else {
+							msg.player.getReadyRoom().increaseCurrentReadyCount();
+							
+						}
+						broadcastingInSameRoom(new ChatMsg(msg.player, msg.mode, msg.player.getReadyRoom(), msg.size));						
 					}
 					
 				}
@@ -295,6 +296,7 @@ public class Server extends JFrame{
 	            }
 			}
 		}
+
 		private void roomCopy(ReadyRoom origin, ReadyRoom changed) {
 			changed.roomId=origin.roomId;
 			changed.clearUser();
@@ -339,11 +341,7 @@ public class Server extends JFrame{
 				}
 			}
 		}
-		private void sendRoomList(Player user) {
-			for (ReadyRoom room : rooms) {
-				send(new ChatMsg(user, ChatMsg.MODE_ROOM_LIST_REQUEST, room));
-	        }
-		}
+		
 		private void sendLogin(Player user) {
 			send(new ChatMsg(user, ChatMsg.MODE_LOGIN, rooms, userIdCounter));
 		}
@@ -363,10 +361,12 @@ public class Server extends JFrame{
 				if(c.client.getReadyRoom().roomId == msg.room.roomId) {
 					c.send(msg);
 					System.out.println("sameRoom broadcasting");
-				}
-	            
+				}	            
 	        }
 		}
+		
+		
+		
 		@Override
 		public void run() {
 			receiveMessages(clientSocket);

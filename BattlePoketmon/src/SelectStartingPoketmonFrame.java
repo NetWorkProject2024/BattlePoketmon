@@ -14,8 +14,10 @@ import javax.swing.JPanel;
 public class SelectStartingPoketmonFrame {
 	private Player player;
 	private JFrame frame;
-	public SelectStartingPoketmonFrame(Player player) {
+	private ReadyRoomFrame readyRoomFrame;
+	public SelectStartingPoketmonFrame(Player player, ReadyRoomFrame readyRoomFrame) {
 		this.player = player;
+		this.readyRoomFrame = readyRoomFrame;
 	}
 	public JFrame create() {
 		frame = new JFrame("스타팅 포켓몬 고르기");
@@ -54,6 +56,7 @@ public class SelectStartingPoketmonFrame {
 				for(int i=0; i < 3; i++) {
 					if(checkBox[i].checkBox.isSelected()) {
 						player.setPoketmonIdx(checkBox[i].id);
+						readyRoomFrame.repaint();
 						frame.dispose();
 					}
 				}

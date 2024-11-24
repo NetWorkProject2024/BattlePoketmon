@@ -30,7 +30,9 @@ public class Player implements Serializable{
 	public void setPoketmonIdx(int poketmonIdx) {
 		this.poketmonIdx = poketmonIdx;
 	}
-	
+	public int getPoketmonIdx() {
+		return this.poketmonIdx;
+	}
 	public boolean getReady() {
 		return ready;
 	}

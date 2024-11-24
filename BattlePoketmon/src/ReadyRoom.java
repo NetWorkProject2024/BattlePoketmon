@@ -52,6 +52,10 @@ public class ReadyRoom implements Serializable{
 		}
 	}
 
+	public void changeReadyState() {
+		this.frame.repaint();
+		this.frame.updateUserList();
+	}
 	public void poketmonPick(Player user, int idx) {
 		//user.setPoketmonIdx(idx);
 	}
@@ -60,6 +64,9 @@ public class ReadyRoom implements Serializable{
 	}
 	public String getRoomName() {
 		return roomName;
+	}
+	public ReadyRoomFrame getRoomFrame() {
+		return frame;
 	}
 	public int getMaxPlayerCount() {
 		return maxPlayerCount;
