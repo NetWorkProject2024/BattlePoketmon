@@ -63,21 +63,21 @@ public class ChatMsg implements Serializable{
 	    this.room = room;
 	}
 	
-	public ChatMsg(Player player, int code, ReadyRoom room, long roomN) {
+	public ChatMsg(Player player, int code, ReadyRoom room, long size) {
 //		this(player, code, null, null, 0, room);
 		this.player=player;
 	    this.mode = code;
 	    this.message = null;
 	    this.object = null;
-	    this.size =0;
+	    this.size =size;
 	    this.room = room;
 	}
-	public ChatMsg(Player player, int code, Vector<ReadyRoom> serverRooms, long userN) {
+	public ChatMsg(Player player, int code, Vector<ReadyRoom> serverRooms, long size) {
 		this.player=player;
 	    this.mode = code;
 	    this.message = null;
 	    this.object = null;
-	    this.size =userN;
+	    this.size =size;
 	    this.serverRooms = serverRooms;
 	}
 	public ChatMsg(Player player, int code, World world) {

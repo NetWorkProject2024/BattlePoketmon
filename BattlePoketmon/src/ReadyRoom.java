@@ -52,7 +52,13 @@ public class ReadyRoom implements Serializable{
 		}
 	}
 
-	public void changeReadyState() {
+	public void changeReadyState(Player changedUser, boolean state) {
+		for(int i=0; i < this.users.size(); i++) {
+			if(this.users.elementAt(i).getId()==changedUser.getId()) {
+				this.users.elementAt(i).setReady(state);
+			}
+			
+		}
 		this.frame.repaint();
 		this.frame.updateUserList();
 	}

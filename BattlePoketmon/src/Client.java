@@ -116,7 +116,11 @@ public class Client{
 							else {
 								state = true;
 							}
-							player.getReadyRoom().changeReadyState();
+							System.out.println("서버에서 준비 상태 받는 중 >> player : "+inMsg.player+" , ready 상태 : "+state);
+							if(player.getId()==inMsg.player.getId()) {
+								player.setReady(state);
+							}
+							player.getReadyRoom().changeReadyState(inMsg.player, state);
 							break;							
 						case ChatMsg.MODE_WORlD_ENTER:
 							System.out.println("월드_서버가 생성");							
@@ -195,7 +199,16 @@ public class Client{
 		}
 	}
 	public void sendPlayerReady(boolean state) {
-		send(new ChatMsg(this.player, ChatMsg.MODE_ROOM_PLAYERREADY, state));
+		int size = 0;
+		if(state) {
+			
+			size = 1;
+		}
+		else {
+			size = 0;
+		}
+		System.out.println("서버에게 준비 상태 알리는 중 >> player : " +this.player +" , ready 상태 : "+state +" , size : " +size);
+		send(new ChatMsg(this.player, ChatMsg.MODE_ROOM_PLAYERREADY, size));
 	}
 	
 	

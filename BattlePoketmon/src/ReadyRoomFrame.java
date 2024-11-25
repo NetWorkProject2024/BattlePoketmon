@@ -86,8 +86,9 @@ public class ReadyRoomFrame{
 		b_ready.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				user.setReady(!user.getReady());
-				user.getClient().sendPlayerReady(user.getReady());
+				//user.setReady(!user.getReady());
+				//user.getClient().sendPlayerReady(user.getReady());
+				user.getClient().sendPlayerReady(!user.getReady());
 			}
 		});
 		belowPanel.add(b_backward);

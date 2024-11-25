@@ -276,7 +276,9 @@ public class Server extends JFrame{
 							msg.player.getReadyRoom().increaseCurrentReadyCount();
 							
 						}
-						broadcastingInSameRoom(new ChatMsg(msg.player, msg.mode, msg.player.getReadyRoom(), msg.size));						
+						ChatMsg newMsg = new ChatMsg(msg.player, msg.mode, msg.player.getReadyRoom(), msg.size);
+						System.out.println("클라이언트에게 준비 상태 받는 중 >> player : "+newMsg.player+", size : "+newMsg.size);
+						broadcastingInSameRoom(newMsg);						
 					}
 					
 				}
