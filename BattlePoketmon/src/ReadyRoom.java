@@ -33,6 +33,7 @@ public class ReadyRoom implements Serializable{
 			this.enable=false;
 		}
 //		this.frame.addUser(user);
+		System.out.println(this.currentReadyCount + "들어왔을 때 레디 인원 수");
 		
 		
 		

@@ -24,6 +24,7 @@ public class ChatMsg implements Serializable{
 	Object object;
 	long size;
 	public Vector <ReadyRoom> serverRooms;
+	public Vector <Player> worldPlayers; //월드 내 플레이어
 	
 	 
 	public ChatMsg(Player player, int code, String message, Object object, long size) {

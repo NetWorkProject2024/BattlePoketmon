@@ -249,7 +249,7 @@ public class Server extends JFrame{
 						
 //						roomUpdate(msg.room);
 						
-						broadcastingInSameRoom(msg);
+						broadcastingInSameRoom((ReadyRoom)msg.object,msg);
 						send(msg);
 						client.setReadyRoom(((ReadyRoom)msg.object));
 						System.out.println("copy후의 >>"+((ReadyRoom)msg.object).getUsers()+"방의 현재 인원수");
@@ -272,7 +272,7 @@ public class Server extends JFrame{
 															
 							}
 						}						
-						broadcastingInSameRoom(msg);
+						broadcastingInSameRoom((ReadyRoom)msg.object,msg);
 						System.out.println("copy후의 >>"+((ReadyRoom)msg.object).getUsers()+"방의 현재 인원수");
 						
 						for(int i=0; i <rooms.size(); i++) {
@@ -305,15 +305,18 @@ public class Server extends JFrame{
 					}
 					else if(msg.mode == ChatMsg.MODE_ROOM_PLAYERREADY) {
 						if(msg.size==(long)0) {
-							msg.player.getReadyRoom().decreaseCurrentReadyCount();
+							msg.player.setReady(false);
 						}
 						else {
-							msg.player.getReadyRoom().increaseCurrentReadyCount();
+							msg.player.setReady(true);
 							
 						}
 						ChatMsg newMsg = new ChatMsg(msg.player, msg.mode, msg.player.getReadyRoom(), msg.size);
 						System.out.println("클라이언트에게 준비 상태 받는 중 >> player : "+newMsg.player+", size : "+newMsg.size);
-						broadcastingInSameRoom(newMsg);						
+						broadcastingInSameRoom((ReadyRoom)newMsg.object,  newMsg);
+						
+						
+						enterWorld(msg.player);						
 					}
 					
 				}
@@ -359,12 +362,16 @@ public class Server extends JFrame{
 					if(user.getReady()) {
 						rooms.elementAt(i).increaseCurrentReadyCount();
 					}
-					else {
+					else if(!user.getReady()){
 						rooms.elementAt(i).decreaseCurrentReadyCount();
 					}
+					System.out.println(rooms.elementAt(i).getCurrentReadyCount() + "현재 레디 인원 수");
 					if(rooms.elementAt(i).getCurrentReadyCount() == rooms.elementAt(i).getMaxPlayerCount()) {
 						World newWorld = new World(rooms.elementAt(i).getMaxPlayerCount(), rooms.elementAt(i).getUsers(), generateWorldId());
-						broadcastingInSameRoom(new ChatMsg(user, ChatMsg.MODE_WORlD_ENTER, newWorld));
+						worlds.add(newWorld);
+						System.out.println(worlds +"\n 월드 벡터" + newWorld.users);
+						
+						broadcastingInSameRoom(rooms.elementAt(i), new ChatMsg(user, ChatMsg.MODE_WORlD_ENTER, newWorld));
 					}
 				}
 			}
@@ -391,11 +398,9 @@ public class Server extends JFrame{
 	            c.send(msg);
 	        }
 		}
-		private void broadcastingInSameRoom(ChatMsg msg) {
+		private void broadcastingInSameRoom(ReadyRoom room, ChatMsg msg) {
 			for (ClientHandler c : users) {
-				System.out.println("broadcastingInSameRoom c.client.getReadyRoom().roomId : " +c.client.getReadyRoom().roomId);
-				System.out.println("broadcastingInSameRoom msg.room.roomId : " +((ReadyRoom)msg.object).roomId);
-				if(c.client.getReadyRoom().roomId == ((ReadyRoom)msg.object).roomId) {
+				if(c.client.getReadyRoom().roomId == room.roomId) {
 					c.send(msg);
 					System.out.println("sameRoom broadcasting");
 				}	            

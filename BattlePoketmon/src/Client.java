@@ -26,6 +26,7 @@ public class Client{
 	private int userId = 0;
 	private Player player;
 	private ReadyRoom room = null;
+	private World world = null;
 	
 	public Client(String name, String serverAddress, int serverPort) {
 //		this.id = userId++;
@@ -131,9 +132,13 @@ public class Client{
 								player.setReady(state);
 							}
 							player.getReadyRoom().changeReadyState(inMsg.player, state);
+							
+							System.out.println(player.getReadyRoom().getCurrentReadyCount() + "레디 상태 받았을 때 변화");
 							break;							
 						case ChatMsg.MODE_WORlD_ENTER:
-							System.out.println("월드_서버가 생성");							
+							System.out.println("월드_서버가 생성");
+							world = ((World)inMsg.object);
+							world.enterWorld(player);
 							break;
 						}
 						
