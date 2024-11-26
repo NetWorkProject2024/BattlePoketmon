@@ -103,6 +103,16 @@ public class Client{
 //							home.repaint();
 							
 							break;
+						case ChatMsg.MODE_ROOM_EXIT:								
+//								player.getReadyRoom().exitRoom(inMsg.player);
+							for(int i=0; i < player.getReadyRoom().getUsers().size(); i++) {
+								if(player.getReadyRoom().getUsers().elementAt(i).getId() == inMsg.player.getId()) {
+									player.getReadyRoom().getUsers().remove(player.getReadyRoom().getUsers().elementAt(i));
+								}
+							}
+							System.out.println("방의 유저 수 : "+inMsg.room.getUsers() + "남아있는 방 유저들");
+							player.getReadyRoom().getRoomFrame().updateUserList();
+							break;
 						case ChatMsg.MODE_ROOM_CREATE:
 							System.out.println("방 서버가 생성");
 							home.joinReadyRoom(inMsg.room);
@@ -180,7 +190,6 @@ public class Client{
 	
 	private void sendUserID() {
 		send(new ChatMsg(this.player, ChatMsg.MODE_LOGIN));
-		send(new ChatMsg(player, ChatMsg.MODE_ROOM_LIST_REQUEST));
 	}
 	public void sendMessage(String msg) {
 		if (msg.isEmpty()) return;
@@ -198,6 +207,14 @@ public class Client{
 		    System.out.println(room.getRoomName());
 		}
 	}
+	public void sendExitRoom(ReadyRoom room) {
+		if (room == null) {
+		    System.err.println("room 객체가 null 상태입니다");
+		} else {
+			send(new ChatMsg(this.player, ChatMsg.MODE_ROOM_EXIT, room, 0));
+		}
+	}
+	
 	public void sendPlayerReady(boolean state) {
 		int size = 0;
 		if(state) {
@@ -210,7 +227,6 @@ public class Client{
 		System.out.println("서버에게 준비 상태 알리는 중 >> player : " +this.player +" , ready 상태 : "+state +" , size : " +size);
 		send(new ChatMsg(this.player, ChatMsg.MODE_ROOM_PLAYERREADY, size));
 	}
-	
 	
 	public JFrame getHome() {
 		return home;

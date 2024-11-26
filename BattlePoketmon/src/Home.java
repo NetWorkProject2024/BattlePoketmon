@@ -224,7 +224,7 @@ public class Home extends JFrame{
 	        {
 	        	System.out.println(this.room);
 	        	if(this.room.getUsers().size()< this.room.getMaxPlayerCount()) {
-	        		player.getClient().sendEnterRoom(this.room);
+//	        		player.getClient().sendEnterRoom(this.room);
 		        	joinReadyRoom(this.room);
 		     
 	        	}

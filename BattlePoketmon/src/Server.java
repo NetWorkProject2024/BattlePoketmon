@@ -259,7 +259,30 @@ public class Server extends JFrame{
 							System.out.println("readyRooms 의 유저 >> "+readyRooms.elementAt(i).getUsers() + "check!!");
 						}
 						broadcasting(new ChatMsg(msg.player, ChatMsg.MODE_ROOM_UPDATE, readyRooms, 0));
-					}else if(msg.mode == ChatMsg.MODE_ROOM_CREATE) {
+					}else if(msg.mode == ChatMsg.MODE_ROOM_EXIT) {
+						System.out.println(msg.player+"가 " + msg.room + "방을 나갔습니다");
+						for(int i=0; i <rooms.size(); i++) {
+							if(rooms.elementAt(i).roomId==msg.room.roomId) {
+								rooms.elementAt(i).removeUser(msg.player);
+								msg.room.roomId=rooms.elementAt(i).roomId;
+								System.out.println(rooms.elementAt(i).getUsers() + "check??");
+								
+								roomCopy(rooms.elementAt(i), msg.room);
+								System.out.println(rooms.elementAt(i).getUsers() + "check!!");
+							}
+						}						
+						broadcastingInSameRoom(msg);
+						System.out.println("copy후의 >>"+msg.room.getUsers()+"방의 현재 인원수");
+						
+						Vector<ReadyRoom> readyRooms = new Vector<ReadyRoom>();
+						roomCopy(rooms, readyRooms);
+						for(int i=0; i <rooms.size(); i++) {
+							System.out.println("readyRooms 의 유저 >> "+readyRooms.elementAt(i).getUsers() + "check!!");
+						}
+						broadcasting(new ChatMsg(msg.player, ChatMsg.MODE_ROOM_UPDATE, readyRooms, 0));
+						msg.player.getReadyRoom().decreaseCurrentReadyCount();
+					}
+					else if(msg.mode == ChatMsg.MODE_ROOM_CREATE) {
 						ReadyRoom newRoom = new ReadyRoom(msg.message, msg.player, (int)msg.size, generateRoomId());
 						rooms.add(newRoom);
 						Vector<ReadyRoom> readyRooms = new Vector<ReadyRoom>();

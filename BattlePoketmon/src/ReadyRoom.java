@@ -43,9 +43,19 @@ public class ReadyRoom implements Serializable{
 		this.frame.updateUserList();
 	}
 	public void exitRoom(Player user) {
-		this.users.remove(user);
+	
 		this.enable=true;
+
+		user.getClient().sendExitRoom(user.getReadyRoom());
 	}
+   public void removeUser(Player player) {
+       for(int i=0; i < users.size(); i++) {
+          if(users.elementAt(i).getId()==player.getId()) {
+             users.removeElementAt(i);
+          }
+       }
+   }
+	
 	public void gameStart(World world) {
 		for(int i=0; i < this.users.size(); i++) {
 			world.users.add(this.users.elementAt(i));

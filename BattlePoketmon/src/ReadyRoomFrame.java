@@ -74,6 +74,12 @@ public class ReadyRoomFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				homeFrame.setVisible(true);
+				
+				roomInfo.exitRoom(user);
+
+				System.out.println("방 나감 확인 버튼");
+				
+				frame.dispose();
 			}
 		});
 		b_select.addActionListener(new ActionListener() {
