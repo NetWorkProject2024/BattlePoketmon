@@ -94,28 +94,28 @@ public class Client{
 							//System.out.println("방에 누가 들어옴 클라이언트의 roomId : "+player.getReadyRoom().roomId+", 서버가 보낸 roomId : "+inMsg.room.roomId);
 						
 //							if(player.getReadyRoom().roomId == inMsg.room.roomId) {
-								player.setReadyRoom(inMsg.room);
-								System.out.println("내 room 세팅" + player.getReadyRoom().roomId + "메시지 내 룸: " + inMsg.room.roomId);
-								System.out.println("내 room 세팅" + player.getReadyRoom().getUsers() + "메시지 내 룸: " + inMsg.room.getUsers());
+								player.setReadyRoom(((ReadyRoom)inMsg.object));
+								System.out.println("내 room 세팅" + player.getReadyRoom().roomId + "메시지 내 룸: " + ((ReadyRoom)inMsg.object).roomId);
+								System.out.println("내 room 세팅" + player.getReadyRoom().getUsers() + "메시지 내 룸: " + ((ReadyRoom)inMsg.object).getUsers());
 								System.out.println("방의 유저 수 : "+player.getReadyRoom().getUsers() + "내 방 유저들");
 								player.getReadyRoom().enterRoom(player);
 //							}
 //							home.repaint();
 							
 							break;
-						case ChatMsg.MODE_ROOM_EXIT:								
+						case ChatMsg.MODE_ROOM_EXIT:	
 //								player.getReadyRoom().exitRoom(inMsg.player);
 							for(int i=0; i < player.getReadyRoom().getUsers().size(); i++) {
 								if(player.getReadyRoom().getUsers().elementAt(i).getId() == inMsg.player.getId()) {
 									player.getReadyRoom().getUsers().remove(player.getReadyRoom().getUsers().elementAt(i));
 								}
 							}
-							System.out.println("방의 유저 수 : "+inMsg.room.getUsers() + "남아있는 방 유저들");
+							System.out.println("방의 유저 수 : "+((ReadyRoom)inMsg.object).getUsers() + "남아있는 방 유저들");
 							player.getReadyRoom().getRoomFrame().updateUserList();
 							break;
 						case ChatMsg.MODE_ROOM_CREATE:
 							System.out.println("방 서버가 생성");
-							home.joinReadyRoom(inMsg.room);
+							home.joinReadyRoom(((ReadyRoom)inMsg.object));
 							home.repaint();
 							break;
 						case ChatMsg.MODE_ROOM_PLAYERREADY:

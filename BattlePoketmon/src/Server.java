@@ -229,19 +229,20 @@ public class Server extends JFrame{
 						String message = uid + ": " + msg.message;
 						printDisplay(message);
 						broadcasting(msg);
+						
 					}else if (msg.mode == ChatMsg.MODE_ROOM_UPDATE) {
-						System.out.println(msg.room + "-업데이트");						
+						System.out.println(((ReadyRoom)msg.object) + "-업데이트");						
 						msg.serverRooms = new Vector<>(rooms); // rooms 값을 복사하여 설정
 						System.out.println(msg.serverRooms + "-방송전");
 						broadcasting(msg);
 					}else if (msg.mode == ChatMsg.MODE_ROOM_ENTER) {
 						System.out.println("방에 "+msg.player+"가 들어왔습니다");
-						System.out.println(msg.room);
+						System.out.println(((ReadyRoom)msg.object));
 						for(int i=0; i <rooms.size(); i++) {
-							if(rooms.elementAt(i).roomId==msg.room.roomId) {
+							if(rooms.elementAt(i).roomId==((ReadyRoom)msg.object).roomId) {
 								rooms.elementAt(i).addUser(msg.player);
-								msg.room.roomId=rooms.elementAt(i).roomId;
-								roomCopy(rooms.elementAt(i), msg.room);
+								((ReadyRoom)msg.object).roomId=rooms.elementAt(i).roomId;
+								roomCopy(rooms.elementAt(i),((ReadyRoom)msg.object));
 								System.out.println(rooms.elementAt(i).getUsers() + "check!!");
 							}
 						}
@@ -250,8 +251,8 @@ public class Server extends JFrame{
 						
 						broadcastingInSameRoom(msg);
 						send(msg);
-						client.setReadyRoom(msg.room);
-						System.out.println("copy후의 >>"+msg.room.getUsers()+"방의 현재 인원수");
+						client.setReadyRoom(((ReadyRoom)msg.object));
+						System.out.println("copy후의 >>"+((ReadyRoom)msg.object).getUsers()+"방의 현재 인원수");
 						
 						Vector<ReadyRoom> readyRooms = new Vector<ReadyRoom>();
 						roomCopy(rooms, readyRooms);
@@ -260,19 +261,19 @@ public class Server extends JFrame{
 						}
 						broadcasting(new ChatMsg(msg.player, ChatMsg.MODE_ROOM_UPDATE, readyRooms, 0));
 					}else if(msg.mode == ChatMsg.MODE_ROOM_EXIT) {
-						System.out.println(msg.player+"가 " + msg.room + "방을 나갔습니다");
+						System.out.println(msg.player+"가 " + ((ReadyRoom)msg.object) + "방을 나갔습니다");
 						for(int i=0; i <rooms.size(); i++) {
-							if(rooms.elementAt(i).roomId==msg.room.roomId) {
+							if(rooms.elementAt(i).roomId==((ReadyRoom)msg.object).roomId) {
 								rooms.elementAt(i).removeUser(msg.player);
-								msg.room.roomId=rooms.elementAt(i).roomId;
+								((ReadyRoom)msg.object).roomId=rooms.elementAt(i).roomId;
 								
-								roomCopy(rooms.elementAt(i), msg.room);
+								roomCopy(rooms.elementAt(i), ((ReadyRoom)msg.object));
 								System.out.println(rooms.elementAt(i).getUsers() + "check!!");								
 															
 							}
 						}						
 						broadcastingInSameRoom(msg);
-						System.out.println("copy후의 >>"+msg.room.getUsers()+"방의 현재 인원수");
+						System.out.println("copy후의 >>"+((ReadyRoom)msg.object).getUsers()+"방의 현재 인원수");
 						
 						for(int i=0; i <rooms.size(); i++) {
 							if(rooms.elementAt(i).getUsers().size()==0) {
@@ -393,8 +394,8 @@ public class Server extends JFrame{
 		private void broadcastingInSameRoom(ChatMsg msg) {
 			for (ClientHandler c : users) {
 				System.out.println("broadcastingInSameRoom c.client.getReadyRoom().roomId : " +c.client.getReadyRoom().roomId);
-				System.out.println("broadcastingInSameRoom msg.room.roomId : " +msg.room.roomId);
-				if(c.client.getReadyRoom().roomId == msg.room.roomId) {
+				System.out.println("broadcastingInSameRoom msg.room.roomId : " +((ReadyRoom)msg.object).roomId);
+				if(c.client.getReadyRoom().roomId == ((ReadyRoom)msg.object).roomId) {
 					c.send(msg);
 					System.out.println("sameRoom broadcasting");
 				}	            

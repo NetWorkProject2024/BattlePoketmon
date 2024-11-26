@@ -23,27 +23,25 @@ public class ChatMsg implements Serializable{
 	String message;
 	Object object;
 	long size;
-	public ReadyRoom room;
 	public Vector <ReadyRoom> serverRooms;
-	public World world;
 	
 	 
-	public ChatMsg(Player player, int code, String message, Object object, long size, ReadyRoom room) {
+	public ChatMsg(Player player, int code, String message, Object object, long size) {
 		this.player = player;
 		this.mode = code;
 		this.message = message;
 		this.object = object;
 		this.size = size;
-		this.room = room;
+//		this.room = room;
 		this.serverRooms = null;
 		
 	}
 	
 	public ChatMsg(Player player, int code, String message,  Object object) {
-		this(player, code, null, object, 0, null);
+		this(player, code, null, object, 0);
 	}
 	public ChatMsg(Player player, int code) {
-		this(player, code, null, null, 0, null);
+		this(player, code, null, null, 0);
 	}
 	
 	public ChatMsg(Player player, int code, String message) {
@@ -55,22 +53,12 @@ public class ChatMsg implements Serializable{
 	    this.size =0;
 	}
 	
-	public ChatMsg(Player player, int code, Vector<ReadyRoom> serverRooms, ReadyRoom room) {
+	public ChatMsg(Player player, int code, Vector<ReadyRoom> serverRooms) {
 		this.player=player;
 	    this.mode = code;
 	    this.serverRooms = serverRooms;
-	    this.room = room;
 	}
 	
-	public ChatMsg(Player player, int code, ReadyRoom room, long size) {
-//		this(player, code, null, null, 0, room);
-		this.player=player;
-	    this.mode = code;
-	    this.message = null;
-	    this.object = null;
-	    this.size =size;
-	    this.room = room;
-	}
 	public ChatMsg(Player player, int code, Vector<ReadyRoom> serverRooms, long size) {
 		this.player=player;
 	    this.mode = code;
@@ -79,25 +67,19 @@ public class ChatMsg implements Serializable{
 	    this.size =size;
 	    this.serverRooms = serverRooms;
 	}
-	public ChatMsg(Player player, int code, World world) {
-		this.player=player;
-	    this.mode = code;
-	    this.world = world;
-	}
 	public ChatMsg(Player player, int code, long c) {
-		this(player, code, null, null, c, null);
+		this(player, code, null, null, c);
 	}
 	
 	public ChatMsg(Player player, int code, Object object) {
-		this(player, code, null, object, 0, null);
+		this(player, code, null, object, 0);
 	}
 	public ChatMsg(Player player, int code, String filename, long size) {
-		this(player, code, filename, null, size, null);
+		this(player, code, filename, null, size);
 	}
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	
+	public ChatMsg(Player player, int code, Object object, long size) {
+		this(player, code, null, object, size);
 	}
-
 }
 
