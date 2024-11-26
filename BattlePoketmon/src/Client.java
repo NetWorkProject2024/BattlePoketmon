@@ -211,7 +211,7 @@ public class Client{
 		if (room == null) {
 		    System.err.println("room 객체가 null 상태입니다");
 		} else {
-			send(new ChatMsg(this.player, ChatMsg.MODE_ROOM_EXIT, room, 0));
+			send(new ChatMsg(this.player, ChatMsg.MODE_ROOM_EXIT, room, 0));			
 		}
 	}
 	

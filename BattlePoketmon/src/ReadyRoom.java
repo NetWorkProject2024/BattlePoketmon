@@ -47,6 +47,7 @@ public class ReadyRoom implements Serializable{
 		this.enable=true;
 
 		user.getClient().sendExitRoom(user.getReadyRoom());
+		
 	}
    public void removeUser(Player player) {
        for(int i=0; i < users.size(); i++) {
