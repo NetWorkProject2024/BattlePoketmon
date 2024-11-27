@@ -18,6 +18,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Collections;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -63,10 +64,9 @@ public class Server extends JFrame{
 				startServer();						
 			}
 		});
-
-		acceptThread.start();
-		
+		acceptThread.start();		
 	}
+	
 	private JPanel createDisplayPanel() {
 		t_display = new JTextArea();
 		t_display.setEditable(false);
@@ -398,6 +398,7 @@ public class Server extends JFrame{
 	            c.send(msg);
 	        }
 		}
+		
 		private void broadcastingInSameRoom(ReadyRoom room, ChatMsg msg) {
 			for (ClientHandler c : users) {
 				if(c.client.getReadyRoom().roomId == room.roomId) {
@@ -408,12 +409,24 @@ public class Server extends JFrame{
 		}
 		
 		
+//		/////유저 매칭 필요!!
+//		private void matching() {
+//			Collections.shuffle(worlds.users);
+//		}
+		
+		
 		
 		@Override
 		public void run() {
 			receiveMessages(clientSocket);
 		}
 	}
+	
+	
+	
+	
+	
+	
     
 	public static void main(String[] args) {
 		int port = 54321;

@@ -54,11 +54,16 @@ public class Poketmon implements Serializable{
    public int getDefensePower() {
 	      return defensePower;
    }
-   
+   public int getCurrentHP() {
+	   return this.currentHp;
+   }
+   public void setCurrentHP(int HP) {
+	   this.currentHp=HP;
+   }
    public Skill[] getSkill() {
 	   return skills;
    }
-   
+ 
    public void createSkills() {
       Random random = new Random();
       int skillCount = 0;

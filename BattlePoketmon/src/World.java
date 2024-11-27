@@ -25,12 +25,7 @@ public class World implements Serializable{
 		if (this.frame == null) {
             this.frame = new WorldFrame(this, user); // frame 객체가 없으면 새로 생성
         }
-		
-		
-		
 		this.frame.create();
-		
-//		this.frame.repaint();
 	}
 
 	public WorldFrame getWorldFrame() {

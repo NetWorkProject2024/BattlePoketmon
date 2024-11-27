@@ -232,6 +232,9 @@ public class Client{
 		System.out.println("서버에게 준비 상태 알리는 중 >> player : " +this.player +" , ready 상태 : "+state +" , size : " +size);
 		send(new ChatMsg(this.player, ChatMsg.MODE_ROOM_PLAYERREADY, size));
 	}
+	public void sendAttack(Player other, int mode, int attack) {
+		send(new ChatMsg(other, mode, attack));
+	}
 	
 	public JFrame getHome() {
 		return home;
