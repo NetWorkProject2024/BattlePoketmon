@@ -13,23 +13,27 @@ public class WorldFrame {
 	private JPanel centerPanel;
 	private World worldInfo;
 	private JLabel timerLabel;
-	JFrame frame;
+	JFrame worldFrame;
+	private Player user;
+	private PoketmonFrame poketmonFrame;
 	
 	JLabel userCountLabel;
-	public WorldFrame(World worldInfo) {
+	public WorldFrame(World worldInfo, Player user) {
 		this.worldInfo = worldInfo;
+		this.user = user;
+		poketmonFrame = new PoketmonFrame();
 	}
 	
 	public JFrame create() {
-		frame = new JFrame("BattlePoketmon_WORLD");
-		frame.setBounds(200,200,800,600);
+		worldFrame = new JFrame("BattlePoketmon_WORLD");
+		worldFrame.setBounds(200,200,800,600);
 		JPanel entirePanel = new JPanel(new BorderLayout());
 		
 		entirePanel.add(createAbovePanel(), BorderLayout.NORTH);
 		entirePanel.add(createCenterPanel(),BorderLayout.CENTER);
-		frame.add(entirePanel);
-		frame.setVisible(true);
-		return frame;		
+		worldFrame.add(entirePanel);
+		worldFrame.setVisible(true);
+		return worldFrame;		
 	}
 	
 	public JPanel createAbovePanel() {
@@ -41,24 +45,23 @@ public class WorldFrame {
 		abovePanel.add(xLabel);
 		abovePanel.add(timerLabel);
 		//버튼들
-		JLabel coinLabel= new JLabel("    <COIN> : ");		
-		JButton b_bag = new JButton("가방");
-		JButton b_poketmon = new JButton("포켓몬");
+		JButton b_store = new JButton("포켓몬 분양소");
+		JButton b_poketmon = new JButton("내 포켓몬");
 		
-		b_bag.addActionListener(new ActionListener() {
+		b_store.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				PoketmonStoreFrame pf = new PoketmonStoreFrame(user);
+				pf.create();
 			}
 		});
 		b_poketmon.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-			}
+	               poketmonFrame.create(user.getPoketmon());
+	         }			
 		});
-		abovePanel.add(coinLabel);
-		abovePanel.add(b_bag);
+		abovePanel.add(b_store);
 		abovePanel.add(b_poketmon);
 		return abovePanel;
 	}
@@ -70,21 +73,7 @@ public class WorldFrame {
 		
 		return centerPanel;
 	}
-	
-//	public static void main(String[] args) {
-//		World worldInfo = new World();
-//		WorldFrame c = new WorldFrame(worldInfo);
-//		c.create();
-//	}
-//	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 	
 	
 }

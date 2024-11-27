@@ -19,8 +19,12 @@ public class World implements Serializable{
 
 	public void enterWorld(Player user) {
 		if (this.frame == null) {
-            this.frame = new WorldFrame(this); // frame 객체가 없으면 새로 생성
+            this.frame = new WorldFrame(this, user); // frame 객체가 없으면 새로 생성
         }
+		Poketmon newPoketmon = Poketmon.PoketmonArray.poketmons.elementAt(user.getPoketmonIdx());
+		newPoketmon.createSkills();
+		user.setPoketmon(newPoketmon);
+		
 		this.frame.create();
 		
 //		this.frame.repaint();
