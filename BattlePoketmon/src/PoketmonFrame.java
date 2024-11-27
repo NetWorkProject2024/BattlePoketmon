@@ -18,13 +18,14 @@ public class PoketmonFrame {
 	private JLabel attackLabel;
 	private JLabel defenseLabel;
 	private Poketmon poketmon;
+	private Player user;
 	private JLabel poketmonImgLabel;
 	JFrame frame;
 	
 	public PoketmonFrame() {		
 	}
 	
-	public JFrame create(Poketmon poketmon) {
+	public JFrame create_Store(Poketmon poketmon, Player user) {
 		this.poketmon = poketmon;
 		frame = new JFrame("Poketmon");
 		frame.setBounds(200,200,300,400);
@@ -35,9 +36,22 @@ public class PoketmonFrame {
 		entirePanel.add(createBtnPanel(),BorderLayout.SOUTH);
 		frame.add(entirePanel);
 		frame.setVisible(true);
+		this.user = user;
 		return frame;		
 	}
 	
+	public JFrame create_Inventory(Poketmon poketmon) {
+		this.poketmon = poketmon;
+		frame = new JFrame("Poketmon");
+		frame.setBounds(200,200,300,400);
+		JPanel entirePanel = new JPanel(new BorderLayout());
+		
+		entirePanel.add(createCenterPanel(),BorderLayout.NORTH);
+		entirePanel.add(createInfoPanel(),BorderLayout.CENTER);
+		frame.add(entirePanel);
+		frame.setVisible(true);
+		return frame;		
+	}
 	
 	
 	public JPanel createCenterPanel() {
@@ -77,7 +91,6 @@ public class PoketmonFrame {
         infoPanel.add(xLabel3);
         infoPanel.add(defenseLabel);
         infoPanel.add(xLabel4);
-//        infoPanel.add(createSkillPanel());
         
         
         for (int i = 0; i< 4;i++) {
@@ -116,18 +129,20 @@ public class PoketmonFrame {
 		JPanel btnPanel = new JPanel(new GridLayout(0,2));
 		//버튼들
 		JButton b_change = new JButton("교환");
-		JButton b_keep = new JButton("유지");
+		JButton b_keep = new JButton("취소");
 		
 		b_change.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				user.setPoketmon(poketmon);
+				frame.dispose();
+				
 			}
 		});
 		b_keep.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				frame.dispose();
 			}
 		});
 		
@@ -137,13 +152,6 @@ public class PoketmonFrame {
 		return btnPanel;
 		
 	}
-	
-	
-	public static void main(String[] args) {
-	Poketmon p = Poketmon.PoketmonArray.poketmons.elementAt(0);
-	PoketmonFrame c = new PoketmonFrame();
-	c.create(p);
-}
 	
 	
 }

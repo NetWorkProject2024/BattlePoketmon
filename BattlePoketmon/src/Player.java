@@ -80,7 +80,7 @@ public class Player implements Serializable{
 	   return this.poketmon;
    }
    
-   public void setPoketmon(Poketmon pocketmon) {
+   public void setPoketmon(Poketmon poketmon) {
 	   this.poketmon=poketmon;
    }
    

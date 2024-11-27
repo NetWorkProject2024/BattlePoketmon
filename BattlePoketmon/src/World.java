@@ -18,12 +18,15 @@ public class World implements Serializable{
 
 
 	public void enterWorld(Player user) {
+		Poketmon newPoketmon = new Poketmon(Poketmon.PoketmonArray.poketmons.elementAt(user.getPoketmonIdx()));
+		newPoketmon.createSkills();
+		user.setPoketmon(newPoketmon);
+		System.out.println(user.getPoketmon() + "유저 포켓몬 소지 유무");
 		if (this.frame == null) {
             this.frame = new WorldFrame(this, user); // frame 객체가 없으면 새로 생성
         }
-		Poketmon newPoketmon = Poketmon.PoketmonArray.poketmons.elementAt(user.getPoketmonIdx());
-		newPoketmon.createSkills();
-		user.setPoketmon(newPoketmon);
+		
+		
 		
 		this.frame.create();
 		

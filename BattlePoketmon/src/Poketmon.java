@@ -21,6 +21,13 @@ public class Poketmon implements Serializable{
       this.defensePower = defensePower;
       this.icon = new ImageIcon(icon);
    }
+   public Poketmon(Poketmon poketmon) {
+	   this.name = poketmon.name;
+	   this.type = poketmon.type;
+	   this.attackPower=poketmon.attackPower;
+	   this.defensePower=poketmon.defensePower;
+	   this.icon = poketmon.icon;
+   }
    public static class PoketmonArray {
       public static Vector<Poketmon> poketmons = new Vector<Poketmon>();
       private static String[] names = {"파이리","꼬부기", "이상해씨" };

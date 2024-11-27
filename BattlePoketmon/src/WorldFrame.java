@@ -58,7 +58,7 @@ public class WorldFrame {
 		b_poketmon.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-	               poketmonFrame.create(user.getPoketmon());
+	               poketmonFrame.create_Inventory(user.getPoketmon());
 	         }			
 		});
 		abovePanel.add(b_store);

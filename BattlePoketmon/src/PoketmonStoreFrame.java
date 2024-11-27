@@ -33,7 +33,7 @@ public class PoketmonStoreFrame {
 //            if(money >= price) {
                user.addCoin(-price);
                Poketmon newPoketmon = randomPickPoketmon();
-               poketmonFrame.create(newPoketmon);
+               poketmonFrame.create_Store(newPoketmon, user);
 //            }
          }
       });
