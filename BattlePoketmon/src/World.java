@@ -10,7 +10,12 @@ public class World implements Serializable{
 
 
 	public World(int maxNum, Vector<Player> users, int worldId) {
-		this.users = users;
+		
+		this.users = new Vector<Player>();
+		for(int i=0; i < users.size(); i++) {
+			this.users.add(users.elementAt(i));
+		}
+		
 		this.maxNum = maxNum;
 		this.id = worldId;
 	}
@@ -27,9 +32,11 @@ public class World implements Serializable{
 		user.getClient().sendPlayerReady(false);
 		user.setWorld(this);
 		System.out.println(user.getWorld());
-		this.frame.create();
+		this.frame.create(user);
 		
 		System.out.println(this.users.size() + "들어왔을 때 월드 인원 수");
+		System.out.println(user.getWorld().users + "월드 내 유저들 확인");
+
 		this.frame.repaint();
 		this.frame.updateUserList();
 	}

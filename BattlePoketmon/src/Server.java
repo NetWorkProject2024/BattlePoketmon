@@ -315,7 +315,6 @@ public class Server extends JFrame{
 						if(currentRoom.getCurrentReadyCount()==currentRoom.getMaxPlayerCount()) {
 							World newWorld = new World(currentRoom.getMaxPlayerCount(), currentRoom.getUsers(), generateWorldId());
 							worlds.add(newWorld);
-							
 							broadcastingInSameRoom((ReadyRoom)newMsg.object, new ChatMsg(msg.player, ChatMsg.MODE_WORlD_ENTER, newWorld));
 						}
 						

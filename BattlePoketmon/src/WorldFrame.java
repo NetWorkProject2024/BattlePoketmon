@@ -24,7 +24,7 @@ public class WorldFrame {
 		poketmonFrame = new PoketmonFrame();
 	}
 	
-	public JFrame create() {
+	public void create(Player user) {
 		worldFrame = new JFrame("BattlePoketmon_WORLD");
 		worldFrame.setBounds(200,200,800,600);
 		JPanel entirePanel = new JPanel(new BorderLayout());
@@ -34,7 +34,8 @@ public class WorldFrame {
 		entirePanel.add(createCenterPanel(),BorderLayout.CENTER);
 		worldFrame.add(entirePanel);
 		worldFrame.setVisible(true);
-		return worldFrame;		
+		this.user = user;
+//		return worldFrame;		
 	}
 	
 	public JPanel createUserInfoPanel(Player player) {
