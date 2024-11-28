@@ -29,10 +29,12 @@ public class World implements Serializable{
 		if (this.frame == null) {
             this.frame = new WorldFrame(this, user); // frame 객체가 없으면 새로 생성            
         }
-		user.getClient().sendPlayerReady(false);
+//		user.getClient().sendPlayerReady(false);
+		user.getClient().sendWorldReady(false);
 		user.setWorld(this);
 		System.out.println(user.getWorld());
 		this.frame.create(user);
+		System.out.println(user.getWorld() + "내 월드" + user.getWorld().id);
 		
 		System.out.println(this.users.size() + "들어왔을 때 월드 인원 수");
 		System.out.println(user.getWorld().users + "월드 내 유저들 확인");

@@ -311,7 +311,7 @@ public class Server extends JFrame{
 						System.out.println("클라이언트에게 준비 상태 받는 중 >> player : "+newMsg.player+", size : "+newMsg.size);
 						broadcastingInSameRoom((ReadyRoom)newMsg.object,  newMsg);
 						
-						ReadyRoom currentRoom = roomReadyCount((ReadyRoom)newMsg.object, msg.player.getReady());
+						ReadyRoom currentRoom = roomReadyCount((ReadyRoom)newMsg.object, msg.player.getReady());//월드 진입
 						if(currentRoom.getCurrentReadyCount()==currentRoom.getMaxPlayerCount()) {
 							World newWorld = new World(currentRoom.getMaxPlayerCount(), currentRoom.getUsers(), generateWorldId());
 							worlds.add(newWorld);
@@ -322,16 +322,17 @@ public class Server extends JFrame{
 					
 					
 					else if(msg.mode == ChatMsg.MODE_WORLD_PLAYERREADY) {
+						System.out.println(msg.size  + "상태 뭔데");
 						if(msg.size==(long)0) {
 							msg.player.setReady(false);
 						}
-						else {
+						else if(msg.size==(long)1){
 							msg.player.setReady(true);
 							
 						}
 						ChatMsg newMsg = new ChatMsg(msg.player, msg.mode, msg.player.getWorld(), msg.size);
 						
-//						System.out.println("클라이언트에게 준비 상태 받는 중 >> player : "+newMsg.player+", size : "+newMsg.size);
+						System.out.println("클라이언트에게 월드 준비 상태 받는 중 >> player : "+newMsg.player+"size : "+newMsg.size);
 						broadcastingInSameWorld((World)newMsg.object, newMsg);
 //						enterBattle(msg.player);
 					}
@@ -425,13 +426,20 @@ public class Server extends JFrame{
 		}
 		
 		private void broadcastingInSameWorld(World world, ChatMsg msg) {
-			for (ClientHandler c : users) {
-				if(c.client.getWorld() != null &&c.client.getWorld().getWorldId() == world.getWorldId()) {
-					c.send(msg);
-					System.out.println("sameWorld broadcasting");
-				}	            
-	        }
+		    for (ClientHandler c : users) {
+		        World playerWorld = c.client.getWorld(); // 클라이언트의 월드 가져오기
+		        if (playerWorld == null) {
+		        	System.out.println("nullll");
+		        }
+		        if (playerWorld != null && playerWorld.getWorldId() == world.getWorldId()) {
+		            c.send(msg);
+		            System.out.println("Broadcasting to sameWorld succeeded");
+		        } else {
+		            System.out.println("Skipping client: World is null or doesn't match");
+		        }
+		    }
 		}
+
 		
 		
 //		/////유저 매칭 필요!!				

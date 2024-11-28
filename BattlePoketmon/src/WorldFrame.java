@@ -70,8 +70,7 @@ public class WorldFrame {
 		readyBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				user.getClient().sendWorldReady(!user.getReady());
-			}
+				user.getClient().sendWorldReady(!user.getReady());		}
 		});
 		
 		abovePanel.add(xLabel);
@@ -111,7 +110,7 @@ public class WorldFrame {
 		
 	
 	public void repaint() {
-		System.out.println("현재 인원수 : "+worldInfo.getUsers().size());
+		System.out.println("현재 내 준비상태 : "+user.getReady());
 		if(user.getReady()) {
 			userReadyStateLabel.setText("준비");
 		}

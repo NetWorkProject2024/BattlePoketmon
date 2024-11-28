@@ -142,11 +142,11 @@ public class Client{
 							break;
 							
 						case ChatMsg.MODE_WORLD_PLAYERREADY:
-							boolean worldReadyState;
+							boolean worldReadyState = false;
 							if(inMsg.size == (long)0) {
 								worldReadyState = false;
 							}
-							else {
+							else if(inMsg.size == (long)1){
 								worldReadyState = true;
 							}
 							System.out.println("서버에서 준비 상태 받는 중 >> player : "+inMsg.player+" , ready 상태 : "+worldReadyState + "ㅇㅇ" + inMsg.player.getWorld().users);
@@ -155,7 +155,6 @@ public class Client{
 							}
 							player.getWorld().changeReadyState(inMsg.player, worldReadyState);
 							
-//							System.out.println(player.getReadyRoom().getCurrentReadyCount() + "레디 상태 받았을 때 변화");
 							System.out.println(player.getReadyRoom().getUsers() + "레디 상태 받았을 때 인원수");
 							
 							break;
@@ -261,7 +260,7 @@ public class Client{
 		else {
 			size = 0;
 		}
-		System.out.println("서버에게 준비 상태 알리는 중 >> player : " +this.player +" , ready 상태 : "+state +" , world : " +this.player.getWorld());
+		System.out.println("월드 입장 중 서버에게 준비 상태 공지>> player : " +this.player +" , ready 상태 : "+state +" , world : " +this.player.getWorld());
 		send(new ChatMsg(this.player, ChatMsg.MODE_WORLD_PLAYERREADY, size));
 	}
 	public void sendAttack(Player other, int mode, int attack) {
