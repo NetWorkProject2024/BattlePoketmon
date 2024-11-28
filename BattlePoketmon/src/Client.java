@@ -149,7 +149,8 @@ public class Client{
 							else if(inMsg.size == (long)1){
 								worldReadyState = true;
 							}
-							System.out.println("서버에서 준비 상태 받는 중 >> player : "+inMsg.player+" , ready 상태 : "+worldReadyState + "ㅇㅇ" + inMsg.player.getWorld().users);
+							System.out.println("서버에서 준비 상태 받는 중 >> player : "+inMsg.player+" , ready 상태 : "+worldReadyState + "ㅇㅇ" + ((World)inMsg.object).users);
+//							System.out.println("서버에서 준비 상태 받는 중 >> player : "+inMsg.player+" , ready 상태 : "+worldReadyState + "ㅇㅇ" + inMsg.player.getWorld().users);
 							if(player.getId()==inMsg.player.getId()) {
 								player.setReady(worldReadyState);
 							}

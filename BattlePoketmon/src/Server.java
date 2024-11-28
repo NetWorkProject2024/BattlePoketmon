@@ -315,7 +315,9 @@ public class Server extends JFrame{
 						if(currentRoom.getCurrentReadyCount()==currentRoom.getMaxPlayerCount()) {
 							World newWorld = new World(currentRoom.getMaxPlayerCount(), currentRoom.getUsers(), generateWorldId());
 							worlds.add(newWorld);
+							setWorldInSameRoom(newWorld);
 							broadcastingInSameRoom((ReadyRoom)newMsg.object, new ChatMsg(msg.player, ChatMsg.MODE_WORlD_ENTER, newWorld));
+							
 						}
 						
 					}
@@ -331,8 +333,8 @@ public class Server extends JFrame{
 							
 						}
 						ChatMsg newMsg = new ChatMsg(msg.player, msg.mode, msg.player.getWorld(), msg.size);
-						
-						System.out.println("클라이언트에게 월드 준비 상태 받는 중 >> player : "+newMsg.player+"size : "+newMsg.size);
+					
+						System.out.println("클라이언트에게 월드 준비 상태 받는 중 >> player : "+newMsg.player+"size : "+newMsg.size+"world : "+(World)newMsg.object);
 						broadcastingInSameWorld((World)newMsg.object, newMsg);
 //						enterBattle(msg.player);
 					}
@@ -441,7 +443,15 @@ public class Server extends JFrame{
 		}
 
 		
-		
+		private void setWorldInSameRoom(World world) {
+			for(int i=0; i < world.getUsers().size(); i++) {
+				for(int j=0; j < users.size(); j++) {
+					if(world.getUsers().elementAt(i).getId() == users.elementAt(j).client.getId()) {
+						users.elementAt(j).client.setWorld(world);
+					}
+				}
+			}
+		}
 //		/////유저 매칭 필요!!				
 		private void matching(World world) {
 			World needWorld = null;

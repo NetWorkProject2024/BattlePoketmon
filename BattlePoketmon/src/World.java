@@ -5,7 +5,7 @@ public class World implements Serializable{
 	public Vector<Player> users = new Vector<Player>();
 	private int maxNum;
 	private int id = -1;
-	private WorldFrame frame;
+	private transient WorldFrame frame;
 	private int readyCount = 0;
 
 
@@ -30,8 +30,8 @@ public class World implements Serializable{
             this.frame = new WorldFrame(this, user); // frame 객체가 없으면 새로 생성            
         }
 //		user.getClient().sendPlayerReady(false);
-		user.getClient().sendWorldReady(false);
 		user.setWorld(this);
+		user.getClient().sendWorldReady(false);
 		System.out.println(user.getWorld());
 		this.frame.create(user);
 		System.out.println(user.getWorld() + "내 월드" + user.getWorld().id);
