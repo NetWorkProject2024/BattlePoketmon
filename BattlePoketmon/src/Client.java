@@ -79,7 +79,7 @@ public class Client{
 							System.out.println("id바뀜??" +player.getId());
 						case ChatMsg.MODE_TX_STRING:
 							break;
-						case ChatMsg.MODE_ROOM_UPDATE:
+						case ChatMsg.MODE_HOME_UPDATE:
 //			                home.updateRooms(inMsg.room);			                
 //							SwingUtilities.invokeLater(() -> {
 //	                            home.updateRoomListPanel();	                          
@@ -96,9 +96,9 @@ public class Client{
 						
 //							if(player.getReadyRoom().roomId == inMsg.room.roomId) {
 								player.setReadyRoom(((ReadyRoom)inMsg.object));
-								System.out.println("내 room 세팅" + player.getReadyRoom().roomId + "메시지 내 룸: " + ((ReadyRoom)inMsg.object).roomId);
-								System.out.println("내 room 세팅" + player.getReadyRoom().getUsers() + "메시지 내 룸: " + ((ReadyRoom)inMsg.object).getUsers());
-								System.out.println("방의 유저 수 : "+player.getReadyRoom().getUsers() + "내 방 유저들");
+//								System.out.println("내 room 세팅" + player.getReadyRoom().roomId + "메시지 내 룸: " + ((ReadyRoom)inMsg.object).roomId);
+//								System.out.println("내 room 세팅" + player.getReadyRoom().getUsers() + "메시지 내 룸: " + ((ReadyRoom)inMsg.object).getUsers());
+//								System.out.println("방의 유저 수 : "+player.getReadyRoom().getUsers() + "내 방 유저들");
 								player.getReadyRoom().enterRoom(player);
 //							}
 //							home.repaint();
@@ -135,10 +135,9 @@ public class Client{
 							
 							System.out.println(player.getReadyRoom().getCurrentReadyCount() + "레디 상태 받았을 때 변화");
 							break;							
-						case ChatMsg.MODE_WORlD_ENTER:
+						case ChatMsg.MODE_WORlD_ENTER:							
 							System.out.println("월드_서버가 생성");
-							world = ((World)inMsg.object);
-							world.enterWorld(player);
+							((World)inMsg.object).enterWorld(player);
 							break;
 							
 						case ChatMsg.MODE_WORLD_PLAYERREADY:

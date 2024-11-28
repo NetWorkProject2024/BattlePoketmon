@@ -35,10 +35,7 @@ public class ReadyRoom implements Serializable{
 //		this.frame.addUser(user);
 		System.out.println(this.currentReadyCount + "들어왔을 때 레디 인원 수");
 		
-		
-		
-		
-		
+	
 //		this.frame.createUserInfoPanel(user.getPlayerName(), false); // 플레이어 목록 업데이트
 		this.frame.repaint();
 		this.frame.updateUserList();

@@ -28,7 +28,14 @@ public class World implements Serializable{
 		user.setWorld(this);
 		System.out.println(user.getWorld());
 		this.frame.create();
+		
+		System.out.println(this.users.size() + "들어왔을 때 월드 인원 수");
+		this.frame.repaint();
+		this.frame.updateUserList();
 	}
+	
+	
+	
 	public void changeReadyState(Player changedUser, boolean state) {
 		for(int i=0; i < this.users.size(); i++) {
 			if(this.users.elementAt(i).getId()==changedUser.getId()) {

@@ -151,11 +151,7 @@ public class ReadyRoomFrame{
 	    repaint();                // 상단 사용자 수 정보 갱신
 	}
 
-	
-	public void addUser(Player player) {
-	    roomInfo.addUser(player);  // ReadyRoom 클래스에 유저 추가
-	    updateUserList();          // 사용자 목록 갱신
-	}
+
 	
 	public void repaint() {
 		System.out.println("현재 인원수 : "+roomInfo.getUsers().size());
