@@ -22,6 +22,7 @@ public class Player implements Serializable{
    private boolean ready = false;
    private int coin=0;
    private ReadyRoom room = new ReadyRoom();
+   private World world;
    private transient Client client;
    
    public Player(String name, Client client) {
@@ -45,14 +46,10 @@ public class Player implements Serializable{
    public void setReadyRoom(ReadyRoom myRoom) {
       this.room = myRoom;
    }
-    @Override
-    public String toString() {// 테스트용
-        return "ReadyRoomPlayer [Name=" + getPlayerName() +
-                   ", ID=" + getId() +
-                   ", Ready=" + ready +
-                   ", PoketmonIdx=" + poketmonIdx + "]";
-    }
-   
+   public void setWorld(World myWorld) {
+	   this.world = myWorld;
+   }
+
    
    public int getId() {
       return userId;
@@ -78,6 +75,10 @@ public class Player implements Serializable{
    }
    public Poketmon getPoketmon() {
 	   return this.poketmon;
+   }
+   
+   public World getWorld() {
+	   return this.world;
    }
    
    public void setPoketmon(Poketmon poketmon) {

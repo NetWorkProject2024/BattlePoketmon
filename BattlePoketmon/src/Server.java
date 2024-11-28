@@ -6,20 +6,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Collections;
+import java.util.List;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -35,6 +33,8 @@ public class Server extends JFrame{
 	private ServerSocket serverSocket = null;
 	
 	private Thread acceptThread = null;
+
+	
 	private Vector<ClientHandler> users = new Vector<ClientHandler>();
 	
 	private JTextArea t_display;
@@ -318,6 +318,19 @@ public class Server extends JFrame{
 						
 						enterWorld(msg.player);						
 					}
+					else if(msg.mode == ChatMsg.MODE_WORLD_PLAYERREADY) {
+						if(msg.size==(long)0) {
+							msg.player.setReady(false);
+						}
+						else {
+							msg.player.setReady(true);
+							
+						}
+						ChatMsg newMsg = new ChatMsg(msg.player, msg.mode, msg.player.getWorld(), msg.size);
+						System.out.println("클라이언트에게 준비 상태 받는 중 >> player : "+newMsg.player+", size : "+newMsg.size);
+						broadcastingInSameWorld((World)newMsg.object, newMsg);
+//						enterBattle(msg.player);
+					}
 					
 				}
 				users.removeElement(this);
@@ -408,12 +421,33 @@ public class Server extends JFrame{
 	        }
 		}
 		
+		private void broadcastingInSameWorld(World world, ChatMsg msg) {
+			for (ClientHandler c : users) {
+				if(c.client.getWorld().getWorldId() == world.getWorldId()) {
+					c.send(msg);
+					System.out.println("sameWorld broadcasting");
+				}	            
+	        }
+		}
 		
-//		/////유저 매칭 필요!!
-//		private void matching() {
-//			Collections.shuffle(worlds.users);
-//		}
 		
+//		/////유저 매칭 필요!!				
+		private void matching(World world) {
+			World needWorld = null;
+			for(int i = 0; i<worlds.size();i++) {
+				if(worlds.elementAt(i).getWorldId()== world.getWorldId()) {
+					needWorld = worlds.elementAt(i);
+					Collections.shuffle(needWorld.users);
+					System.out.println("Matching Users in World: " + needWorld.getWorldId());//확인용
+				}
+			}
+			if(needWorld == null){
+				System.out.println("Matching failed");//확인용
+			}		
+			
+			
+		}
+
 		
 		
 		@Override

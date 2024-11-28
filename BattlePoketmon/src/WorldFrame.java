@@ -12,12 +12,12 @@ import javax.swing.SwingConstants;
 public class WorldFrame {
 	private JPanel centerPanel;
 	private World worldInfo;
-	private JLabel timerLabel;
+	private JButton readyBtn;
 	JFrame worldFrame;
 	private Player user;
 	private PoketmonFrame poketmonFrame;
+	private JLabel userReadyStateLabel = new JLabel();
 	
-	JLabel userCountLabel;
 	public WorldFrame(World worldInfo, Player user) {
 		this.worldInfo = worldInfo;
 		this.user = user;
@@ -30,20 +30,51 @@ public class WorldFrame {
 		JPanel entirePanel = new JPanel(new BorderLayout());
 		
 		entirePanel.add(createAbovePanel(), BorderLayout.NORTH);
+		
 		entirePanel.add(createCenterPanel(),BorderLayout.CENTER);
 		worldFrame.add(entirePanel);
 		worldFrame.setVisible(true);
 		return worldFrame;		
 	}
 	
+	public JPanel createUserInfoPanel(Player player) {
+		JPanel userInfoPanel = new JPanel(new GridLayout(2,1));
+		JLabel userName = new JLabel(player.getPlayerName());
+		JLabel userReadyState;
+	
+		if(player.getReady()) {
+			userReadyState= new JLabel("준비");
+		}
+		else {
+			userReadyState = new JLabel("준비 X");
+		}
+		if(player.getId() == this.user.getId()) {
+			userReadyStateLabel.setText(userReadyState.getText());
+			userInfoPanel.add(userReadyStateLabel);
+		}
+		else {
+			userInfoPanel.add(userName);
+			userInfoPanel.add(userReadyState);
+		}
+		userInfoPanel.add(userName);
+		
+		return userInfoPanel;
+	}
+	
 	public JPanel createAbovePanel() {
 		JPanel abovePanel = new JPanel(new GridLayout(2,3));
 		JLabel xLabel = new JLabel("");
-		timerLabel = new JLabel("TIMER : " + worldInfo.getTimer() + "          ");
-		timerLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		readyBtn = new JButton("준비");
+		readyBtn.setHorizontalAlignment(SwingConstants.CENTER);
+		readyBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				user.getClient().sendWorldReady(!user.getReady());
+			}
+		});
 		
 		abovePanel.add(xLabel);
-		abovePanel.add(timerLabel);
+		abovePanel.add(readyBtn);
 		//버튼들
 		JButton b_store = new JButton("포켓몬 분양소");
 		JButton b_poketmon = new JButton("내 포켓몬");
@@ -69,11 +100,37 @@ public class WorldFrame {
 	
 	
 	public JPanel createCenterPanel() {
-		centerPanel = new JPanel(new GridLayout(3,2));
+		centerPanel = new JPanel(new GridLayout(0,2));
 		
+		for (Player player : worldInfo.getUsers()) {
+	        centerPanel.add(createUserInfoPanel(player));
+	    }
 		return centerPanel;
 	}
 		
 	
+	public void repaint() {
+		System.out.println("현재 인원수 : "+worldInfo.getUsers().size());
+		if(user.getReady()) {
+			userReadyStateLabel.setText("준비");
+		}
+		else {
+			userReadyStateLabel.setText("준비 X");
+		}
+		userReadyStateLabel.repaint();
+	}
+	public void updateUserList() {
+	    centerPanel.removeAll(); // 기존 사용자 패널 제거
+
+	    // roomInfo의 모든 유저를 표시
+	    
+	    for (Player player : worldInfo.getUsers()) {
+	        centerPanel.add(createUserInfoPanel(player));
+	    }
+
+	    centerPanel.revalidate(); // 패널 레이아웃 갱신
+	    centerPanel.repaint();    // 패널 다시 그리기
+	    repaint();                // 상단 사용자 수 정보 갱신
+	}
 	
 }

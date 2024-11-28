@@ -140,6 +140,23 @@ public class Client{
 							world = ((World)inMsg.object);
 							world.enterWorld(player);
 							break;
+							
+						case ChatMsg.MODE_WORLD_PLAYERREADY:
+							boolean worldReadyState;
+							if(inMsg.size == (long)0) {
+								worldReadyState = false;
+							}
+							else {
+								worldReadyState = true;
+							}
+							System.out.println("서버에서 준비 상태 받는 중 >> player : "+inMsg.player+" , ready 상태 : "+worldReadyState);
+							if(player.getId()==inMsg.player.getId()) {
+								player.setReady(worldReadyState);
+							}
+							player.getWorld().changeReadyState(inMsg.player, worldReadyState);
+							
+							System.out.println(player.getReadyRoom().getCurrentReadyCount() + "레디 상태 받았을 때 변화");
+							break;
 						}
 						
 						
@@ -232,6 +249,19 @@ public class Client{
 		System.out.println("서버에게 준비 상태 알리는 중 >> player : " +this.player +" , ready 상태 : "+state +" , size : " +size);
 		send(new ChatMsg(this.player, ChatMsg.MODE_ROOM_PLAYERREADY, size));
 	}
+	
+	public void sendWorldReady(boolean state) {
+		int size = 0;
+		if(state) {
+			
+			size = 1;
+		}
+		else {
+			size = 0;
+		}
+		System.out.println("서버에게 준비 상태 알리는 중 >> player : " +this.player +" , ready 상태 : "+state +" , world : " +this.player.getWorld());
+		send(new ChatMsg(this.player, ChatMsg.MODE_WORLD_PLAYERREADY, size));
+	}
 	public void sendAttack(Player other, int mode, int attack) {
 		send(new ChatMsg(other, mode, attack));
 	}
@@ -239,6 +269,8 @@ public class Client{
 	public JFrame getHome() {
 		return home;
 	}
+	
+	
 	public static void main(String[] args) {
 		String serverAddress = "localhost";
 		int serverPort = 54321;
