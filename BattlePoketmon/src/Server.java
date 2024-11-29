@@ -325,17 +325,36 @@ public class Server extends JFrame{
 					
 					else if(msg.mode == ChatMsg.MODE_WORLD_PLAYERREADY) {
 						System.out.println(msg.size  + "상태 뭔데");
+						World currentWorld=null;
+						for(int i=0; i < worlds.size(); i++) {
+							if(worlds.elementAt(i).getWorldId()==msg.player.getWorld().getWorldId()) {
+								currentWorld = worlds.elementAt(i);
+							}
+						}
 						if(msg.size==(long)0) {
 							msg.player.setReady(false);
+							currentWorld.decreaseReadyCount();
 						}
 						else if(msg.size==(long)1){
 							msg.player.setReady(true);
-							
+							for(int i=0; i < worlds.size(); i++) {
+								if(msg.player.getId()==users.elementAt(i).client.getId()) {
+									users.elementAt(i).client.setPoketmon(msg.player.getPoketmon());
+									System.out.println("포켓몬 설정 완료");
+								}
+							}
+							currentWorld.increaseReadyCount();
 						}
-						ChatMsg newMsg = new ChatMsg(msg.player, msg.mode, msg.player.getWorld(), msg.size);
+						ChatMsg newMsg = new ChatMsg(msg.player, msg.mode, currentWorld, msg.size);
 					
 						System.out.println("클라이언트에게 월드 준비 상태 받는 중 >> player : "+newMsg.player+"size : "+newMsg.size+"world : "+(World)newMsg.object);
 						broadcastingInSameWorld((World)newMsg.object, newMsg);
+						
+						System.out.println("월드 준비 인원 수 확인 : "+((World)newMsg.object).getReadyCount());
+						if(((World)newMsg.object).getReadyCount() == 0) {
+							matching((World)newMsg.object);
+						}
+
 //						enterBattle(msg.player);
 					}
 					
@@ -460,8 +479,16 @@ public class Server extends JFrame{
 					needWorld = worlds.elementAt(i);
 					Collections.shuffle(needWorld.users);
 					System.out.println("Matching Users in World: " + needWorld.getWorldId());//확인용
+					System.out.println(needWorld.users);
 				}
 			}
+			for (int i = 0; i< needWorld.users.size();i+=2) {
+				ChatMsg msg = new ChatMsg(needWorld.users.elementAt(i), ChatMsg.MODE_MATCHING, needWorld.users.elementAt(i+1));
+				broadcastingInSameWorld(needWorld, msg);
+				msg = new ChatMsg(needWorld.users.elementAt(i+1), ChatMsg.MODE_MATCHING, needWorld.users.elementAt(i));
+				broadcastingInSameWorld(needWorld, msg);
+			}
+			
 			if(needWorld == null){
 				System.out.println("Matching failed");//확인용
 			}		

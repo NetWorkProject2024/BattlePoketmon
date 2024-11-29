@@ -159,6 +159,13 @@ public class Client{
 							System.out.println(player.getReadyRoom().getUsers() + "레디 상태 받았을 때 인원수");
 							
 							break;
+							
+						case ChatMsg.MODE_MATCHING:
+							if(player.getId()==inMsg.player.getId()) {
+								player.setOtherPlayer((Player)inMsg.object);
+								BattleFrame battleFrame = new BattleFrame(player.getOtherPlayer(), player);
+								battleFrame.create();
+							}
 						}
 						
 						

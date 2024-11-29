@@ -16,7 +16,7 @@ public class BattleFrame {
 	private Player me;
 	
 	private JPanel centerPanel;
-	private World worldInfo;
+//	private World worldInfo;
 	
 	
 	public BattleFrame(Player other, Player me) {

@@ -23,6 +23,7 @@ public class Player implements Serializable{
    private int coin=0;
    private ReadyRoom room = new ReadyRoom();
    private World world;
+   private Player other;
    private transient Client client;
    
    public Player(String name, Client client) {
@@ -81,6 +82,12 @@ public class Player implements Serializable{
 	   return this.world;
    }
    
+   public Player getOtherPlayer() {
+	   return this.other;
+   }
+   public void setOtherPlayer(Player other) {
+	   this.other = other;
+   }
    public void setPoketmon(Poketmon poketmon) {
 	   this.poketmon=poketmon;
    }
