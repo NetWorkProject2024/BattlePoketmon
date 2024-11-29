@@ -369,11 +369,21 @@ public class Server extends JFrame{
 						}
 					}
 					else if(msg.mode == ChatMsg.MODE_ATTACK) {
+						Player other=null;
 						for(int i=0; i < users.size(); i++) {
 							if(users.elementAt(i).client.getId()==msg.player.getId()) {
 								users.elementAt(i).send(msg);
+								other = users.elementAt(i).client.getOtherPlayer();
 							}
 						}
+						for(int i=0; i < users.size(); i++) {
+							if(users.elementAt(i).client.getId()==other.getId()) {
+								users.elementAt(i).send(msg);
+							}
+						}
+					}
+					else if(msg.mode == ChatMsg.MODE_ATTACK_RESULT) {
+						
 					}
 					
 					
@@ -436,17 +446,6 @@ public class Server extends JFrame{
 			
 		}
 		
-//		private void playerCopy(Player origin, Player changed) {
-//			changed.setId(origin.getId());
-//			changed.setPlayerName(origin.getPlayerName());
-//			changed.setPoketmonIdx(origin.getPoketmonIdx());
-//			changed.setPoketmon(origin.getPoketmon());
-//			changed.setCoin(origin.getCoin());
-//			changed.setReady(origin.getReady());
-//			ReadyRoom room = new ReadyRoom();
-//			roomCopy(origin.getReadyRoom(), room);
-//			changed.setReadyRoom(room);
-//		}
 		private void roomUpdate(ReadyRoom room) {
 			for(int i=0; i <rooms.size(); i++) {
 				if(rooms.elementAt(i).roomId==room.roomId) {
@@ -511,11 +510,18 @@ public class Server extends JFrame{
 			for (int i = 0; i< world.users.size();i+=2) {
 				ChatMsg msg = new ChatMsg(world.users.elementAt(i), ChatMsg.MODE_MATCHING, world.users.elementAt(i+1), world.users.elementAt(i+1).getPoketmon(), 1);
 				broadcastingInSameWorld(world, msg);
-
-				
+				world.users.elementAt(i).setOtherPlayer(world.users.elementAt(i+1));
 				msg = new ChatMsg(world.users.elementAt(i+1), ChatMsg.MODE_MATCHING, world.users.elementAt(i), world.users.elementAt(i).getPoketmon(), 0);
 				broadcastingInSameWorld(world, msg);
 				System.out.println("매칭 중 포켓몬 소유 확인" + world.users.elementAt(i).getPoketmon()+", " +world.users.elementAt(i+1).getPoketmon());
+				world.users.elementAt(i+1).setOtherPlayer(world.users.elementAt(i));
+			}
+			for(int i=0; i < users.size(); i++) {
+				for(int j=0; j < world.users.size(); j++) {
+					if(world.users.elementAt(j).getId()==users.elementAt(i).getId()) {
+						users.elementAt(i).client.setOtherPlayer(world.users.elementAt(j).getOtherPlayer());
+					}
+				}
 			}
 			
 			if(world == null){

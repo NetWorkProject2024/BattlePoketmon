@@ -14,7 +14,8 @@ import javax.swing.JProgressBar;
 public class BattleFrame {
 	private Player other;
 	private Player me;
-	
+	private JLabel userName;
+	private JProgressBar healthBar;
 	private JPanel centerPanel;
 //	private World worldInfo;
 	
@@ -40,8 +41,8 @@ public class BattleFrame {
 		
 		JPanel userInfoPanel = new JPanel(new GridLayout(0,1));
 		
-		JLabel userName = new JLabel(user.getPlayerName());
-		JProgressBar healthBar = new JProgressBar(0,100);
+		userName = new JLabel(user.getPlayerName());
+		healthBar = new JProgressBar(0,100);
 		healthBar.setValue(user.getPoketmon().getCurrentHP());
 		healthBar.setStringPainted(true);
 		healthBar.setForeground(Color.RED);
@@ -89,7 +90,8 @@ public class BattleFrame {
 			btn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					me.getClient().sendAttack(other, ChatMsg.MODE_ATTACK, currentSkill.getAttack());
+					float attack = (currentSkill.getAttack()/100)*me.getPoketmon().getAttackPower();
+					me.getClient().sendAttack(other, ChatMsg.MODE_ATTACK, (int)attack);
 					me.setTurn(0);
 				}
 			});
@@ -107,6 +109,18 @@ public class BattleFrame {
 		}
 		
 		return skillPanel;
+	}
+	public void repaint(Player user) {
+		if(user.getTurn()) {
+    		userName.setForeground(Color.GREEN);
+    	}
+    	else {
+    		userName.setForeground(Color.GRAY);
+    	}
+		healthBar.setValue(user.getPoketmon().getCurrentHP());
+		
+		userName.repaint();
+		healthBar.repaint();
 	}
 	
 	

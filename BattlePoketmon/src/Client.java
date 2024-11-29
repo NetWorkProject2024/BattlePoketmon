@@ -21,7 +21,7 @@ public class Client{
 	private transient Socket socket;
 
 	private transient ObjectOutputStream out;
-	
+	private BattleFrame battleFrame=null;
 	private transient Thread receiveThread = null;
 	private int userId = 0;
 	private Player player;
@@ -158,12 +158,23 @@ public class Client{
 								System.out.println("포켓몬 소유 확인 : " + player.getPoketmon()+", "+ player.getOtherPlayer().getPoketmon());
 								player.setTurn(inMsg.size);
 								player.getOtherPlayer().setTurn(1-(inMsg.size));
-								BattleFrame battleFrame = new BattleFrame(player.getOtherPlayer(), player);
+								battleFrame = new BattleFrame(player.getOtherPlayer(), player);
 								battleFrame.create();
 							}
+							break;
 						case ChatMsg.MODE_ATTACK:
-							
-							
+							System.out.println("공격받음");
+							int result = player.getPoketmon().getCurrentHP();
+							result = (int)inMsg.size-player.getPoketmon().getDefensePower();
+//							sendResult(player, ChatMsg.MODE_ATTACK_RESULT, result);
+							if(inMsg.player.getId()==player.getId()) {
+								player.getPoketmon().setCurrentHP(result);
+							}
+							else {
+								player.getOtherPlayer().getPoketmon().setCurrentHP(result);
+							}
+							battleFrame.repaint(player);
+							break;
 						}
 						
 						
@@ -272,7 +283,9 @@ public class Client{
 	public void sendAttack(Player other, int mode, int attack) {
 		send(new ChatMsg(other, mode, attack));
 	}
-	
+	public void sendResult(Player player, int mode, int result) {
+		send(new ChatMsg(player, mode, result));
+	}
 	public JFrame getHome() {
 		return home;
 	}
