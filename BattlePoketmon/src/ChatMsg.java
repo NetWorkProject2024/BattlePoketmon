@@ -82,12 +82,13 @@ public class ChatMsg implements Serializable{
 	    this.mode = code;
 	    this.object = object;
 	}
-	public ChatMsg(Player player, int code, Object object, Object object2) {
+	public ChatMsg(Player player, int code, Object object, Object object2, long size) {
 //		this(player, code, null, object, 0);
 		this.player=player;
 	    this.mode = code;
 	    this.object = object;
 	    this.object2 =object2;
+	    this.size = size;
 	}
 	public ChatMsg(Player player, int code, String filename, long size) {
 		this(player, code, filename, null, size);

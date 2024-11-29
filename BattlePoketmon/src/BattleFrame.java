@@ -65,7 +65,12 @@ public class BattleFrame {
 	        userPanel.add(userInfoPanel);	
 		}
     	
-
+    	if(user.getTurn()) {
+    		userName.setForeground(Color.GREEN);
+    	}
+    	else {
+    		userName.setForeground(Color.GRAY);
+    	}
         
 		
 		return userPanel;
@@ -85,6 +90,7 @@ public class BattleFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					me.getClient().sendAttack(other, ChatMsg.MODE_ATTACK, currentSkill.getAttack());
+					me.setTurn(0);
 				}
 			});
 			switch(me.getPoketmon().getSkill()[i].getType().getName()) {

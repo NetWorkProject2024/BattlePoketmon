@@ -92,20 +92,11 @@ public class Client{
 							home.repaint();
 	                        break;						
 						case ChatMsg.MODE_ROOM_ENTER:
-							//System.out.println("방에 누가 들어옴 클라이언트의 roomId : "+player.getReadyRoom().roomId+", 서버가 보낸 roomId : "+inMsg.room.roomId);
-						
-//							if(player.getReadyRoom().roomId == inMsg.room.roomId) {
 								player.setReadyRoom(((ReadyRoom)inMsg.object));
-//								System.out.println("내 room 세팅" + player.getReadyRoom().roomId + "메시지 내 룸: " + ((ReadyRoom)inMsg.object).roomId);
-//								System.out.println("내 room 세팅" + player.getReadyRoom().getUsers() + "메시지 내 룸: " + ((ReadyRoom)inMsg.object).getUsers());
-//								System.out.println("방의 유저 수 : "+player.getReadyRoom().getUsers() + "내 방 유저들");
 								player.getReadyRoom().enterRoom(player);
-//							}
-//							home.repaint();
 							
 							break;
 						case ChatMsg.MODE_ROOM_EXIT:	
-//								player.getReadyRoom().exitRoom(inMsg.player);
 							for(int i=0; i < player.getReadyRoom().getUsers().size(); i++) {
 								if(player.getReadyRoom().getUsers().elementAt(i).getId() == inMsg.player.getId()) {
 									player.getReadyRoom().getUsers().remove(player.getReadyRoom().getUsers().elementAt(i));
@@ -150,7 +141,6 @@ public class Client{
 								worldReadyState = true;
 							}
 							System.out.println("서버에서 준비 상태 받는 중 >> player : "+inMsg.player+" , ready 상태 : "+worldReadyState + "ㅇㅇ" + ((World)inMsg.object).users);
-//							System.out.println("서버에서 준비 상태 받는 중 >> player : "+inMsg.player+" , ready 상태 : "+worldReadyState + "ㅇㅇ" + inMsg.player.getWorld().users);
 							if(player.getId()==inMsg.player.getId()) {
 								player.setReady(worldReadyState);
 							}
@@ -163,15 +153,17 @@ public class Client{
 						case ChatMsg.MODE_MATCHING:
 							if(player.getId()==inMsg.player.getId()) {
 								
-								System.out.println("other Poketmon check: " + ((Player)inMsg.object).getPoketmon());
 								player.setOtherPlayer((Player)inMsg.object);
 								player.getOtherPlayer().setPoketmon((Poketmon)inMsg.object2);
 								System.out.println("포켓몬 소유 확인 : " + player.getPoketmon()+", "+ player.getOtherPlayer().getPoketmon());
-		
-								System.out.println("포켓몬 소유 확인 : " + player.getPoketmon()+", "+ player.getOtherPlayer().getPoketmon());
+								player.setTurn(inMsg.size);
+								player.getOtherPlayer().setTurn(1-(inMsg.size));
 								BattleFrame battleFrame = new BattleFrame(player.getOtherPlayer(), player);
 								battleFrame.create();
 							}
+						case ChatMsg.MODE_ATTACK:
+							
+							
 						}
 						
 						

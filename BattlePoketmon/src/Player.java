@@ -25,6 +25,7 @@ public class Player implements Serializable{
    private World world;
    private Player other;
    private transient Client client;
+   private boolean turn;
    
    public Player(String name, Client client) {
       this.playerName = name;
@@ -96,6 +97,17 @@ public class Player implements Serializable{
    }
    public void setPoketmon(Poketmon poketmon) {
 	   this.poketmon=poketmon;
+   }
+   public void setTurn(long size) {
+	   if(size == (long)0) {
+		   this.turn = false;
+	   }
+	   else {
+		   this.turn = true;
+	   }
+   }
+   public boolean getTurn() {
+	   return this.turn;
    }
    
 }
