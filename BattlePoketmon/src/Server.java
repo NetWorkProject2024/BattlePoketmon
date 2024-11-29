@@ -500,14 +500,7 @@ public class Server extends JFrame{
 		}
 //		/////유저 매칭 필요!!				
 		private void matching(World world) {
-//			for(int i = 0; i<worlds.size();i++) {
-//				if(worlds.elementAt(i).getWorldId()== world.getWorldId()) {
-//					world = worlds.elementAt(i);
-//					Collections.shuffle(world.users);
-//					System.out.println("Matching Users in World: " + world.getWorldId());//확인용
-//					System.out.println(world.users);
-//				}
-//			}
+
 			Collections.shuffle(world.users);
 			System.out.println(world.users);
 			for (int i = 0; i< world.users.size();i+=2) {

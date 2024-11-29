@@ -161,20 +161,12 @@ public class Client{
 							break;
 							
 						case ChatMsg.MODE_MATCHING:
-//							System.out.println("other poketmon check: " + ((Player)inMsg.object).getPoketmon());
-//							System.out.println("msg.player poketmon check: " + inMsg.player.getPoketmon());
 							if(player.getId()==inMsg.player.getId()) {
 								
 								System.out.println("other Poketmon check: " + ((Player)inMsg.object).getPoketmon());
 								player.setOtherPlayer((Player)inMsg.object);
 								player.getOtherPlayer().setPoketmon((Poketmon)inMsg.object2);
 								System.out.println("포켓몬 소유 확인 : " + player.getPoketmon()+", "+ player.getOtherPlayer().getPoketmon());
-
-//								for(int i = 0; i < player.getWorld().users.size();i++) {
-//									if(player.getWorld().users.elementAt(i).getId() == ((Player)inMsg.object).getId()) {
-//										player.setOtherPlayer(player.getWorld().users.elementAt(i));
-//									}
-//								}
 		
 								System.out.println("포켓몬 소유 확인 : " + player.getPoketmon()+", "+ player.getOtherPlayer().getPoketmon());
 								BattleFrame battleFrame = new BattleFrame(player.getOtherPlayer(), player);

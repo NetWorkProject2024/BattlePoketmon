@@ -45,22 +45,27 @@ public class BattleFrame {
 		healthBar.setValue(user.getPoketmon().getCurrentHP());
 		healthBar.setStringPainted(true);
 		healthBar.setForeground(Color.RED);
-		
-		if(isOther) {
-			userInfoPanel.add(userName);
-			userInfoPanel.add(healthBar);
-		}
-		else {
-			userInfoPanel.add(healthBar);
-			userInfoPanel.add(userName);
-		}
-		
+
 		ImageIcon icon = user.getPoketmon().icon;//포켓몬 이미지
         Image scaledImage = icon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
         
         JLabel poketmonImgLabel = new JLabel(new ImageIcon(scaledImage));
-        userPanel.add(userInfoPanel);	
-        userPanel.add(poketmonImgLabel);
+        
+        
+    	if(isOther) {
+			userInfoPanel.add(userName);
+			userInfoPanel.add(healthBar);
+			userPanel.add(userInfoPanel);	
+	        userPanel.add(poketmonImgLabel);
+		}
+		else {
+			userInfoPanel.add(healthBar);
+			userInfoPanel.add(userName);
+	        userPanel.add(poketmonImgLabel);
+	        userPanel.add(userInfoPanel);	
+		}
+    	
+
         
 		
 		return userPanel;
