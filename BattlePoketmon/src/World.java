@@ -8,7 +8,9 @@ public class World implements Serializable{
 	private transient WorldFrame frame;
 	private int readyCount = 0;
 
-
+	public World() {
+		
+	}
 	public World(int maxNum, Vector<Player> users, int worldId) {
 		
 		this.users = new Vector<Player>();

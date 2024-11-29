@@ -161,8 +161,22 @@ public class Client{
 							break;
 							
 						case ChatMsg.MODE_MATCHING:
+//							System.out.println("other poketmon check: " + ((Player)inMsg.object).getPoketmon());
+//							System.out.println("msg.player poketmon check: " + inMsg.player.getPoketmon());
 							if(player.getId()==inMsg.player.getId()) {
+								
+								System.out.println("other Poketmon check: " + ((Player)inMsg.object).getPoketmon());
 								player.setOtherPlayer((Player)inMsg.object);
+								player.getOtherPlayer().setPoketmon((Poketmon)inMsg.object2);
+								System.out.println("포켓몬 소유 확인 : " + player.getPoketmon()+", "+ player.getOtherPlayer().getPoketmon());
+
+//								for(int i = 0; i < player.getWorld().users.size();i++) {
+//									if(player.getWorld().users.elementAt(i).getId() == ((Player)inMsg.object).getId()) {
+//										player.setOtherPlayer(player.getWorld().users.elementAt(i));
+//									}
+//								}
+		
+								System.out.println("포켓몬 소유 확인 : " + player.getPoketmon()+", "+ player.getOtherPlayer().getPoketmon());
 								BattleFrame battleFrame = new BattleFrame(player.getOtherPlayer(), player);
 								battleFrame.create();
 							}
@@ -268,8 +282,8 @@ public class Client{
 		else {
 			size = 0;
 		}
-		System.out.println("월드 입장 중 서버에게 준비 상태 공지>> player : " +this.player +" , ready 상태 : "+state +" , world : " +this.player.getWorld());
-		send(new ChatMsg(this.player, ChatMsg.MODE_WORLD_PLAYERREADY, size));
+		System.out.println("월드 입장 중 서버에게 준비 상태 공지>> player : " +this.player +" , ready 상태 : "+state +" , world : " +this.player.getWorld() + " 내 포켓몬: " + this.player.getPoketmon());
+		send(new ChatMsg(this.player, ChatMsg.MODE_WORLD_PLAYERREADY, this.player.getPoketmon(),size));
 	}
 	public void sendAttack(Player other, int mode, int attack) {
 		send(new ChatMsg(other, mode, attack));

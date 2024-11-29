@@ -65,6 +65,9 @@ public class Player implements Serializable{
    public String getPlayerName() {
         return this.playerName;
     }
+   public void setPlayerName(String newName) {
+       this.playerName = newName;
+   }
    public ReadyRoom getReadyRoom() {
       return room;
    }
@@ -74,6 +77,9 @@ public class Player implements Serializable{
    public int getCoin() {
       return this.coin;
    }
+   public void setCoin(int coin) {
+	   this.coin = coin;
+   }
    public Poketmon getPoketmon() {
 	   return this.poketmon;
    }
@@ -81,7 +87,7 @@ public class Player implements Serializable{
    public World getWorld() {
 	   return this.world;
    }
-   
+
    public Player getOtherPlayer() {
 	   return this.other;
    }

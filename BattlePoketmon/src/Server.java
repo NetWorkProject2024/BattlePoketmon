@@ -337,10 +337,13 @@ public class Server extends JFrame{
 						}
 						else if(msg.size==(long)1){
 							msg.player.setReady(true);
-							for(int i=0; i < worlds.size(); i++) {
+							System.out.println(msg.player.getId() + "준비된 플레이어");
+							for(int i=0; i < users.size(); i++) {
 								if(msg.player.getId()==users.elementAt(i).client.getId()) {
-									users.elementAt(i).client.setPoketmon(msg.player.getPoketmon());
-									System.out.println("포켓몬 설정 완료");
+									
+									users.elementAt(i).client.setPoketmon((Poketmon)msg.object);
+//									playerCopy(msg.player,users.elementAt(i).client);
+									System.out.println("포켓몬 설정 완료" + users.elementAt(i).client.getPoketmon());
 								}
 							}
 							currentWorld.increaseReadyCount();
@@ -351,8 +354,20 @@ public class Server extends JFrame{
 						broadcastingInSameWorld((World)newMsg.object, newMsg);
 						
 						System.out.println("월드 준비 인원 수 확인 : "+((World)newMsg.object).getReadyCount());
-						if(((World)newMsg.object).getReadyCount() == 0) {
-							matching((World)newMsg.object);
+						
+						for(int i=0; i < currentWorld.getUsers().size(); i++) {
+							for(int j=0; j < users.size(); j++) {
+								if(currentWorld.getUsers().elementAt(i).getId() == users.elementAt(j).client.getId()) {
+									
+									currentWorld.getUsers().elementAt(i).setPoketmon(users.elementAt(j).client.getPoketmon());
+//									playerCopy(users.elementAt(j).client, currentWorld.getUsers().elementAt(i));
+									users.elementAt(j).client.setPoketmon(currentWorld.getUsers().elementAt(i).getPoketmon());
+									System.out.println("포켓몬 저장 확인 _ 서버"+users.elementAt(j).client.getPoketmon());
+								}
+							}
+						}
+						if(currentWorld.getReadyCount() == 0) {
+							matching(currentWorld);
 						}
 
 //						enterBattle(msg.player);
@@ -405,6 +420,7 @@ public class Server extends JFrame{
 			changed.setMaxPlayerCount(origin.getMaxPlayerCount());
 			
 		}
+		
 		private void roomCopy(Vector<ReadyRoom> origin, Vector<ReadyRoom> changed) {
 			changed.clear();
 			for(int i=0; i < origin.size(); i++) {
@@ -415,6 +431,17 @@ public class Server extends JFrame{
 			
 		}
 		
+//		private void playerCopy(Player origin, Player changed) {
+//			changed.setId(origin.getId());
+//			changed.setPlayerName(origin.getPlayerName());
+//			changed.setPoketmonIdx(origin.getPoketmonIdx());
+//			changed.setPoketmon(origin.getPoketmon());
+//			changed.setCoin(origin.getCoin());
+//			changed.setReady(origin.getReady());
+//			ReadyRoom room = new ReadyRoom();
+//			roomCopy(origin.getReadyRoom(), room);
+//			changed.setReadyRoom(room);
+//		}
 		private void roomUpdate(ReadyRoom room) {
 			for(int i=0; i <rooms.size(); i++) {
 				if(rooms.elementAt(i).roomId==room.roomId) {
@@ -473,23 +500,27 @@ public class Server extends JFrame{
 		}
 //		/////유저 매칭 필요!!				
 		private void matching(World world) {
-			World needWorld = null;
-			for(int i = 0; i<worlds.size();i++) {
-				if(worlds.elementAt(i).getWorldId()== world.getWorldId()) {
-					needWorld = worlds.elementAt(i);
-					Collections.shuffle(needWorld.users);
-					System.out.println("Matching Users in World: " + needWorld.getWorldId());//확인용
-					System.out.println(needWorld.users);
-				}
-			}
-			for (int i = 0; i< needWorld.users.size();i+=2) {
-				ChatMsg msg = new ChatMsg(needWorld.users.elementAt(i), ChatMsg.MODE_MATCHING, needWorld.users.elementAt(i+1));
-				broadcastingInSameWorld(needWorld, msg);
-				msg = new ChatMsg(needWorld.users.elementAt(i+1), ChatMsg.MODE_MATCHING, needWorld.users.elementAt(i));
-				broadcastingInSameWorld(needWorld, msg);
+//			for(int i = 0; i<worlds.size();i++) {
+//				if(worlds.elementAt(i).getWorldId()== world.getWorldId()) {
+//					world = worlds.elementAt(i);
+//					Collections.shuffle(world.users);
+//					System.out.println("Matching Users in World: " + world.getWorldId());//확인용
+//					System.out.println(world.users);
+//				}
+//			}
+			Collections.shuffle(world.users);
+			System.out.println(world.users);
+			for (int i = 0; i< world.users.size();i+=2) {
+				ChatMsg msg = new ChatMsg(world.users.elementAt(i), ChatMsg.MODE_MATCHING, world.users.elementAt(i+1), world.users.elementAt(i+1).getPoketmon());
+				broadcastingInSameWorld(world, msg);
+
+				
+				msg = new ChatMsg(world.users.elementAt(i+1), ChatMsg.MODE_MATCHING, world.users.elementAt(i), world.users.elementAt(i).getPoketmon());
+				broadcastingInSameWorld(world, msg);
+				System.out.println("매칭 중 포켓몬 소유 확인" + world.users.elementAt(i).getPoketmon()+", " +world.users.elementAt(i+1).getPoketmon());
 			}
 			
-			if(needWorld == null){
+			if(world == null){
 				System.out.println("Matching failed");//확인용
 			}		
 			
