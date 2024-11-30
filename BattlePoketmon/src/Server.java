@@ -372,16 +372,17 @@ public class Server extends JFrame{
 						Player other=null;
 						for(int i=0; i < users.size(); i++) {
 							if(users.elementAt(i).client.getId()==msg.player.getId()) {
+								System.out.println("맞는 사람: " + users.elementAt(i).client.getId());
 								users.elementAt(i).send(msg);
 								other = users.elementAt(i).client.getOtherPlayer();
+								System.out.println("첫번째 반복문");
 							}
 						}
-						for(int i=0; i < users.size(); i++) {
-							if(users.elementAt(i).client.getId()==other.getId()) {
-								users.elementAt(i).send(msg);
-							}
-						}
+						
 					}
+					
+					
+					
 					else if(msg.mode == ChatMsg.MODE_ATTACK_RESULT) {
 						
 					}

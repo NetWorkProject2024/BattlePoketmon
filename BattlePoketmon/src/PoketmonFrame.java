@@ -16,7 +16,7 @@ public class PoketmonFrame {
 	private JLabel nameLabel;
 	private JLabel typeLabel;
 	private JLabel attackLabel;
-	private JLabel defenseLabel;
+//	private JLabel defenseLabel;
 	private Poketmon poketmon;
 	private Player user;
 	private JLabel poketmonImgLabel;
@@ -70,11 +70,11 @@ public class PoketmonFrame {
 		nameLabel = new JLabel("       포켓몬 : " + poketmon.getName());
         typeLabel = new JLabel("       타입 : " + poketmon.getType().getName());
         attackLabel = new JLabel("       공격력 : " + poketmon.getAttackPower());
-        defenseLabel = new JLabel("       방어력 : " + poketmon.getDefensePower());
+//        defenseLabel = new JLabel("       방어력 : " + poketmon.getDefensePower());
         nameLabel.setHorizontalAlignment(SwingConstants.LEFT);
         typeLabel.setHorizontalAlignment(SwingConstants.LEFT);
         attackLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        defenseLabel.setHorizontalAlignment(SwingConstants.LEFT);
+//        defenseLabel.setHorizontalAlignment(SwingConstants.LEFT);
         JLabel xLabel = new JLabel("");
         JLabel xLabel2 = new JLabel("");
         JLabel xLabel3 = new JLabel("");
@@ -89,7 +89,7 @@ public class PoketmonFrame {
         infoPanel.add(attackLabel);
 
         infoPanel.add(xLabel3);
-        infoPanel.add(defenseLabel);
+//        infoPanel.add(defenseLabel);
         infoPanel.add(xLabel4);
         
         

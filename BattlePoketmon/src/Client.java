@@ -163,17 +163,25 @@ public class Client{
 							}
 							break;
 						case ChatMsg.MODE_ATTACK:
-							System.out.println("공격받음");
-							int result = player.getPoketmon().getCurrentHP();
-							result = (int)inMsg.size-player.getPoketmon().getDefensePower();
-//							sendResult(player, ChatMsg.MODE_ATTACK_RESULT, result);
+							System.out.println("공격받음" + inMsg.player.getId());
+							int result = 0;
+							System.out.println(result + "결과값");
+							System.out.println((int)inMsg.size);
+//							System.out.println(player.getPoketmon().getDefensePower());
+							//sendResult(player, ChatMsg.MODE_ATTACK_RESULT, result);
 							if(inMsg.player.getId()==player.getId()) {
+								
+								result = player.getPoketmon().getCurrentHP();
+								result -= (int)(inMsg.size/10);
+								System.out.println("나 " + player.getId());
 								player.getPoketmon().setCurrentHP(result);
+								player.setTurn(1);
+								player.getOtherPlayer().setTurn(0);
+								
+								
 							}
-							else {
-								player.getOtherPlayer().getPoketmon().setCurrentHP(result);
-							}
-							battleFrame.repaint(player);
+							
+							battleFrame.repaint();
 							break;
 						}
 						

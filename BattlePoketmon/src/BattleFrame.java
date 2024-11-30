@@ -14,8 +14,10 @@ import javax.swing.JProgressBar;
 public class BattleFrame {
 	private Player other;
 	private Player me;
-	private JLabel userName;
-	private JProgressBar healthBar;
+	private JLabel userName1=null;
+	private JProgressBar healthBar1=null;
+	private JLabel userName2=null;
+	private JProgressBar healthBar2=null;
 	private JPanel centerPanel;
 //	private World worldInfo;
 	
@@ -26,7 +28,7 @@ public class BattleFrame {
 	}
 	
 	public JFrame create() {
-		JFrame battleFrame = new JFrame("BattlePoketmon_WORLD");
+		JFrame battleFrame = new JFrame(me.getPlayerName()+me.getId());
 		battleFrame.setBounds(200,200,300,600);
 		JPanel entirePanel = new JPanel(new GridLayout(2,0));
 		
@@ -36,50 +38,60 @@ public class BattleFrame {
 		battleFrame.setVisible(true);
 		return battleFrame;		
 	}
-	public JPanel createUserInfoPanel(Player user, boolean isOther) {
-		JPanel userPanel = new JPanel(new GridLayout(1,2));
+	public JPanel createUserInfoPanel() {
+		JPanel userPanel = new JPanel(new GridLayout(2,4));
 		
-		JPanel userInfoPanel = new JPanel(new GridLayout(0,1));
+		JPanel userInfoPanel1 = new JPanel(new GridLayout(0,1));
+		JPanel userInfoPanel2 = new JPanel(new GridLayout(0,1));
 		
-		userName = new JLabel(user.getPlayerName());
-		healthBar = new JProgressBar(0,100);
-		healthBar.setValue(user.getPoketmon().getCurrentHP());
-		healthBar.setStringPainted(true);
-		healthBar.setForeground(Color.RED);
+		userName1 = new JLabel(me.getPlayerName() + me.getId());
+		healthBar1 = new JProgressBar(0,100);
+		healthBar1.setValue(me.getPoketmon().getCurrentHP());
+		healthBar1.setStringPainted(true);
+		healthBar1.setForeground(Color.RED);
 
-		ImageIcon icon = user.getPoketmon().icon;//포켓몬 이미지
-        Image scaledImage = icon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+		userName2 = new JLabel(other.getPlayerName() + other.getId());
+		healthBar2 = new JProgressBar(0,100);
+		healthBar2.setValue(other.getPoketmon().getCurrentHP());
+		healthBar2.setStringPainted(true);
+		healthBar2.setForeground(Color.RED);
+		
+		ImageIcon icon1 = me.getPoketmon().icon;//포켓몬 이미지
+        Image scaledImage1 = icon1.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
         
-        JLabel poketmonImgLabel = new JLabel(new ImageIcon(scaledImage));
+        JLabel poketmonImgLabel1 = new JLabel(new ImageIcon(scaledImage1));
+        
+        ImageIcon icon2 = other.getPoketmon().icon;//포켓몬 이미지
+        Image scaledImage2 = icon2.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+        
+        JLabel poketmonImgLabel2 = new JLabel(new ImageIcon(scaledImage2));
         
         
-    	if(isOther) {
-			userInfoPanel.add(userName);
-			userInfoPanel.add(healthBar);
-			userPanel.add(userInfoPanel);	
-	        userPanel.add(poketmonImgLabel);
-		}
-		else {
-			userInfoPanel.add(healthBar);
-			userInfoPanel.add(userName);
-	        userPanel.add(poketmonImgLabel);
-	        userPanel.add(userInfoPanel);	
-		}
-    	
-    	if(user.getTurn()) {
-    		userName.setForeground(Color.GREEN);
+        userInfoPanel1.add(userName1);
+		userInfoPanel1.add(healthBar1);
+		
+        
+		userInfoPanel2.add(healthBar2);
+		userInfoPanel2.add(userName2);
+        userPanel.add(poketmonImgLabel2);
+        userPanel.add(userInfoPanel2);
+        userPanel.add(userInfoPanel1);	
+        userPanel.add(poketmonImgLabel1);
+    	if(me.getTurn()) {
+    		userName1.setForeground(Color.GREEN);
+    		userName2.setForeground(Color.GRAY);
     	}
     	else {
-    		userName.setForeground(Color.GRAY);
+    		userName1.setForeground(Color.GRAY);
+    		userName2.setForeground(Color.GREEN);
     	}
         
 		
 		return userPanel;
 	}
 	public JPanel createAbovePanel() {
-		JPanel abovePanel = new JPanel(new GridLayout(2,0));
-		abovePanel.add(createUserInfoPanel(other, true));
-		abovePanel.add(createUserInfoPanel(me, false));
+		JPanel abovePanel = new JPanel(new GridLayout(1,0));
+		abovePanel.add(createUserInfoPanel());
 		return abovePanel;
 	}
 	public JPanel createSkillPanel() {
@@ -90,9 +102,18 @@ public class BattleFrame {
 			btn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					float attack = (currentSkill.getAttack()/100)*me.getPoketmon().getAttackPower();
+					float attack = (float)(((currentSkill.getAttack()))*me.getPoketmon().getAttackPower()/100.0);
 					me.getClient().sendAttack(other, ChatMsg.MODE_ATTACK, (int)attack);
+					System.out.println("attack 값: " + (int)attack);
+					System.out.println("공격버튼 누른 사람: " + me.getId());
+					
+					int result = other.getPoketmon().getCurrentHP();
+					result -= (int)(attack/10);
+					System.out.println("상대 " + other.getId());
+					other.getPoketmon().setCurrentHP(result);								
 					me.setTurn(0);
+					other.setTurn(1);
+					repaint();
 				}
 			});
 			switch(me.getPoketmon().getSkill()[i].getType().getName()) {
@@ -110,17 +131,25 @@ public class BattleFrame {
 		
 		return skillPanel;
 	}
-	public void repaint(Player user) {
-		if(user.getTurn()) {
-    		userName.setForeground(Color.GREEN);
+	public void repaint() {
+		//System.out.println(user.getTurn() +"ID: "+ user.getId());
+		if(me.getTurn()) {
+    		userName1.setForeground(Color.GREEN);
+    		userName2.setForeground(Color.GRAY);
     	}
     	else {
-    		userName.setForeground(Color.GRAY);
+    		userName1.setForeground(Color.GRAY);
+    		userName2.setForeground(Color.GREEN);
     	}
-		healthBar.setValue(user.getPoketmon().getCurrentHP());
+
+		healthBar1.setValue(me.getPoketmon().getCurrentHP());
+		healthBar2.setValue(other.getPoketmon().getCurrentHP());
 		
-		userName.repaint();
-		healthBar.repaint();
+		userName1.repaint();
+		healthBar1.repaint();
+		userName2.repaint();
+		healthBar2.repaint();
+		
 	}
 	
 	
