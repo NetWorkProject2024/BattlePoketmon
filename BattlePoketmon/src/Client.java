@@ -182,6 +182,7 @@ public class Client{
 							}
 							
 							battleFrame.repaint();
+							battleFrame.btnEnabled(true);
 							break;
 						}
 						

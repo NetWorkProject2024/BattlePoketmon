@@ -19,6 +19,7 @@ public class BattleFrame {
 	private JLabel userName2=null;
 	private JProgressBar healthBar2=null;
 	private JPanel centerPanel;
+	private JButton[] btnVec = new JButton[4];
 //	private World worldInfo;
 	
 	
@@ -36,6 +37,7 @@ public class BattleFrame {
 		entirePanel.add(createSkillPanel());
 		battleFrame.add(entirePanel);
 		battleFrame.setVisible(true);
+		
 		return battleFrame;		
 	}
 	public JPanel createUserInfoPanel() {
@@ -73,25 +75,21 @@ public class BattleFrame {
         
 		userInfoPanel2.add(healthBar2);
 		userInfoPanel2.add(userName2);
+		
+		userPanel.add(userInfoPanel2);
         userPanel.add(poketmonImgLabel2);
-        userPanel.add(userInfoPanel2);
-        userPanel.add(userInfoPanel1);	
-        userPanel.add(poketmonImgLabel1);
-    	if(me.getTurn()) {
-    		userName1.setForeground(Color.GREEN);
-    		userName2.setForeground(Color.GRAY);
-    	}
-    	else {
-    		userName1.setForeground(Color.GRAY);
-    		userName2.setForeground(Color.GREEN);
-    	}
+       
         
+        
+        userPanel.add(poketmonImgLabel1);
+        userPanel.add(userInfoPanel1);	
 		
 		return userPanel;
 	}
 	public JPanel createAbovePanel() {
 		JPanel abovePanel = new JPanel(new GridLayout(1,0));
 		abovePanel.add(createUserInfoPanel());
+
 		return abovePanel;
 	}
 	public JPanel createSkillPanel() {
@@ -114,6 +112,7 @@ public class BattleFrame {
 					me.setTurn(0);
 					other.setTurn(1);
 					repaint();
+					btnEnabled(false);
 				}
 			});
 			switch(me.getPoketmon().getSkill()[i].getType().getName()) {
@@ -127,8 +126,18 @@ public class BattleFrame {
 				btn.setForeground(Color.GRAY);break;				
 			}
 			skillPanel.add(btn);
+			btnVec[i]=btn;
 		}
-		
+    	if(me.getTurn()) {
+    		userName1.setForeground(Color.GREEN);
+    		userName2.setForeground(Color.GRAY);
+    		btnEnabled(true);
+    	}
+    	else {
+    		userName1.setForeground(Color.GRAY);
+    		userName2.setForeground(Color.GREEN);
+    		btnEnabled(false);
+    	}
 		return skillPanel;
 	}
 	public void repaint() {
@@ -151,7 +160,11 @@ public class BattleFrame {
 		healthBar2.repaint();
 		
 	}
-	
+	public void btnEnabled(boolean state) {
+		for(int i=0; i < 4; i++) {
+			btnVec[i].setEnabled(state);
+		}
+	}
 	
 	
 
