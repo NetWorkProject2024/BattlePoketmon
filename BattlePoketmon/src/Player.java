@@ -26,6 +26,8 @@ public class Player implements Serializable{
    private Player other;
    private transient Client client;
    private boolean turn;
+   private int winCount = 0;
+	private int loseCount = 0;
    
    public Player(String name, Client client) {
       this.playerName = name;
@@ -109,6 +111,19 @@ public class Player implements Serializable{
    public boolean getTurn() {
 	   return this.turn;
    }
+   public void setWinCount() {
+	   this.winCount++;
+   }
+   public int getWinCount() {
+	   return this.winCount;
+   }
+   public void setLoseCount() {
+	   this.loseCount++;
+   }
+   public int getLoseCount() {
+	   return this.loseCount;
+   }
+   
    
 }
 

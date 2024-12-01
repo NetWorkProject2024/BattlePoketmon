@@ -373,24 +373,37 @@ public class Server extends JFrame{
 						for(int i=0; i < users.size(); i++) {
 							if(users.elementAt(i).client.getId()==msg.player.getId()) {
 								System.out.println("맞는 사람: " + users.elementAt(i).client.getId());
-								users.elementAt(i).send(msg);
+								users.elementAt(i).send(msg);//맞은 사람이 떄린 사람에게 보낸다.
 								other = users.elementAt(i).client.getOtherPlayer();
-								System.out.println("첫번째 반복문");
 							}
 						}
 						
 					}
-					
-					
-					
-					else if(msg.mode == ChatMsg.MODE_ATTACK_RESULT) {
+					else if(msg.mode == ChatMsg.MODE_BATTLE_END) {//배틀 끝났을 시
+						Player other = (Player)(msg.object);
+						printDisplay(msg.player.getId() + "가 졌다. " + other.getId() + "와의 배틀에서");
+						for(int i=0; i < users.size(); i++) {
+							if(users.elementAt(i).client.getId()==msg.player.getId()) {
+								System.out.println("진 사람: " + users.elementAt(i).client.getId());
+								users.elementAt(i).client.setLoseCount();		
+								printDisplay(users.elementAt(i).client.getLoseCount() + "<-loseCount");
+								users.elementAt(i).send(msg);
+							}
+							if(users.elementAt(i).client.getId()==other.getId()) {
+								System.out.println("이긴 사람: " + users.elementAt(i).client.getId());
+								users.elementAt(i).client.setWinCount();//이긴 사람 승수 올리기	
+								printDisplay(users.elementAt(i).client.getWinCount() + "<-winCount");
+								users.elementAt(i).send(msg);
+							}
+							
+						}
 						
-					}
-					
-					
+						
+					}		
 					
 				}
-				users.removeElement(this);
+				
+				users.removeElement(this);//퇴장시 처리
 				printDisplay(uid + "퇴장. 현재 참가자 수: " + users.size());				
 			}catch(IOException e) {
 				users.removeElement(this);

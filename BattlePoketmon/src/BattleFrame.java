@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-public class BattleFrame {
+public class BattleFrame extends JFrame{
 	private Player other;
 	private Player me;
 	private JLabel userName1=null;
@@ -22,17 +22,18 @@ public class BattleFrame {
 	private JButton[] btnVec = new JButton[4];
 //	private World worldInfo;
 	
+	 private JFrame battleFrame;
 	
 	public BattleFrame(Player other, Player me) {
 		this.other = other;
 		this.me = me;
+		battleFrame = new JFrame(me.getPlayerName()+me.getId());
+		battleFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		battleFrame.setBounds(200,200,300,600);
 	}
 	
 	public JFrame create() {
-		JFrame battleFrame = new JFrame(me.getPlayerName()+me.getId());
-		battleFrame.setBounds(200,200,300,600);
-		JPanel entirePanel = new JPanel(new GridLayout(2,0));
-		
+		JPanel entirePanel = new JPanel(new GridLayout(2,0));		
 		entirePanel.add(createAbovePanel());
 		entirePanel.add(createSkillPanel());
 		battleFrame.add(entirePanel);
@@ -164,6 +165,11 @@ public class BattleFrame {
 		for(int i=0; i < 4; i++) {
 			btnVec[i].setEnabled(state);
 		}
+	}
+	
+	public void battleFrameDispose() {
+		System.out.println("BattleFrame dispose");
+		battleFrame.dispose();
 	}
 	
 	

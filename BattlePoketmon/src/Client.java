@@ -11,6 +11,8 @@ import java.net.SocketAddress;
 import java.net.UnknownHostException;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 public class Client{
 	private transient Home home = null;
@@ -27,6 +29,7 @@ public class Client{
 	private Player player;
 	private ReadyRoom room = null;
 	private World world = null;
+	
 	
 	public Client(String name, String serverAddress, int serverPort) {
 //		this.id = userId++;
@@ -177,13 +180,30 @@ public class Client{
 								player.getPoketmon().setCurrentHP(result);
 								player.setTurn(1);
 								player.getOtherPlayer().setTurn(0);
-								
-								
+
+								if(result<=0) {
+									sendBattleResult(player, ChatMsg.MODE_BATTLE_END, player.getOtherPlayer());//진 사람이 보낸다
+									System.out.println(player.getId() + "가 졌다" + player.getOtherPlayer().getId() + "와의 배틀에서");
+								}
 							}
 							
 							battleFrame.repaint();
 							battleFrame.btnEnabled(true);
+							
+							
 							break;
+							
+						case ChatMsg.MODE_BATTLE_END:
+							Player winner = (Player)(inMsg.object);			
+							showMessage(
+					            "배틀 종료",
+					            "배틀 결과\n승자: " + winner.getId()  + "\n패자: " +inMsg.player.getId()					            
+					        );
+							if (battleFrame != null) {
+					            battleFrame.battleFrameDispose(); // 배틀 종료 시 배틀 프레임 닫기
+					            battleFrame = null;
+					        }
+							break;							
 						}
 						
 						
@@ -292,12 +312,20 @@ public class Client{
 	public void sendAttack(Player other, int mode, int attack) {
 		send(new ChatMsg(other, mode, attack));
 	}
-	public void sendResult(Player player, int mode, int result) {
-		send(new ChatMsg(player, mode, result));
-	}
 	public JFrame getHome() {
 		return home;
 	}
+	public void sendBattleResult(Player loser, int mode, Player winner) {//배틀 승부 결과 보내기
+		send(new ChatMsg(loser, mode, winner));
+	}
+	
+	
+	private void showMessage(String title, String message) {
+	    JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
+	    
+	}
+	
+	
 	
 	
 	public static void main(String[] args) {
