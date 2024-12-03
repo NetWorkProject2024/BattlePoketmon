@@ -111,17 +111,23 @@ public class Player implements Serializable{
    public boolean getTurn() {
 	   return this.turn;
    }
-   public void setWinCount() {
-	   this.winCount++;
+   public void setWinCount(int winCount) {
+	   this.winCount = winCount;
    }
    public int getWinCount() {
 	   return this.winCount;
    }
-   public void setLoseCount() {
-	   this.loseCount++;
+   public void setLoseCount(int loseCount) {
+	   this.loseCount=loseCount;
    }
    public int getLoseCount() {
 	   return this.loseCount;
+   }
+   public void increaseWinCount() {
+	   this.winCount++;
+   }
+   public void increaseLoseCount() {
+	   this.loseCount++;
    }
    
    

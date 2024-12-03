@@ -17,10 +17,13 @@ public class WorldFrame {
 	private Player user;
 	private PoketmonFrame poketmonFrame;
 	private JLabel userReadyStateLabel = new JLabel();
-	
+	private JLabel myWinCountLabel = new JLabel();
+	private JLabel myLoseCountLabel = new JLabel();
+	private JLabel myCoinLabel = new JLabel();
 	public WorldFrame(World worldInfo, Player user) {
 		this.worldInfo = worldInfo;
 		this.user = user;
+		this.myCoinLabel.setText("코인 : "+user.getCoin());
 		poketmonFrame = new PoketmonFrame();
 	}
 	
@@ -40,9 +43,10 @@ public class WorldFrame {
 	
 	public JPanel createUserInfoPanel(Player player) {
 		JPanel userInfoPanel = new JPanel(new GridLayout(2,1));
-		JLabel userName = new JLabel(player.getPlayerName());
+		JLabel userName = new JLabel(player.getPlayerName()+player.getId());
 		JLabel userReadyState;
-	
+		JLabel userWinCountLabel = new JLabel("승 : "+player.getWinCount());
+		JLabel userLoseCountLabel = new JLabel("패 : "+player.getLoseCount());
 		if(player.getReady()) {
 			userReadyState= new JLabel("준비");
 		}
@@ -56,14 +60,16 @@ public class WorldFrame {
 		else {
 			userInfoPanel.add(userName);
 			userInfoPanel.add(userReadyState);
+			
 		}
 		userInfoPanel.add(userName);
-		
+		userInfoPanel.add(userWinCountLabel);
+		userInfoPanel.add(userLoseCountLabel);
 		return userInfoPanel;
 	}
 	
 	public JPanel createAbovePanel() {
-		JPanel abovePanel = new JPanel(new GridLayout(2,3));
+		JPanel abovePanel = new JPanel(new GridLayout(3,2));
 		JLabel xLabel = new JLabel("");
 		readyBtn = new JButton("준비");
 		readyBtn.setHorizontalAlignment(SwingConstants.CENTER);
@@ -94,6 +100,7 @@ public class WorldFrame {
 		});
 		abovePanel.add(b_store);
 		abovePanel.add(b_poketmon);
+		abovePanel.add(myCoinLabel);
 		return abovePanel;
 	}
 	
@@ -117,6 +124,9 @@ public class WorldFrame {
 		else {
 			userReadyStateLabel.setText("준비 X");
 		}
+		myWinCountLabel.setText("승 : "+user.getWinCount());
+		myLoseCountLabel.setText("패 : "+user.getLoseCount());
+		myCoinLabel.setText("코인 : "+user.getCoin());
 		userReadyStateLabel.repaint();
 	}
 	public void updateUserList() {

@@ -30,11 +30,12 @@ public class PoketmonStoreFrame {
          @Override
          public void actionPerformed(ActionEvent e) {
             int money = user.getCoin();
-//            if(money >= price) {
+            if(money >= price) {
                user.addCoin(-price);
                Poketmon newPoketmon = randomPickPoketmon();
                poketmonFrame.create_Store(newPoketmon, user);
-//            }
+               user.getWorld().getWorldFrame().repaint();
+            }
          }
       });
       frame.setBounds(300, 300, 150, 150);

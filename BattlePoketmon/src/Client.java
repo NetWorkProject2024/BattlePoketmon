@@ -150,7 +150,6 @@ public class Client{
 							player.getWorld().changeReadyState(inMsg.player, worldReadyState);
 							
 							System.out.println(player.getReadyRoom().getUsers() + "레디 상태 받았을 때 인원수");
-							
 							break;
 							
 						case ChatMsg.MODE_MATCHING:
@@ -203,7 +202,37 @@ public class Client{
 					            battleFrame.battleFrameDispose(); // 배틀 종료 시 배틀 프레임 닫기
 					            battleFrame = null;
 					        }
-							break;							
+							player.getPoketmon().setCurrentHP(100);
+							player.getOtherPlayer().getPoketmon().setCurrentHP(100);
+							System.out.println("포켓몬 체력 초기화 >> 내 포켓몬 : "+player.getPoketmon().getCurrentHP()+" 상대방 포켓몬 : "+player.getOtherPlayer().getPoketmon().getCurrentHP());
+							
+							if(player.getId() == winner.getId()) {
+								player.increaseWinCount();
+							}
+							else {
+								player.increaseLoseCount();
+							}
+							sendWorldReady(false);
+							
+							break;
+						case ChatMsg.MODE_BATTLE_RESULT:
+							boolean isWin = false;
+							if(inMsg.size == (long)0) {
+								isWin = false;
+								if(inMsg.player.getId()==player.getId()) {
+									player.addCoin(100);
+								}
+							}
+							else if(inMsg.size == (long)1){
+								isWin = true;
+								if(inMsg.player.getId()==player.getId()) {
+									player.addCoin(200);
+								}
+							}
+							player.getWorld().changeWinLoseCount(inMsg.player, isWin);
+							
+							
+							break;
 						}
 						
 						

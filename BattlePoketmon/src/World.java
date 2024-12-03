@@ -57,7 +57,21 @@ public class World implements Serializable{
 		this.frame.repaint();
 		this.frame.updateUserList();
 	}
-	
+	public void changeWinLoseCount(Player changedUser, boolean state) {
+		for(int i=0; i < this.users.size(); i++) {
+			if(this.users.elementAt(i).getId()==changedUser.getId()) {
+				if(state) {
+					this.users.elementAt(i).increaseWinCount();
+				}
+				else {
+					this.users.elementAt(i).increaseLoseCount();
+				}
+			}
+			
+		}
+		this.frame.repaint();
+		this.frame.updateUserList();
+	}
 
 	public WorldFrame getWorldFrame() {
 		return this.frame;

@@ -385,15 +385,17 @@ public class Server extends JFrame{
 						for(int i=0; i < users.size(); i++) {
 							if(users.elementAt(i).client.getId()==msg.player.getId()) {
 								System.out.println("진 사람: " + users.elementAt(i).client.getId());
-								users.elementAt(i).client.setLoseCount();		
+								users.elementAt(i).client.increaseLoseCount();		
 								printDisplay(users.elementAt(i).client.getLoseCount() + "<-loseCount");
 								users.elementAt(i).send(msg);
+								broadcastingInSameWorld(users.elementAt(i).client.getWorld(), new ChatMsg(users.elementAt(i).client, ChatMsg.MODE_BATTLE_RESULT, (long)0));
 							}
 							if(users.elementAt(i).client.getId()==other.getId()) {
 								System.out.println("이긴 사람: " + users.elementAt(i).client.getId());
-								users.elementAt(i).client.setWinCount();//이긴 사람 승수 올리기	
+								users.elementAt(i).client.increaseWinCount();//이긴 사람 승수 올리기	
 								printDisplay(users.elementAt(i).client.getWinCount() + "<-winCount");
 								users.elementAt(i).send(msg);
+								broadcastingInSameWorld(users.elementAt(i).client.getWorld(), new ChatMsg(users.elementAt(i).client, ChatMsg.MODE_BATTLE_RESULT, (long)1));
 							}
 							
 						}
