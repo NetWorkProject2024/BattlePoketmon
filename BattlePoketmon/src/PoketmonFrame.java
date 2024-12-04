@@ -57,7 +57,7 @@ public class PoketmonFrame {
 	public JPanel createCenterPanel() {
 		centerPanel = new JPanel(new GridLayout(0,1));
 		ImageIcon icon = poketmon.icon;//포켓몬 이미지
-        Image scaledImage = icon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+        Image scaledImage = icon.getImage().getScaledInstance(2000, 2000, Image.SCALE_SMOOTH);
         poketmonImgLabel = new JLabel(new ImageIcon(scaledImage));
         	
 		centerPanel.add(poketmonImgLabel);

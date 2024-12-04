@@ -20,7 +20,7 @@ public class Player implements Serializable{
    private int poketmonIdx = 0;
    private Poketmon poketmon = null;
    private boolean ready = false;
-   private int coin=0;
+   private int coin=100;
    private ReadyRoom room = new ReadyRoom();
    private World world;
    private Player other;

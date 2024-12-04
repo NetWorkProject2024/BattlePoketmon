@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,6 +16,8 @@ public class SelectStartingPoketmonFrame {
 	private Player player;
 	private JFrame frame;
 	private ReadyRoomFrame readyRoomFrame;
+	
+	private JLabel poketmonImgLabel;
 	public SelectStartingPoketmonFrame(Player player, ReadyRoomFrame readyRoomFrame) {
 		this.player = player;
 		this.readyRoomFrame = readyRoomFrame;
@@ -40,6 +43,7 @@ public class SelectStartingPoketmonFrame {
 		JPanel panel = new JPanel(new GridLayout(1,3));
 		
 		for(int i=0; i < 3; i++) {
+			
 			checkBox[i]= new PocketmonCheckBox(i);
 			panel.add(createPocketmonInfoPanel(Poketmon.PoketmonArray.poketmons.elementAt(i), checkBox[i]));
 		}
@@ -78,9 +82,12 @@ public class SelectStartingPoketmonFrame {
 		//ImageIcon img = poketmon.getImage();
 		JLabel nameLabel = new JLabel(poketmon.getName());
 		
+		ImageIcon icon = poketmon.icon;//포켓몬 이미지
+        Image scaledImage = icon.getImage().getScaledInstance(3000, 3000, Image.SCALE_SMOOTH);
+        poketmonImgLabel = new JLabel(new ImageIcon(scaledImage));
+        
+        panel.add(poketmonImgLabel);
 		
-		
-		//panel.add(img);
 		panel.add(nameLabel);
 		panel.add(checkBox.checkBox);
 		
