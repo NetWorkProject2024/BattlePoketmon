@@ -333,7 +333,7 @@ public class Server extends JFrame{
 						}
 						if(msg.size==(long)0) {
 							msg.player.setReady(false);
-							currentWorld.decreaseReadyCount();
+//							currentWorld.decreaseReadyCount();
 						}
 						else if(msg.size==(long)1){
 							msg.player.setReady(true);
@@ -345,26 +345,30 @@ public class Server extends JFrame{
 									System.out.println("포켓몬 설정 완료" + users.elementAt(i).client.getPoketmon());
 								}
 							}
-							currentWorld.increaseReadyCount();
+//							currentWorld.increaseReadyCount();
 						}
 						ChatMsg newMsg = new ChatMsg(msg.player, msg.mode, currentWorld, msg.size);
 					
 						System.out.println("클라이언트에게 월드 준비 상태 받는 중 >> player : "+newMsg.player+"size : "+newMsg.size+"world : "+(World)newMsg.object);
 						broadcastingInSameWorld((World)newMsg.object, newMsg);
 						
-						System.out.println("월드 준비 인원 수 확인 : "+((World)newMsg.object).getReadyCount());
-						
+						int readyCount = 0;
 						for(int i=0; i < currentWorld.getUsers().size(); i++) {
 							for(int j=0; j < users.size(); j++) {
 								if(currentWorld.getUsers().elementAt(i).getId() == users.elementAt(j).client.getId()) {
-									
+
+									if(currentWorld.getUsers().elementAt(i).getReady()) {
+										readyCount++;
+									}
 									currentWorld.getUsers().elementAt(i).setPoketmon(users.elementAt(j).client.getPoketmon());
 									users.elementAt(j).client.setPoketmon(currentWorld.getUsers().elementAt(i).getPoketmon());
 									System.out.println("포켓몬 저장 확인 _ 서버"+users.elementAt(j).client.getPoketmon());
 								}
 							}
 						}
-						if(currentWorld.getReadyCount() == 0) {
+						currentWorld.setReadyCount(readyCount);
+						System.out.println("월드 준비 인원 수 확인 : "+((World)newMsg.object).getReadyCount());
+						if(currentWorld.getReadyCount() == currentWorld.getMaxNum()) {
 							matching(currentWorld);
 						}
 					}
@@ -390,16 +394,21 @@ public class Server extends JFrame{
 								users.elementAt(i).send(msg);
 								broadcastingInSameWorld(users.elementAt(i).client.getWorld(), new ChatMsg(users.elementAt(i).client, ChatMsg.MODE_BATTLE_RESULT, (long)0));
 							}
-							if(users.elementAt(i).client.getId()==other.getId()) {
+							if(users.elementAt(i).client.getId()==other.getId()) {//이긴 사람
 								System.out.println("이긴 사람: " + users.elementAt(i).client.getId());
 								users.elementAt(i).client.increaseWinCount();//이긴 사람 승수 올리기	
 								printDisplay(users.elementAt(i).client.getWinCount() + "<-winCount");
 								users.elementAt(i).send(msg);
-								broadcastingInSameWorld(users.elementAt(i).client.getWorld(), new ChatMsg(users.elementAt(i).client, ChatMsg.MODE_BATTLE_RESULT, (long)1));
+								broadcastingInSameWorld(users.elementAt(i).client.getWorld(), new ChatMsg(users.elementAt(i).client, ChatMsg.MODE_BATTLE_RESULT, (long)1));//프레임에서 배틀 결과 업데이트
+								
+								if(users.elementAt(i).client.getWinCount()==1) {
+									broadcastingInSameWorld(users.elementAt(i).client.getWorld(), new ChatMsg(users.elementAt(i).client, ChatMsg.MODE_WORLD_END, users.elementAt(i).client.getWorld()));//월드 END									
+								}
 							}
 							
-						}
-						
+							
+							
+						}		
 						
 					}		
 					

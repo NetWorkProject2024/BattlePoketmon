@@ -20,6 +20,8 @@ public class WorldFrame {
 	private JLabel myWinCountLabel = new JLabel();
 	private JLabel myLoseCountLabel = new JLabel();
 	private JLabel myCoinLabel = new JLabel();
+	
+	
 	public WorldFrame(World worldInfo, Player user) {
 		this.worldInfo = worldInfo;
 		this.user = user;
@@ -141,6 +143,11 @@ public class WorldFrame {
 	    centerPanel.revalidate(); // 패널 레이아웃 갱신
 	    centerPanel.repaint();    // 패널 다시 그리기
 	    repaint();                // 상단 사용자 수 정보 갱신
+	}
+	
+	public void worldFrameDispose() {
+		System.out.println("WorldFrame dispose");
+		worldFrame.dispose();
 	}
 	
 }

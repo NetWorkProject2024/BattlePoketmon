@@ -79,11 +79,14 @@ public class World implements Serializable{
 	public int getWorldId() {
 		return this.id;
 	}
-	public void increaseReadyCount() {
-		this.readyCount++;
-	}
-	public void decreaseReadyCount() {
-		this.readyCount--;
+//	public void increaseReadyCount() {
+//		this.readyCount++;
+//	}
+//	public void decreaseReadyCount() {
+//		this.readyCount--;
+//	}
+	public void setReadyCount(int count) {
+		this.readyCount=count;
 	}
 	public int getReadyCount() {
 		return this.readyCount;

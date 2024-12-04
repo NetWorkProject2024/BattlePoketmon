@@ -21,6 +21,8 @@ public class ReadyRoomFrame{
 	private JFrame homeFrame;
 	private Player user;
 	private ReadyRoomFrame readyRoomFrame=this;
+	
+	
 	public ReadyRoomFrame(ReadyRoom roomInfo) {
 		this.roomInfo=roomInfo;
 	}

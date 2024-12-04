@@ -95,8 +95,20 @@ public class Client{
 							home.repaint();
 	                        break;						
 						case ChatMsg.MODE_ROOM_ENTER:
-								player.setReadyRoom(((ReadyRoom)inMsg.object));
-								player.getReadyRoom().enterRoom(player);
+								
+								if(player.getId() == inMsg.player.getId()) {
+									player.setReadyRoom(((ReadyRoom)inMsg.object));
+									player.getReadyRoom().enterRoom(player);
+								}
+								else {
+									player.getReadyRoom().getUsers().clear();
+									for(int i=0; i < ((ReadyRoom)inMsg.object).getUsers().size(); i++) {
+										player.getReadyRoom().addUser(((ReadyRoom)inMsg.object).getUsers().elementAt(i));
+									}
+									
+									player.getReadyRoom().getRoomFrame().repaint();
+									player.getReadyRoom().getRoomFrame().updateUserList();
+								}
 							
 							break;
 						case ChatMsg.MODE_ROOM_EXIT:	
@@ -230,9 +242,24 @@ public class Client{
 								}
 							}
 							player.getWorld().changeWinLoseCount(inMsg.player, isWin);
-							
-							
+
 							break;
+						case ChatMsg.MODE_WORLD_END:
+							System.out.println("월드 엔딩");
+							player.getWorld().getWorldFrame().worldFrameDispose();
+							
+							//
+							battleFrame.battleFrameDispose();
+							
+							ResultFrame resultFrame = new ResultFrame(player.getWorld().users);
+							resultFrame.create();
+							//엔딩 프레임 얻기
+							
+							//정보 초기화
+							player.setCoin(100);
+							player.setLoseCount(0);
+							player.setWinCount(0);
+							sendPlayerReady(false);
 						}
 						
 						
