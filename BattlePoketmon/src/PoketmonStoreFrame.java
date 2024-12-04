@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,7 +39,8 @@ public class PoketmonStoreFrame {
             }
          }
       });
-      frame.setBounds(300, 300, 150, 150);
+      b_buy.setForeground(Color.GREEN);
+      frame.setBounds(300, 300, 200, 200);
       p.add(goodsName);
       p.add(goodsInfo);
       p.add(goodsPriceInfo);

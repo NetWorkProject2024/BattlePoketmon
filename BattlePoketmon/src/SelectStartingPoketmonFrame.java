@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -24,7 +25,7 @@ public class SelectStartingPoketmonFrame {
 	}
 	public JFrame create() {
 		frame = new JFrame("스타팅 포켓몬 고르기");
-		frame.setBounds(50,50,200,200);
+		frame.setBounds(200,200,600,600);
 		JPanel panel = new JPanel(new BorderLayout());
 		PocketmonCheckBox[] checkBox = new PocketmonCheckBox[3];
 		ButtonGroup group = new ButtonGroup();
@@ -73,6 +74,8 @@ public class SelectStartingPoketmonFrame {
 				frame.dispose();
 			}
 		});
+		b_save.setForeground(Color.GREEN);
+		b_cancle.setForeground(Color.RED);
 		panel.add(b_save);
 		panel.add(b_cancle);
 		return panel;

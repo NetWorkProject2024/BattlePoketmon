@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -56,6 +57,12 @@ public class ReadyRoomFrame{
 		JLabel roomNameSign = new JLabel("방 이름");
 		JLabel roomNameLabel = new JLabel(roomInfo.getRoomName());
 		userCountLabel = new JLabel(roomInfo.getUsers().size()+"/"+roomInfo.getMaxPlayerCount());
+		if(roomInfo.getUsers().size() == roomInfo.getMaxPlayerCount()) {
+			userCountLabel.setForeground(Color.GREEN);
+		}
+		else {
+			userCountLabel.setForeground(Color.RED);
+		}
 		abovePanel.add(roomNameSign);
 		abovePanel.add(roomNameLabel);
 		abovePanel.add(userCountLabel);
@@ -119,9 +126,11 @@ public class ReadyRoomFrame{
 	
 		if(readyState) {
 			userReadyState= new JLabel("준비");
+			userReadyState.setForeground(Color.GREEN);
 		}
 		else {
 			userReadyState = new JLabel("준비 X");
+			userReadyState.setForeground(Color.RED);
 		}
 		if(id == this.user.getId()) {
 			userPoketmonLabel.setText(Poketmon.PoketmonArray.poketmons.elementAt(user.getPoketmonIdx()).getName());
@@ -159,11 +168,19 @@ public class ReadyRoomFrame{
 		System.out.println("현재 인원수 : "+roomInfo.getUsers().size());
 		userCountLabel.setText(roomInfo.getUsers().size()+"/"+roomInfo.getMaxPlayerCount());
 		userPoketmonLabel.setText(Poketmon.PoketmonArray.poketmons.elementAt(user.getPoketmonIdx()).getName());
+		if(roomInfo.getUsers().size() == roomInfo.getMaxPlayerCount()) {
+			userCountLabel.setForeground(Color.GREEN);
+		}
+		else {
+			userCountLabel.setForeground(Color.RED);
+		}
 		if(user.getReady()) {
 			userReadyStateLabel.setText("준비");
+			userReadyStateLabel.setForeground(Color.GREEN);
 		}
 		else {
 			userReadyStateLabel.setText("준비 X");
+			userReadyStateLabel.setForeground(Color.RED);
 		}
 		userCountLabel.repaint();
 		userPoketmonLabel.repaint();

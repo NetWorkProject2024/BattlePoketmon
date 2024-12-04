@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.Comparator;
 import java.util.Vector;
@@ -35,6 +36,9 @@ public class ResultFrame {
       JLabel winCountLabel = new JLabel("승 : "+user.getWinCount());
       JLabel loseCountLabel = new JLabel("패 : "+user.getLoseCount());
       
+      orderLabel.setForeground(Color.GREEN);
+      winCountLabel.setForeground(Color.RED);
+      loseCountLabel.setForeground(Color.BLUE);
       panel.add(orderLabel);
       panel.add(nameLabel);
       panel.add(winCountLabel);
