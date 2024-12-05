@@ -119,7 +119,7 @@ public class ReadyRoomFrame{
 		return userPanel;
 	}
 	public JPanel createUserInfoPanel(String name, boolean readyState, int id) {
-		JPanel userInfoPanel = new JPanel(new GridLayout(2,1));
+		JPanel userInfoPanel = new JPanel(new GridLayout(1,0));
 		JLabel userName = new JLabel(name);
 		JLabel userPoketmon = new JLabel("");
 		JLabel userReadyState;
@@ -135,15 +135,18 @@ public class ReadyRoomFrame{
 		if(id == this.user.getId()) {
 			userPoketmonLabel.setText(Poketmon.PoketmonArray.poketmons.elementAt(user.getPoketmonIdx()).getName());
 			userReadyStateLabel.setText(userReadyState.getText());
-			userInfoPanel.add(userPoketmonLabel);
+			
+			userInfoPanel.add(userName);
 			userInfoPanel.add(userReadyStateLabel);
+			userInfoPanel.add(userPoketmonLabel);
 		}
 		else {
+			userName.setForeground(Color.GRAY);
 			userInfoPanel.add(userName);
-			userInfoPanel.add(userPoketmon);
 			userInfoPanel.add(userReadyState);
+			userInfoPanel.add(userPoketmon);
 		}
-		userInfoPanel.add(userName);
+		
 		
 		return userInfoPanel;
 	}
