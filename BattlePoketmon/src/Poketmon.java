@@ -79,13 +79,21 @@ public class Poketmon implements Serializable{
    }
  
    public void createSkills() {
-      Random random = new Random();
+	  Random random = new Random();
       int skillCount = 0;
+      boolean[] skillIdxArray = new boolean[Skill.SkillArray.skills.size()];
+      for(int i=0; i < skillIdxArray.length; i++) {
+    	  skillIdxArray[i]=false;
+      }
       while(skillCount < 4) {
          int idx = random.nextInt(Skill.SkillArray.skills.size());
+         if(skillIdxArray[idx]) {
+        	 continue;
+         }
          Skill newSkill = Skill.SkillArray.skills.elementAt(idx);
          if(newSkill.getType()==Type.TypeArray.types.elementAt(3) ||newSkill.getType()==type) {
             this.skills[skillCount]=newSkill;
+            skillIdxArray[idx]=true;
             skillCount++;
          }
          

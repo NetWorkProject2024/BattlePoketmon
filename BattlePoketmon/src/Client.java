@@ -80,6 +80,7 @@ public class Client{
 							home = new Home(player, inMsg.serverRooms);
 							player.setId(inMsg.size);
 							System.out.println("id바뀜??" +player.getId());
+							break;
 						case ChatMsg.MODE_TX_STRING:
 							break;
 						case ChatMsg.MODE_HOME_UPDATE:
@@ -262,10 +263,11 @@ public class Client{
 							player.setLoseCount(0);
 							player.setWinCount(0);
 							sendPlayerReady(false);
+							break;
 						}
 						
 						
-					} catch (IOException e) {
+					}catch (IOException e) {
 						System.err.println("서버 연결 끊김: " + e.getMessage());
 						System.exit(-1);
 					}catch (ClassNotFoundException e) {
@@ -279,8 +281,8 @@ public class Client{
 						System.out.println(socket);
 						in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 					} catch (IOException e) {
-
-					}
+						System.out.println("클라이언트의 객체 인풋 스트림 생성 실패");
+						}
 					while(receiveThread == Thread.currentThread()) {
 						receiveMessage();
 					}
