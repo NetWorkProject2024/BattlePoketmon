@@ -36,7 +36,7 @@ public class Poketmon implements Serializable{
     		  "선인왕", "모부기", "베이리프", "무스틈니", "나무킹", "트로피우스", "우츠보트", "메가니움"
     		  
       };
-      private static String[] icons = {"src/poketmon/fff.png","src/poketmon/kko.png", "src/poketmon/lee.png",
+      private static String[] icons = {"src/poketmon/파이리.png","src/poketmon/꼬부기.png", "src/poketmon/이상해씨.png",
     		  "src/poketmon/마릴.png", "src/poketmon/왕눈해.png","src/poketmon/골덕.png", "src/poketmon/슈륙챙이.png","src/poketmon/갸라도스.png", "src/poketmon/가이오가.png", "src/poketmon/라프라스.png", "src/poketmon/밀로틱.png",
     		  "src/poketmon/가디.png", "src/poketmon/브케인.png", "src/poketmon/아차모.png", "src/poketmon/나인테일.png", "src/poketmon/날쌩마.png", "src/poketmon/마그마.png", "src/poketmon/초염몽.png", "src/poketmon/엔테이.png",
     		  "src/poketmon/선인왕.png", "src/poketmon/모부기.png", "src/poketmon/베이리프.png", "src/poketmon/무스틈니.png","src/poketmon/나무킹.png", "src/poketmon/트로피우스.png", "src/poketmon/우츠보트.png", "src/poketmon/메가니움.png"

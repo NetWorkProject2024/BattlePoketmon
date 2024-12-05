@@ -57,7 +57,7 @@ public class PoketmonFrame {
 	public JPanel createCenterPanel() {
 		centerPanel = new JPanel(new GridLayout(0,1));
 		ImageIcon icon = poketmon.icon;//포켓몬 이미지
-        Image scaledImage = icon.getImage().getScaledInstance(2000, 2000, Image.SCALE_SMOOTH);
+        Image scaledImage = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         poketmonImgLabel = new JLabel(new ImageIcon(scaledImage));
         	
 		centerPanel.add(poketmonImgLabel);
@@ -89,8 +89,6 @@ public class PoketmonFrame {
         infoPanel.add(attackLabel);
 
         infoPanel.add(xLabel3);
-//        infoPanel.add(defenseLabel);
-        infoPanel.add(xLabel4);
         
         
         for (int i = 0; i< 4;i++) {

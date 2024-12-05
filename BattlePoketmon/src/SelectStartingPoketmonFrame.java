@@ -1,5 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -25,7 +24,7 @@ public class SelectStartingPoketmonFrame {
 	}
 	public JFrame create() {
 		frame = new JFrame("스타팅 포켓몬 고르기");
-		frame.setBounds(200,200,600,600);
+		frame.setBounds(100,100,400,400);
 		JPanel panel = new JPanel(new BorderLayout());
 		PocketmonCheckBox[] checkBox = new PocketmonCheckBox[3];
 		ButtonGroup group = new ButtonGroup();
@@ -74,20 +73,19 @@ public class SelectStartingPoketmonFrame {
 				frame.dispose();
 			}
 		});
-		b_save.setForeground(Color.GREEN);
-		b_cancle.setForeground(Color.RED);
 		panel.add(b_save);
 		panel.add(b_cancle);
 		return panel;
 	}
 	private JPanel createPocketmonInfoPanel(Poketmon poketmon, PocketmonCheckBox checkBox) {
 		JPanel panel = new JPanel(new GridLayout(3,1));
-		//ImageIcon img = poketmon.getImage();
-		JLabel nameLabel = new JLabel(poketmon.getName());
-		
+		JLabel nameLabel = new JLabel(poketmon.getName(), JLabel.CENTER);
 		ImageIcon icon = poketmon.icon;//포켓몬 이미지
-        Image scaledImage = icon.getImage().getScaledInstance(3000, 3000, Image.SCALE_SMOOTH);
+        Image scaledImage = icon.getImage().getScaledInstance(100, 100, Image.SCALE_AREA_AVERAGING);
         poketmonImgLabel = new JLabel(new ImageIcon(scaledImage));
+        poketmonImgLabel.setHorizontalAlignment(JLabel.CENTER);
+        checkBox.checkBox.setHorizontalAlignment(JCheckBox.CENTER);
+
         
         panel.add(poketmonImgLabel);
 		

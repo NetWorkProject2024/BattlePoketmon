@@ -249,7 +249,9 @@ public class Client{
 							player.getWorld().getWorldFrame().worldFrameDispose();
 							
 							//
-							battleFrame.battleFrameDispose();
+							if(battleFrame!=null) {
+								battleFrame.battleFrameDispose();
+							}
 							
 							ResultFrame resultFrame = new ResultFrame(player.getWorld().users);
 							resultFrame.create();

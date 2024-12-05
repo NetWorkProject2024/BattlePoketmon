@@ -1,4 +1,6 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -29,13 +31,14 @@ public class BattleFrame extends JFrame{
 		this.me = me;
 		battleFrame = new JFrame(me.getPlayerName()+me.getId());
 		battleFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		battleFrame.setBounds(200,200,300,600);
+		battleFrame.setBounds(200,200,400,500);
 	}
 	
 	public JFrame create() {
-		JPanel entirePanel = new JPanel(new GridLayout(2,0));		
-		entirePanel.add(createAbovePanel());
-		entirePanel.add(createSkillPanel());
+//		JPanel entirePanel = new JPanel(new GridLayout(2,0));	
+		JPanel entirePanel = new JPanel(new BorderLayout());
+		entirePanel.add(createAbovePanel(),BorderLayout.CENTER);
+		entirePanel.add(createSkillPanel(),BorderLayout.SOUTH);
 		battleFrame.add(entirePanel);
 		battleFrame.setVisible(true);
 		
@@ -60,12 +63,12 @@ public class BattleFrame extends JFrame{
 		healthBar2.setForeground(Color.RED);
 		
 		ImageIcon icon1 = me.getPoketmon().icon;//포켓몬 이미지
-        Image scaledImage1 = icon1.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+        Image scaledImage1 = icon1.getImage().getScaledInstance(180, 180, Image.SCALE_SMOOTH);
         
         JLabel poketmonImgLabel1 = new JLabel(new ImageIcon(scaledImage1));
         
         ImageIcon icon2 = other.getPoketmon().icon;//포켓몬 이미지
-        Image scaledImage2 = icon2.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+        Image scaledImage2 = icon2.getImage().getScaledInstance(180, 180, Image.SCALE_SMOOTH);
         
         JLabel poketmonImgLabel2 = new JLabel(new ImageIcon(scaledImage2));
         
@@ -98,6 +101,8 @@ public class BattleFrame extends JFrame{
 		for (int i = 0; i< 4;i++) {
 			Skill currentSkill = me.getPoketmon().getSkill()[i];
 			JButton btn = new JButton(currentSkill.getName());
+			btn.setPreferredSize(new java.awt.Dimension(150, 50));
+			
 			btn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
