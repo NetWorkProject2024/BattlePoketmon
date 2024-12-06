@@ -5,10 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class StartFrame extends JFrame{	
 	 private JFrame startFrame;
@@ -41,18 +45,43 @@ public class StartFrame extends JFrame{
 		JPanel userInfoPanel = new JPanel(new FlowLayout());
 		JLabel nameLabel = new JLabel("이름: ");
 		
+		JButton b_select = new JButton("프로필 설정");
+		b_select.addActionListener(new ActionListener() {
+			JFileChooser chooser = new JFileChooser();
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(
+						
+						"JPG & GIF & PNG Images",
+						"jpg", "gif", "png");
+			
+					chooser.setFileFilter(filter);
+					
+					int ret = chooser.showOpenDialog(startFrame);
+					if(ret != JFileChooser.APPROVE_OPTION) {
+						JOptionPane.showMessageDialog(startFrame, "파일을 선택하지 않았습니다.", "경고", JOptionPane.WARNING_MESSAGE);
+						return;
+					}
+				
+					ImageIcon profile = new ImageIcon(chooser.getSelectedFile().getAbsolutePath());
+					player.setProfile(profile);
+			}		
+		});
+		
         JTextField nameField = new JTextField(25);
         nameField.addActionListener(new ActionListener() {
         	@Override
 			public void actionPerformed(ActionEvent e) {
         		player.setPlayerName(nameField.getText());
         		player.getClient().sendUserID();
+        		player.getClient().sendUserProfile();
         		startFrame.dispose();
 			}
         });
         nameLabel.setPreferredSize(new java.awt.Dimension(50, 80));
-        userInfoPanel.add(nameLabel);
+        userInfoPanel.add(nameLabel);        
         userInfoPanel.add(nameField);
+        userInfoPanel.add(b_select);
 		return userInfoPanel;
 	}
 	public void startFrameDispose() {

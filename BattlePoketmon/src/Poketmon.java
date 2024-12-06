@@ -9,7 +9,6 @@ public class Poketmon implements Serializable{
    private Type type;
    private Skill[] skills = new Skill[4];
    private int attackPower;
-//   private int defensePower;
    private int maxHp=100;
    private int currentHp=100;
    public ImageIcon icon;
@@ -18,14 +17,12 @@ public class Poketmon implements Serializable{
       this.name = name;
       this.type = Type.TypeArray.types.elementAt(typeIdx);
       this.attackPower = attackPower;
-//      this.defensePower = defensePower;
       this.icon = new ImageIcon(icon);
    }
    public Poketmon(Poketmon poketmon) {
 	   this.name = poketmon.name;
 	   this.type = poketmon.type;
 	   this.attackPower=poketmon.attackPower;
-//	   this.defensePower=poketmon.defensePower;
 	   this.icon = poketmon.icon;
    }
    public static class PoketmonArray{

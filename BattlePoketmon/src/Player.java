@@ -1,18 +1,7 @@
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
-import java.net.UnknownHostException;
-import java.util.Vector;
 
-import javax.swing.SwingUtilities;
+import javax.swing.ImageIcon;
 
 public class Player implements Serializable{
    private int userId = 0;
@@ -27,11 +16,13 @@ public class Player implements Serializable{
    private transient Client client;
    private boolean turn;
    private int winCount = 0;
-	private int loseCount = 0;
+   private int loseCount = 0;
+   private ImageIcon profile;
    
    public Player(String name, Client client) {
       this.playerName = name;
       this.client = client;
+      this.profile = new ImageIcon("src/poketmon/default.png");
       StartFrame startFrame = new StartFrame(this);
       startFrame.create();
    }
@@ -101,6 +92,12 @@ public class Player implements Serializable{
    }
    public void setPoketmon(Poketmon poketmon) {
 	   this.poketmon=poketmon;
+   }
+   public void setProfile(ImageIcon profile) {
+	   this.profile = profile;
+   }
+   public ImageIcon getProfile() {
+	   return this.profile;
    }
    public void setTurn(long size) {
 	   if(size == (long)0) {

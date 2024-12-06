@@ -64,7 +64,7 @@ public class Client{
 			SocketAddress sa = new InetSocketAddress(serverAddress, serverPort);
 			socket.connect(sa,3000);		
 			out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-//			send(new ChatMsg(player, ChatMsg.MODE_ROOM_LIST_REQUEST));
+
 			
 			receiveThread = new Thread(new Runnable() {
 				
@@ -78,6 +78,7 @@ public class Client{
 							return;
 						}
 						switch(inMsg.mode) {
+						
 						case ChatMsg.MODE_LOGIN:
 							home = new Home(player, inMsg.serverRooms);
 							player.setId(inMsg.size);
@@ -317,7 +318,9 @@ public class Client{
 	        System.err.println("메시지 전송 오류: " + e.getMessage() + e.toString());
 	    }
 	}
-	
+	public void sendUserProfile() {
+		send(new ChatMsg(player, ChatMsg.MODE_IMG_REQUEST, player.getProfile()));
+	}
 	
 	public void sendUserID() {
 		send(new ChatMsg(this.player, ChatMsg.MODE_LOGIN));
@@ -393,9 +396,9 @@ public class Client{
 	
 	
 	public static void main(String[] args) {
-		String serverAddress = "172.29.81.194";
+//		String serverAddress = "172.29.81.194";
 //				172.29.81.194
-//		String serverAddress="localhost";
+		String serverAddress="localhost";
 		int serverPort = 54321;
 		
 		Client client = new Client(serverAddress, serverPort);

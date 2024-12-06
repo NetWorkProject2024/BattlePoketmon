@@ -6,6 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -15,10 +19,9 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Collections;
-import java.util.List;
 import java.util.Vector;
-import java.util.stream.Collectors;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -181,7 +184,6 @@ public class Server extends JFrame{
 		}
 		return addr;		
 	}
-	
 		
 	private class ClientHandler extends Thread{
 		private Socket clientSocket;
@@ -204,7 +206,6 @@ public class Server extends JFrame{
 		private void sendMessage(String msg) {
 			send(new ChatMsg(client, ChatMsg.MODE_TX_STRING, msg));
 	    }
-		
 		private void receiveMessages(Socket socket) {
 			try {
 				out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
@@ -212,17 +213,22 @@ public class Server extends JFrame{
 				
 				ChatMsg msg;
 				while ((msg = (ChatMsg)in.readObject()) != null){
-					if(msg.mode == ChatMsg.MODE_LOGIN) {
+					if(msg.mode == ChatMsg.MODE_IMG_REQUEST) {
+						for(int i = 0; i<users.size();i++) {
+							if(msg.player.getId()==users.elementAt(i).client.getId()) {
+								users.elementAt(i).client.setProfile(msg.img);
+								System.out.println(users.elementAt(i).client.getProfile() + "프로필");
+							}
+						}
+						
+					}else if(msg.mode == ChatMsg.MODE_LOGIN) {
 						client=msg.player;
 						client.setId(generateUserId());
 						uid = client.getPlayerName();
 						printDisplay("새 참가자: " + uid);
 						printDisplay("현재 참가자 수: " + users.size());
-						
-//						sendRoomList(client);
-						sendLogin(client);
-						
-						continue;
+						sendLogin(client);						
+//						continue;
 					}else if (msg.mode == ChatMsg.MODE_LOGOUT) {
 						break;
 					}else if(msg.mode == ChatMsg.MODE_TX_STRING) {
@@ -431,6 +437,8 @@ public class Server extends JFrame{
 			}
 		}
 
+		
+		
 		private ReadyRoom roomReadyCount(ReadyRoom room, boolean state) {
 			ReadyRoom currentRoom =null;
 			for(int i=0; i < rooms.size(); i++) {
@@ -560,6 +568,7 @@ public class Server extends JFrame{
 		
 		@Override
 		public void run() {
+			
 			receiveMessages(clientSocket);
 		}
 	}

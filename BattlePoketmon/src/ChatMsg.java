@@ -23,6 +23,7 @@ public class ChatMsg implements Serializable{
 	public final static int MODE_BATTLE_END = 0x15;
 	public final static int MODE_BATTLE_RESULT = 0x16;
 	public final static int MODE_WORLD_END = 0x17;
+	public final static int MODE_IMG_REQUEST = 0x18;
 	
 	
 	public Player player;
@@ -30,6 +31,7 @@ public class ChatMsg implements Serializable{
 	String message;
 	Object object;
 	Object object2;
+	ImageIcon img;
 	long size;
 	public Vector <ReadyRoom> serverRooms;
 	public Vector <Player> worldPlayers; //월드 내 플레이어
@@ -41,7 +43,6 @@ public class ChatMsg implements Serializable{
 		this.message = message;
 		this.object = object;
 		this.size = size;
-//		this.room = room;
 		this.serverRooms = null;
 		
 	}
@@ -61,6 +62,11 @@ public class ChatMsg implements Serializable{
 	    this.object = null;
 	    this.size =0;
 	}
+	public ChatMsg(Player player, int code, ImageIcon img) {
+		this.player = player;
+		this.mode = code;
+		this.img = img;
+	} 
 	
 	public ChatMsg(Player player, int code, Vector<ReadyRoom> serverRooms) {
 		this.player=player;
