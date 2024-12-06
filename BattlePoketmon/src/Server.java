@@ -216,7 +216,7 @@ public class Server extends JFrame{
 						client=msg.player;
 						client.setId(generateUserId());
 						uid = client.getPlayerName();
-						printDisplay("새 참가자: " + uid + client.getId());
+						printDisplay("새 참가자: " + uid);
 						printDisplay("현재 참가자 수: " + users.size());
 						
 //						sendRoomList(client);

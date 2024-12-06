@@ -32,6 +32,8 @@ public class Player implements Serializable{
    public Player(String name, Client client) {
       this.playerName = name;
       this.client = client;
+      StartFrame startFrame = new StartFrame(this);
+      startFrame.create();
    }
    
    public void setPoketmonIdx(int poketmonIdx) {

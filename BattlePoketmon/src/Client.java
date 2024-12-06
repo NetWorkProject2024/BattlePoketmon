@@ -29,17 +29,19 @@ public class Client{
 	private Player player;
 	private ReadyRoom room = null;
 	private World world = null;
+	private String name;
 	
 	
-	public Client(String name, String serverAddress, int serverPort) {
+	public Client(String serverAddress, int serverPort) {
 //		this.id = userId++;
 		this.serverAddress=serverAddress;
 		this.serverPort = serverPort;
+		
 		this.player = new Player(name, this);
 		
 		try {
 			connectToServer(this.player);
-			sendUserID();
+//			sendUserID();
 		}catch(IOException e) {
 			
 		}
@@ -317,7 +319,7 @@ public class Client{
 	}
 	
 	
-	private void sendUserID() {
+	public void sendUserID() {
 		send(new ChatMsg(this.player, ChatMsg.MODE_LOGIN));
 	}
 	public void sendMessage(String msg) {
@@ -385,13 +387,18 @@ public class Client{
 	    
 	}
 	
-	
+	public Player getPlayer() {
+		return this.player;
+	}
 	
 	
 	public static void main(String[] args) {
-		String serverAddress = "localhost";
+		String serverAddress = "172.29.81.194";
+//				172.29.81.194
+//		String serverAddress="localhost";
 		int serverPort = 54321;
-		Client client = new Client("player", serverAddress, serverPort);
+		
+		Client client = new Client(serverAddress, serverPort);
 
 	}
 }
