@@ -37,7 +37,9 @@ public class WorldFrame {
 		worldFrame = new JFrame("BattlePoketmon_WORLD");
 		worldFrame.setBounds(200,200,800,600);
 //		JPanel entirePanel = new JPanel(new BorderLayout());
-
+		ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
+        Image image = icon.getImage();
+        worldFrame.setIconImage(image);
         BackgroundPanel entirePanel = new BackgroundPanel("src/poketmon/world_Background.png");
         entirePanel.setLayout(new BorderLayout());
         

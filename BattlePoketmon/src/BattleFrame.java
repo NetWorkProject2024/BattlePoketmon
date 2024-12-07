@@ -29,7 +29,7 @@ public class BattleFrame extends JFrame{
 		
 		this.other = other;
 		this.me = me;
-		battleFrame = new JFrame(me.getPlayerName());
+		battleFrame = new JFrame("BattlePoketmon_Battle: "+me.getPlayerName());
 		battleFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		battleFrame.setBounds(200,200,400,500);
 	}
@@ -38,7 +38,9 @@ public class BattleFrame extends JFrame{
 //		JPanel entirePanel = new JPanel(new BorderLayout());
 		BackgroundPanel entirePanel = new BackgroundPanel("src/poketmon/battle_Back.png");
         entirePanel.setLayout(new BorderLayout());
-
+        ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
+        Image image = icon.getImage();
+        battleFrame.setIconImage(image);
 		entirePanel.add(createAbovePanel(),BorderLayout.CENTER);
 		entirePanel.add(createSkillPanel(),BorderLayout.SOUTH);
 		battleFrame.add(entirePanel);
@@ -100,13 +102,20 @@ public class BattleFrame extends JFrame{
         
         JLabel poketmonImgLabel2 = new JLabel(new ImageIcon(scaledImage2));
         
+        JLabel xlabel = new JLabel();
+        JLabel xlabel2 = new JLabel();
+        JLabel xlabel3 = new JLabel();
+        JLabel xlabel4 = new JLabel();
         
+        userInfoPanel1.add(xlabel);
+        userInfoPanel1.add(xlabel3);
         userInfoPanel1.add(myInfoPanel);
 		userInfoPanel1.add(healthBar1);
 		
-        
 		userInfoPanel2.add(healthBar2);
 		userInfoPanel2.add(otherInfoPanel);
+		userInfoPanel2.add(xlabel2);
+		userInfoPanel2.add(xlabel4);
 		
 		userPanel.add(userInfoPanel2);
         userPanel.add(poketmonImgLabel2);
@@ -164,25 +173,25 @@ public class BattleFrame extends JFrame{
 			btnVec[i]=btn;
 		}
     	if(me.getTurn()) {
-    		userName1.setForeground(Color.GREEN);
+    		userName1.setForeground(Color.blue);
     		userName2.setForeground(Color.GRAY);
     		btnEnabled(true);
     	}
     	else {
     		userName1.setForeground(Color.GRAY);
-    		userName2.setForeground(Color.GREEN);
+    		userName2.setForeground(Color.BLUE);
     		btnEnabled(false);
     	}
 		return skillPanel;
 	}
 	public void repaint() {
 		if(me.getTurn()) {
-    		userName1.setForeground(Color.GREEN);
+    		userName1.setForeground(Color.blue);
     		userName2.setForeground(Color.GRAY);
     	}
     	else {
     		userName1.setForeground(Color.GRAY);
-    		userName2.setForeground(Color.GREEN);
+    		userName2.setForeground(Color.BLUE);
     	}
 
 		healthBar1.setValue(me.getPoketmon().getCurrentHP());

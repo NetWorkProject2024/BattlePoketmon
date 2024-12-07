@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -23,9 +24,16 @@ public class SelectStartingPoketmonFrame {
 		this.readyRoomFrame = readyRoomFrame;
 	}
 	public JFrame create() {
-		frame = new JFrame("스타팅 포켓몬 고르기");
-		frame.setBounds(100,100,400,400);
-		JPanel panel = new JPanel(new BorderLayout());
+		frame = new JFrame("Select_MyPoketmon");
+		ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
+        Image image = icon.getImage();
+        frame.setIconImage(image);
+		frame.setBounds(100,100,400,300);
+//		JPanel panel = new JPanel(new BorderLayout());
+		BackgroundPanel panel = new BackgroundPanel("src/poketmon/selectPoketmon_Background.png");
+        panel.setLayout(new BorderLayout());
+		
+		
 		PocketmonCheckBox[] checkBox = new PocketmonCheckBox[3];
 		ButtonGroup group = new ButtonGroup();
 		
@@ -41,6 +49,7 @@ public class SelectStartingPoketmonFrame {
 	}
 	private JPanel createCenterPanel(PocketmonCheckBox[] checkBox) {
 		JPanel panel = new JPanel(new GridLayout(1,3));
+		panel.setOpaque(false);
 		
 		for(int i=0; i < 3; i++) {
 			
@@ -51,6 +60,7 @@ public class SelectStartingPoketmonFrame {
 	}
 	private JPanel createBelowPanel(PocketmonCheckBox[] checkBox) {
 		JPanel panel = new JPanel(new GridLayout(1, 2));
+		panel.setOpaque(false);
 		JButton b_save = new JButton("확인");
 		JButton b_cancle = new JButton("취소");
 		
@@ -78,20 +88,27 @@ public class SelectStartingPoketmonFrame {
 		return panel;
 	}
 	private JPanel createPocketmonInfoPanel(Poketmon poketmon, PocketmonCheckBox checkBox) {
-		JPanel panel = new JPanel(new GridLayout(3,1));
+		JPanel panel = new JPanel(new GridLayout(0,1));
+		panel.setOpaque(false);
+		
 		JLabel nameLabel = new JLabel(poketmon.getName(), JLabel.CENTER);
+		if(poketmon.getName().equals("파이리")) {
+			nameLabel.setForeground(Color.RED);
+		}else if(poketmon.getName().equals("꼬부기")) {
+			nameLabel.setForeground(Color.BLUE);
+		}else if(poketmon.getName().equals("이상해씨")) {
+			nameLabel.setForeground(Color.GREEN);
+		}
 		ImageIcon icon = poketmon.icon;//포켓몬 이미지
-        Image scaledImage = icon.getImage().getScaledInstance(100, 100, Image.SCALE_AREA_AVERAGING);
+        Image scaledImage = icon.getImage().getScaledInstance(80, 80, Image.SCALE_AREA_AVERAGING);
         poketmonImgLabel = new JLabel(new ImageIcon(scaledImage));
         poketmonImgLabel.setHorizontalAlignment(JLabel.CENTER);
         checkBox.checkBox.setHorizontalAlignment(JCheckBox.CENTER);
+        checkBox.checkBox.setOpaque(false);
 
-        
-        panel.add(poketmonImgLabel);
-		
+        panel.add(poketmonImgLabel);		
 		panel.add(nameLabel);
 		panel.add(checkBox.checkBox);
-		
 		return panel;
 	}
 	class PocketmonCheckBox{

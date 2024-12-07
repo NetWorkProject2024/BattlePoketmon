@@ -38,6 +38,9 @@ public class ReadyRoomFrame{
 			return;
 		}
 		frame = new JFrame("BattlePoketmon_ReadyRoom");
+		ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
+        Image image = icon.getImage();
+        frame.setIconImage(image);
 		frame.setBounds(50,50,400,400);
 //		JPanel entirePanel = new JPanel(new BorderLayout());
 		

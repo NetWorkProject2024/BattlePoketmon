@@ -2,6 +2,7 @@
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
@@ -52,7 +53,9 @@ public class Server extends JFrame{
 	
 	public Server(int port) {
 		super("BattlePoketmon_Server");
-		
+		ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
+        Image image = icon.getImage();
+        this.setIconImage(image);
 		buildGUI();
 		setSize(400,300);
 		setLocation(100,0);

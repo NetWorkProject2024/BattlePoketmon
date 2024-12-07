@@ -21,9 +21,16 @@ public class ResultFrame {
       }
    }
    public void create() {
-      JFrame frame = new JFrame();
-      JPanel panel = new JPanel(new GridLayout(0,1));
+      JFrame frame = new JFrame("BattlePoketmon_Ending");
+//      JPanel panel = new JPanel(new GridLayout(0,1));
+      ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
+      Image image = icon.getImage();
+      frame.setIconImage(image);
       frame.setBounds(200,200,600,400);
+      BackgroundPanel panel = new BackgroundPanel("src/poketmon/End.png");
+      panel.setLayout(new GridLayout(0, 1));
+
+      
       users.sort(new WinCountComparator());
       for(int i=0; i < users.size(); i++) {
          panel.add(creatUuserInfoPanel(users.elementAt(i), i+1));
@@ -34,9 +41,11 @@ public class ResultFrame {
    }
    public JPanel creatUuserInfoPanel(Player user, int order) {
       JPanel panel = new JPanel(new GridLayout(1,0));
-      JLabel orderLabel = new JLabel("등수 : "+order);
+      panel.setOpaque(false);
+      JLabel orderLabel = new JLabel("             등수 : "+order);
       
       JPanel imgPanel = new JPanel(new BorderLayout());
+      imgPanel.setOpaque(false);
       ImageIcon icon = user.getProfile();
       Image scaledImage = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
       JLabel titleImgLabel = new JLabel(new ImageIcon(scaledImage));
@@ -48,8 +57,9 @@ public class ResultFrame {
       JLabel loseCountLabel = new JLabel("패 : "+user.getLoseCount());
       
       orderLabel.setForeground(Color.GREEN);
+      nameLabel.setForeground(Color.WHITE);
       winCountLabel.setForeground(Color.RED);
-      loseCountLabel.setForeground(Color.BLUE);
+      loseCountLabel.setForeground(Color.WHITE);
       panel.add(orderLabel);
       panel.add(imgPanel);
       panel.add(nameLabel);

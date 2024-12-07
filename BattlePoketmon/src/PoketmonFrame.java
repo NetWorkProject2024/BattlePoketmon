@@ -16,7 +16,6 @@ public class PoketmonFrame {
 	private JLabel nameLabel;
 	private JLabel typeLabel;
 	private JLabel attackLabel;
-//	private JLabel defenseLabel;
 	private Poketmon poketmon;
 	private Player user;
 	private JLabel poketmonImgLabel;
@@ -25,11 +24,17 @@ public class PoketmonFrame {
 	public PoketmonFrame() {		
 	}
 	
-	public JFrame create_Store(Poketmon poketmon, Player user) {
+	public JFrame create_Store(Poketmon poketmon, Player user) {//포켓몬 분양받기 했을 때
 		this.poketmon = poketmon;
-		frame = new JFrame("Poketmon");
+		frame = new JFrame("NewPoketmon");
+		ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
+        Image image = icon.getImage();
+        frame.setIconImage(image);
 		frame.setBounds(200,200,400,500);
-		JPanel entirePanel = new JPanel(new BorderLayout());
+//		JPanel entirePanel = new JPanel(new BorderLayout());
+		
+		BackgroundPanel entirePanel = new BackgroundPanel("src/poketmon/poketmon_Back.png");
+	    entirePanel.setLayout(new BorderLayout());
 		
 		entirePanel.add(createCenterPanel(),BorderLayout.NORTH);
 		entirePanel.add(createInfoPanel(),BorderLayout.CENTER);
@@ -42,9 +47,15 @@ public class PoketmonFrame {
 	
 	public JFrame create_Inventory(Poketmon poketmon) {
 		this.poketmon = poketmon;
-		frame = new JFrame("Poketmon");
-		frame.setBounds(200,200,300,400);
-		JPanel entirePanel = new JPanel(new BorderLayout());
+		frame = new JFrame("MyPoketmon");
+		ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
+        Image image = icon.getImage();
+        frame.setIconImage(image);
+		frame.setBounds(200,200,400,500);
+//		JPanel entirePanel = new JPanel(new BorderLayout());
+		
+		BackgroundPanel entirePanel = new BackgroundPanel("src/poketmon/poketmon_Back.png");
+	    entirePanel.setLayout(new BorderLayout());
 		
 		entirePanel.add(createCenterPanel(),BorderLayout.NORTH);
 		entirePanel.add(createInfoPanel(),BorderLayout.CENTER);
@@ -56,6 +67,7 @@ public class PoketmonFrame {
 	
 	public JPanel createCenterPanel() {
 		centerPanel = new JPanel(new GridLayout(0,1));
+		centerPanel.setOpaque(false);
 		ImageIcon icon = poketmon.icon;//포켓몬 이미지
         Image scaledImage = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         poketmonImgLabel = new JLabel(new ImageIcon(scaledImage));
@@ -67,14 +79,13 @@ public class PoketmonFrame {
 	
 	public JPanel createInfoPanel() {
 		JPanel infoPanel = new JPanel(new GridLayout(0,2));
+		infoPanel.setOpaque(false);
 		nameLabel = new JLabel("       포켓몬 : " + poketmon.getName());
         typeLabel = new JLabel("       타입 : " + poketmon.getType().getName());
         attackLabel = new JLabel("       공격력 : " + poketmon.getAttackPower());
-//        defenseLabel = new JLabel("       방어력 : " + poketmon.getDefensePower());
         nameLabel.setHorizontalAlignment(SwingConstants.LEFT);
         typeLabel.setHorizontalAlignment(SwingConstants.LEFT);
         attackLabel.setHorizontalAlignment(SwingConstants.LEFT);
-//        defenseLabel.setHorizontalAlignment(SwingConstants.LEFT);
         JLabel xLabel = new JLabel("");
         JLabel xLabel2 = new JLabel("");
         JLabel xLabel3 = new JLabel("");
@@ -93,6 +104,7 @@ public class PoketmonFrame {
         
         for (int i = 0; i< 4;i++) {
 			JPanel panel = new JPanel();
+			panel.setOpaque(false);
 			JLabel skillLabel = new JLabel(poketmon.getSkill()[i].getName());
 			JLabel skillTypeLabel = new JLabel("타입 : "+poketmon.getSkill()[i].getType().getName());
 			JLabel skillAttackLabel = new JLabel("위력 : "+poketmon.getSkill()[i].getAttack());
@@ -108,6 +120,7 @@ public class PoketmonFrame {
 	
 	public JPanel createSkillPanel() {
 		JPanel skillPanel = new JPanel(new GridLayout(0,2));
+		skillPanel.setOpaque(false);
 		for (int i = 0; i< 4;i++) {
 			JPanel panel = new JPanel();
 			JLabel skillLabel = new JLabel(poketmon.getSkill()[i].getName());

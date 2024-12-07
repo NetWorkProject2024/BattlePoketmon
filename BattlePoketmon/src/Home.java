@@ -3,11 +3,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,6 +31,9 @@ public class Home extends JFrame{
 	
 	public Home(Player player, Vector<ReadyRoom> serverRooms) {
 		super("Battle Poketmon");
+		ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
+        Image image = icon.getImage();
+        this.setIconImage(image);
         this.player = player;
 		buildHomeGUI(serverRooms);
 		setSize(600,450);
@@ -107,6 +112,9 @@ public class Home extends JFrame{
 	//방 만들기
 	private void openCreateRoomDialog() {
 	    JFrame createRoomFrame = new JFrame("방 만들기");
+	    ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
+        Image image = icon.getImage();
+        createRoomFrame.setIconImage(image);
 	    createRoomFrame.setSize(400, 200);
 	    createRoomFrame.setLocationRelativeTo(this);
 	    createRoomFrame.setLayout(new GridLayout(4, 2, 10, 10));

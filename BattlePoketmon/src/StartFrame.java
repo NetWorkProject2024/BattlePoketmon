@@ -28,6 +28,10 @@ public class StartFrame extends JFrame{
 		startFrame = new JFrame("BattlePoketmon");
 		startFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		startFrame.setBounds(200,200,550,500);
+
+        ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
+        Image image = icon.getImage();
+        startFrame.setIconImage(image);
 		this.player = player;
 	}
 	
@@ -46,10 +50,6 @@ public class StartFrame extends JFrame{
 	public JPanel createTitleImgPanel() {
 		JPanel imgPanel = new JPanel(new BorderLayout());
 		imgPanel.setOpaque(false);
-//		ImageIcon icon = new ImageIcon("src/poketmon/Start.png");
-//        Image scaledImage = icon.getImage().getScaledInstance(350, 350, Image.SCALE_SMOOTH);
-//        JLabel titleImgLabel = new JLabel(new ImageIcon(scaledImage));
-//        imgPanel.add(titleImgLabel);
         return imgPanel;
 	}
 	

@@ -1,9 +1,11 @@
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,11 +22,24 @@ public class PoketmonStoreFrame {
    }
    
    public void create() {
-      JFrame frame = new JFrame("포켓몬 분양소");
-      JPanel p = new JPanel(new GridLayout(4,0));
-      JLabel goodsName = new JLabel("포켓몬 알");
-      JLabel goodsInfo = new JLabel("포켓몬이 랜덤하게 등장합니다!");
-      JLabel goodsPriceInfo = new JLabel("100Coin");
+      JFrame frame = new JFrame("BattlePoketmon_Store");
+//      JPanel p = new JPanel(new GridLayout(4,0));
+      ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
+      Image image = icon.getImage();
+      frame.setIconImage(image);
+      BackgroundPanel p = new BackgroundPanel("src/poketmon/store_Back.png");
+      p.setLayout(new GridLayout(0,1));
+      ImageIcon egg = new ImageIcon("src/poketmon/poketmon_egg.png");//포켓몬 알 이미지
+      Image scaledImage = egg.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+      JLabel eggImgLabel = new JLabel(new ImageIcon(scaledImage));
+      
+      
+      JLabel xLabel = new JLabel();
+      JLabel xLabel2 = new JLabel();
+      JLabel goodsName = new JLabel("포켓몬 알", JLabel.CENTER);
+      goodsName.setForeground(Color.WHITE);
+      JLabel goodsInfo = new JLabel("포켓몬이 랜덤하게 등장합니다!", JLabel.CENTER);
+      JLabel goodsPriceInfo = new JLabel("PRICE : 100 COIN", JLabel.CENTER);
       JButton b_buy = new JButton("분양받기");
       
       b_buy.addActionListener(new ActionListener() {
@@ -40,7 +55,10 @@ public class PoketmonStoreFrame {
          }
       });
       b_buy.setForeground(Color.GREEN);
-      frame.setBounds(300, 300, 200, 200);
+      frame.setBounds(300, 300, 450, 450);
+      p.add(xLabel);
+      p.add(xLabel);
+      p.add(eggImgLabel);
       p.add(goodsName);
       p.add(goodsInfo);
       p.add(goodsPriceInfo);
