@@ -28,7 +28,7 @@ public class PoketmonFrame {
 	public JFrame create_Store(Poketmon poketmon, Player user) {
 		this.poketmon = poketmon;
 		frame = new JFrame("Poketmon");
-		frame.setBounds(200,200,300,400);
+		frame.setBounds(200,200,400,500);
 		JPanel entirePanel = new JPanel(new BorderLayout());
 		
 		entirePanel.add(createCenterPanel(),BorderLayout.NORTH);

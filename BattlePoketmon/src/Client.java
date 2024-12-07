@@ -212,7 +212,7 @@ public class Client{
 							Player winner = (Player)(inMsg.object);			
 							showMessage(
 					            "배틀 종료",
-					            "배틀 결과\n승자: " + winner.getId()  + "\n패자: " +inMsg.player.getId()					            
+					            "배틀 결과\n승자: " + winner.getPlayerName()  + "\n패자: " +inMsg.player.getPlayerName()					            
 					        );
 							if (battleFrame != null) {
 					            battleFrame.battleFrameDispose(); // 배틀 종료 시 배틀 프레임 닫기

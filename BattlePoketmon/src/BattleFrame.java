@@ -27,9 +27,10 @@ public class BattleFrame extends JFrame{
 	 private JFrame battleFrame;
 	
 	public BattleFrame(Player other, Player me) {
+		
 		this.other = other;
 		this.me = me;
-		battleFrame = new JFrame(me.getPlayerName()+me.getId());
+		battleFrame = new JFrame(me.getPlayerName());
 		battleFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		battleFrame.setBounds(200,200,400,500);
 	}
@@ -50,17 +51,33 @@ public class BattleFrame extends JFrame{
 		JPanel userInfoPanel1 = new JPanel(new GridLayout(0,1));
 		JPanel userInfoPanel2 = new JPanel(new GridLayout(0,1));
 		
-		userName1 = new JLabel(me.getPlayerName() + me.getId());
+		userName1 = new JLabel(me.getPlayerName());
 		healthBar1 = new JProgressBar(0,100);
 		healthBar1.setValue(me.getPoketmon().getCurrentHP());
 		healthBar1.setStringPainted(true);
 		healthBar1.setForeground(Color.RED);
+		JPanel imgPanel1 = new JPanel(new BorderLayout());
+		ImageIcon iconProfile1 = me.getProfile();
+        Image scaledImageP1 = iconProfile1.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        JLabel titleImgLabel1 = new JLabel(new ImageIcon(scaledImageP1));
+        imgPanel1.add(titleImgLabel1);
+        JPanel myInfoPanel = new JPanel(new GridLayout(0,2));
+        myInfoPanel.add(imgPanel1);
+        myInfoPanel.add(userName1);
 
-		userName2 = new JLabel(other.getPlayerName() + other.getId());
+		userName2 = new JLabel(other.getPlayerName());
 		healthBar2 = new JProgressBar(0,100);
 		healthBar2.setValue(other.getPoketmon().getCurrentHP());
 		healthBar2.setStringPainted(true);
 		healthBar2.setForeground(Color.RED);
+		JPanel imgPanel2 = new JPanel(new BorderLayout());
+		ImageIcon iconProfile2 = other.getProfile();
+        Image scaledImageP2 = iconProfile2.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        JLabel titleImgLabel2 = new JLabel(new ImageIcon(scaledImageP2));
+        imgPanel2.add(titleImgLabel2);
+        JPanel otherInfoPanel = new JPanel(new GridLayout(0,2));
+        otherInfoPanel.add(imgPanel2);
+        otherInfoPanel.add(userName2);
 		
 		ImageIcon icon1 = me.getPoketmon().icon;//포켓몬 이미지
         Image scaledImage1 = icon1.getImage().getScaledInstance(180, 180, Image.SCALE_SMOOTH);
@@ -73,12 +90,12 @@ public class BattleFrame extends JFrame{
         JLabel poketmonImgLabel2 = new JLabel(new ImageIcon(scaledImage2));
         
         
-        userInfoPanel1.add(userName1);
+        userInfoPanel1.add(myInfoPanel);
 		userInfoPanel1.add(healthBar1);
 		
         
 		userInfoPanel2.add(healthBar2);
-		userInfoPanel2.add(userName2);
+		userInfoPanel2.add(otherInfoPanel);
 		
 		userPanel.add(userInfoPanel2);
         userPanel.add(poketmonImgLabel2);
@@ -109,11 +126,11 @@ public class BattleFrame extends JFrame{
 					float attack = (float)(((currentSkill.getAttack()))*me.getPoketmon().getAttackPower()/100.0);
 					me.getClient().sendAttack(other, ChatMsg.MODE_ATTACK, (int)attack);
 					System.out.println("attack 값: " + (int)attack);
-					System.out.println("공격버튼 누른 사람: " + me.getId());
+					System.out.println("공격버튼 누른 사람: " + me.getPlayerName());
 					
 					int result = other.getPoketmon().getCurrentHP();
 					result -= (int)(attack/10);
-					System.out.println("상대 " + other.getId());
+					System.out.println("상대 " + other.getPlayerName());
 					other.getPoketmon().setCurrentHP(result);								
 					me.setTurn(0);
 					other.setTurn(1);
@@ -147,7 +164,6 @@ public class BattleFrame extends JFrame{
 		return skillPanel;
 	}
 	public void repaint() {
-		//System.out.println(user.getTurn() +"ID: "+ user.getId());
 		if(me.getTurn()) {
     		userName1.setForeground(Color.GREEN);
     		userName2.setForeground(Color.GRAY);

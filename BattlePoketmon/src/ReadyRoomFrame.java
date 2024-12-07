@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -37,7 +38,7 @@ public class ReadyRoomFrame{
 			return;
 		}
 		frame = new JFrame("대기방");
-		frame.setBounds(50,50,200,200);
+		frame.setBounds(50,50,400,400);
 		JPanel entirePanel = new JPanel(new BorderLayout());
 		
 		entirePanel.add(createAbovePanel(), BorderLayout.NORTH);
@@ -113,13 +114,19 @@ public class ReadyRoomFrame{
 	}
 	public JPanel createUserPanel(Player player) {
 		JPanel userPanel = new JPanel(new BorderLayout());
-		//ImageIcon img =player.getImage();
-		//userPanel.add(img);
-		userPanel.add(createUserInfoPanel(player.getPlayerName() + player.getId(),player.getReady(), player.getId()));
+		userPanel.add(createUserInfoPanel(player.getProfile(), player.getPlayerName(),player.getReady(), player.getId()));
 		return userPanel;
 	}
-	public JPanel createUserInfoPanel(String name, boolean readyState, int id) {
+	public JPanel createUserInfoPanel(ImageIcon profile, String name, boolean readyState, int id) {
 		JPanel userInfoPanel = new JPanel(new GridLayout(1,0));
+		
+		
+		JPanel imgPanel = new JPanel(new BorderLayout());
+		ImageIcon icon = profile;
+        Image scaledImage = icon.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+        JLabel titleImgLabel = new JLabel(new ImageIcon(scaledImage));
+        imgPanel.add(titleImgLabel);
+        
 		JLabel userName = new JLabel(name);
 		JLabel userPoketmon = new JLabel("");
 		JLabel userReadyState;
@@ -136,12 +143,14 @@ public class ReadyRoomFrame{
 			userPoketmonLabel.setText(Poketmon.PoketmonArray.poketmons.elementAt(user.getPoketmonIdx()).getName());
 			userReadyStateLabel.setText(userReadyState.getText());
 			
+			userInfoPanel.add(imgPanel);
 			userInfoPanel.add(userName);
 			userInfoPanel.add(userReadyStateLabel);
 			userInfoPanel.add(userPoketmonLabel);
 		}
 		else {
 			userName.setForeground(Color.GRAY);
+			userInfoPanel.add(imgPanel);
 			userInfoPanel.add(userName);
 			userInfoPanel.add(userReadyState);
 			userInfoPanel.add(userPoketmon);

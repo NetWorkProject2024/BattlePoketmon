@@ -1,8 +1,11 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,7 +28,7 @@ public class WorldFrame {
 	public WorldFrame(World worldInfo, Player user) {
 		this.worldInfo = worldInfo;
 		this.user = user;
-		this.myCoinLabel.setText("코인 : "+user.getCoin());
+		this.myCoinLabel.setText("   내 코인 : "+user.getCoin());
 		poketmonFrame = new PoketmonFrame();
 	}
 	
@@ -44,35 +47,45 @@ public class WorldFrame {
 	}
 	
 	public JPanel createUserInfoPanel(Player player) {
-		JPanel userInfoPanel = new JPanel(new GridLayout(2,1));
-		JLabel userName = new JLabel(player.getPlayerName()+player.getId());
+		JPanel userInfoPanel = new JPanel(new GridLayout(1,0));
+		JLabel userName = new JLabel(player.getPlayerName());
 		JLabel userReadyState;
 		JLabel userWinCountLabel = new JLabel("승 : "+player.getWinCount());
 		JLabel userLoseCountLabel = new JLabel("패 : "+player.getLoseCount());
+		
+		ImageIcon icon = player.getProfile();
+        Image scaledImage = icon.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+        JLabel titleImgLabel = new JLabel(new ImageIcon(scaledImage));
+        userInfoPanel.add(titleImgLabel);
+		
+		userInfoPanel.add(userName);
+		
 		if(player.getReady()) {
 			userReadyState= new JLabel("준비");
+			userReadyState.setForeground(Color.GREEN);
 		}
 		else {
 			userReadyState = new JLabel("준비 X");
+			userReadyState.setForeground(Color.RED);
 		}
+			
 		if(player.getId() == this.user.getId()) {
 			userReadyStateLabel.setText(userReadyState.getText());
-			userInfoPanel.add(userReadyStateLabel);
 		}
 		else {
-			userInfoPanel.add(userName);
-			userInfoPanel.add(userReadyState);
-			
+			userName.setForeground(Color.GRAY);
+			userWinCountLabel.setForeground(Color.GRAY);
+			userLoseCountLabel.setForeground(Color.GRAY);					
 		}
 		userInfoPanel.add(userName);
+		userInfoPanel.add(userReadyState);	
 		userInfoPanel.add(userWinCountLabel);
 		userInfoPanel.add(userLoseCountLabel);
 		return userInfoPanel;
 	}
 	
 	public JPanel createAbovePanel() {
-		JPanel abovePanel = new JPanel(new GridLayout(3,2));
-		JLabel xLabel = new JLabel("");
+		JPanel abovePanel = new JPanel(new GridLayout(0,2));
 		readyBtn = new JButton("준비");
 		readyBtn.setHorizontalAlignment(SwingConstants.CENTER);
 		readyBtn.addActionListener(new ActionListener() {
@@ -80,8 +93,7 @@ public class WorldFrame {
 			public void actionPerformed(ActionEvent e) {
 				user.getClient().sendWorldReady(!user.getReady());		}
 		});
-		
-		abovePanel.add(xLabel);
+		abovePanel.add(myCoinLabel);
 		abovePanel.add(readyBtn);
 		//버튼들
 		JButton b_store = new JButton("포켓몬 분양소");
@@ -102,14 +114,13 @@ public class WorldFrame {
 		});
 		abovePanel.add(b_store);
 		abovePanel.add(b_poketmon);
-		abovePanel.add(myCoinLabel);
 		return abovePanel;
 	}
 	
 	
 	
 	public JPanel createCenterPanel() {
-		centerPanel = new JPanel(new GridLayout(0,2));
+		centerPanel = new JPanel(new GridLayout(0,1));
 		
 		for (Player player : worldInfo.getUsers()) {
 	        centerPanel.add(createUserInfoPanel(player));
