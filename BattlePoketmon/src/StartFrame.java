@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -26,29 +27,37 @@ public class StartFrame extends JFrame{
 	public StartFrame(Player player) {
 		startFrame = new JFrame("BattlePoketmon");
 		startFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		startFrame.setBounds(200,200,400,500);
+		startFrame.setBounds(200,200,550,500);
 		this.player = player;
 	}
 	
 	public JFrame create() {		
-		startFrame.add(createTitleImgPanel(),BorderLayout.CENTER);
-		startFrame.add(createUserInfoPanel(),BorderLayout.SOUTH);
+		// 배경 패널 사용
+        BackgroundPanel mainPanel = new BackgroundPanel("src/poketmon/Start.png");
+        mainPanel.setLayout(new BorderLayout());
+        
+        mainPanel.add(createTitleImgPanel(),BorderLayout.CENTER);
+        mainPanel.add(createUserInfoPanel(),BorderLayout.SOUTH);
+        startFrame.add(mainPanel);
 		startFrame.setVisible(true);		
 		return startFrame;		
 	}
 	
 	public JPanel createTitleImgPanel() {
 		JPanel imgPanel = new JPanel(new BorderLayout());
-		ImageIcon icon = new ImageIcon("src/poketmon/Start.png");
-        Image scaledImage = icon.getImage().getScaledInstance(350, 350, Image.SCALE_SMOOTH);
-        JLabel titleImgLabel = new JLabel(new ImageIcon(scaledImage));
-        imgPanel.add(titleImgLabel);
+		imgPanel.setOpaque(false);
+//		ImageIcon icon = new ImageIcon("src/poketmon/Start.png");
+//        Image scaledImage = icon.getImage().getScaledInstance(350, 350, Image.SCALE_SMOOTH);
+//        JLabel titleImgLabel = new JLabel(new ImageIcon(scaledImage));
+//        imgPanel.add(titleImgLabel);
         return imgPanel;
 	}
 	
 	public JPanel createUserInfoPanel() {		
 		JPanel userInfoPanel = new JPanel(new FlowLayout());
+		userInfoPanel.setOpaque(false);
 		JLabel nameLabel = new JLabel("이름: ");
+		nameLabel.setForeground(Color.WHITE);
 		 // 프로필 이미지 크기 조정
 	    profileImgLabel.setPreferredSize(new java.awt.Dimension(100, 100)); // JLabel 크기 설정
 

@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -30,21 +31,25 @@ public class Home extends JFrame{
 		super("Battle Poketmon");
         this.player = player;
 		buildHomeGUI(serverRooms);
-		setSize(400,300);
+		setSize(600,450);
 		setLocation(500,0);
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
 	
 	private void buildHomeGUI(Vector<ReadyRoom> serverRooms) {
-		setLayout(new BorderLayout());
-		add(topPanel(), BorderLayout.NORTH);
-		add(createRoomListPanel(serverRooms), BorderLayout.CENTER);
-		
+//		setLayout(new BorderLayout());
+		 BackgroundPanel mainPanel = new BackgroundPanel("src/poketmon/home_background.png");
+	        mainPanel.setLayout(new BorderLayout());
+	        mainPanel.add(topPanel(), BorderLayout.NORTH);
+	        mainPanel.add(createRoomListPanel(serverRooms), BorderLayout.CENTER);
+	        add(mainPanel);
 	}
 	private JPanel topPanel() {
-		JPanel topP = new JPanel(new BorderLayout());		
-		JLabel title = new JLabel("BattlePoketmon", JLabel.CENTER);
+		JPanel topP = new JPanel(new BorderLayout());	
+		topP.setOpaque(false); // 배경 투명 처리
+		JLabel title = new JLabel("BattlePoketmon_" + player.getPlayerName(), JLabel.CENTER);
+		title.setForeground(Color.WHITE);
 		b_createRoom = new JButton("방 만들기");
 		b_createRoom.addActionListener(new ActionListener() {
             @Override
@@ -60,6 +65,7 @@ public class Home extends JFrame{
 	
 	private JScrollPane createRoomListPanel(Vector<ReadyRoom> serverRooms) {
 	    roomListPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+	    roomListPanel.setOpaque(false);
 	    
 //	    // 방 버튼 추가
 	    for (ReadyRoom room : serverRooms) {
@@ -67,7 +73,8 @@ public class Home extends JFrame{
 	    }
 	    updateRoomListPanel(serverRooms);
 	    JScrollPane scrollPane = new JScrollPane(roomListPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
+	    scrollPane.getViewport().setOpaque(false);
+        scrollPane.setOpaque(false);
 	    roomListPanel.setPreferredSize(calculatePreferredSize(serverRooms)); 
 	    
 	    return scrollPane;
@@ -92,18 +99,6 @@ public class Home extends JFrame{
     }
 	
 	private JButton createRoomBtn(ReadyRoom room) {
-//		JLabel roomNameLabel = new JLabel(room.getRoomName(), JLabel.LEFT);
-//        JLabel playerCountLabel = new JLabel(String.format("(%d / %d)", room.getCurrentPlayerCount(), room.getMaxPlayerCount()), JLabel.RIGHT);
-
-//        JButton roomBtn = new JButton();
-//        roomBtn.setLayout(new BorderLayout());
-//        roomBtn.add(roomNameLabel, BorderLayout.WEST);
-//        roomBtn.add(playerCountLabel, BorderLayout.EAST);
-
-//        roomBtn.setPreferredSize(new Dimension(180, 50));
-        
-        // 방 버튼 클릭 -> 입장
-//        roomBtn.addActionListener(e -> joinReadyRoom(room));
 		RoomBtn newBtn = new RoomBtn(room);
         addBtn(newBtn);
 		return newBtn.roomBtn;

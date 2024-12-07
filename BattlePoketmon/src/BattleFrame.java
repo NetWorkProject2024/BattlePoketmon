@@ -22,7 +22,6 @@ public class BattleFrame extends JFrame{
 	private JProgressBar healthBar2=null;
 	private JPanel centerPanel;
 	private JButton[] btnVec = new JButton[4];
-//	private World worldInfo;
 	
 	 private JFrame battleFrame;
 	
@@ -36,8 +35,10 @@ public class BattleFrame extends JFrame{
 	}
 	
 	public JFrame create() {
-//		JPanel entirePanel = new JPanel(new GridLayout(2,0));	
-		JPanel entirePanel = new JPanel(new BorderLayout());
+//		JPanel entirePanel = new JPanel(new BorderLayout());
+		BackgroundPanel entirePanel = new BackgroundPanel("src/poketmon/battle_Back.png");
+        entirePanel.setLayout(new BorderLayout());
+
 		entirePanel.add(createAbovePanel(),BorderLayout.CENTER);
 		entirePanel.add(createSkillPanel(),BorderLayout.SOUTH);
 		battleFrame.add(entirePanel);
@@ -47,38 +48,48 @@ public class BattleFrame extends JFrame{
 	}
 	public JPanel createUserInfoPanel() {
 		JPanel userPanel = new JPanel(new GridLayout(2,4));
+		userPanel.setOpaque(false);
 		
 		JPanel userInfoPanel1 = new JPanel(new GridLayout(0,1));
 		JPanel userInfoPanel2 = new JPanel(new GridLayout(0,1));
+		userInfoPanel1.setOpaque(false);
+		userInfoPanel2.setOpaque(false);
 		
 		userName1 = new JLabel(me.getPlayerName());
+		userName1.setOpaque(false);
 		healthBar1 = new JProgressBar(0,100);
 		healthBar1.setValue(me.getPoketmon().getCurrentHP());
 		healthBar1.setStringPainted(true);
 		healthBar1.setForeground(Color.RED);
 		JPanel imgPanel1 = new JPanel(new BorderLayout());
+		imgPanel1.setOpaque(false);
 		ImageIcon iconProfile1 = me.getProfile();
         Image scaledImageP1 = iconProfile1.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
         JLabel titleImgLabel1 = new JLabel(new ImageIcon(scaledImageP1));
         imgPanel1.add(titleImgLabel1);
-        JPanel myInfoPanel = new JPanel(new GridLayout(0,2));
+        JPanel myInfoPanel = new JPanel(new GridLayout(0,3));
+        myInfoPanel.setOpaque(false);
+        
         myInfoPanel.add(imgPanel1);
         myInfoPanel.add(userName1);
 
 		userName2 = new JLabel(other.getPlayerName());
+		userName2.setOpaque(false);
 		healthBar2 = new JProgressBar(0,100);
 		healthBar2.setValue(other.getPoketmon().getCurrentHP());
 		healthBar2.setStringPainted(true);
 		healthBar2.setForeground(Color.RED);
 		JPanel imgPanel2 = new JPanel(new BorderLayout());
+		imgPanel2.setOpaque(false);
 		ImageIcon iconProfile2 = other.getProfile();
         Image scaledImageP2 = iconProfile2.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
         JLabel titleImgLabel2 = new JLabel(new ImageIcon(scaledImageP2));
         imgPanel2.add(titleImgLabel2);
-        JPanel otherInfoPanel = new JPanel(new GridLayout(0,2));
+        JPanel otherInfoPanel = new JPanel(new FlowLayout());
+        otherInfoPanel.setOpaque(false);
         otherInfoPanel.add(imgPanel2);
         otherInfoPanel.add(userName2);
-		
+        
 		ImageIcon icon1 = me.getPoketmon().icon;//포켓몬 이미지
         Image scaledImage1 = icon1.getImage().getScaledInstance(180, 180, Image.SCALE_SMOOTH);
         
@@ -109,6 +120,7 @@ public class BattleFrame extends JFrame{
 	}
 	public JPanel createAbovePanel() {
 		JPanel abovePanel = new JPanel(new GridLayout(1,0));
+		abovePanel.setOpaque(false);
 		abovePanel.add(createUserInfoPanel());
 
 		return abovePanel;

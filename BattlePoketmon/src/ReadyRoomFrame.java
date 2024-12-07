@@ -37,9 +37,14 @@ public class ReadyRoomFrame{
 //			frame.dispose();
 			return;
 		}
-		frame = new JFrame("대기방");
+		frame = new JFrame("BattlePoketmon_ReadyRoom");
 		frame.setBounds(50,50,400,400);
-		JPanel entirePanel = new JPanel(new BorderLayout());
+//		JPanel entirePanel = new JPanel(new BorderLayout());
+		
+		
+		BackgroundPanel entirePanel = new BackgroundPanel("src/poketmon/ready_Background.jpg");
+        entirePanel.setLayout(new BorderLayout());
+		
 		
 		entirePanel.add(createAbovePanel(), BorderLayout.NORTH);
 		entirePanel.add(createCenterPanel(),BorderLayout.CENTER);
@@ -55,6 +60,7 @@ public class ReadyRoomFrame{
 	}
 	public JPanel createAbovePanel() {
 		JPanel abovePanel = new JPanel(new GridLayout(1,3));
+		abovePanel.setOpaque(false);
 		JLabel roomNameSign = new JLabel("방 이름");
 		JLabel roomNameLabel = new JLabel(roomInfo.getRoomName());
 		userCountLabel = new JLabel(roomInfo.getUsers().size()+"/"+roomInfo.getMaxPlayerCount());
@@ -72,11 +78,12 @@ public class ReadyRoomFrame{
 	}
 	public JPanel createCenterPanel() {
 		centerPanel = new JPanel(new GridLayout(3,2));
-		
+		centerPanel.setOpaque(false);
 		return centerPanel;
 	}
 	public JPanel createBelowPanel() {
 		JPanel belowPanel = new JPanel(new GridLayout(1,3));
+		belowPanel.setOpaque(false);
 		JButton b_backward= new JButton("<-");
 		JButton b_select = new JButton("선택");
 		JButton b_ready = new JButton("준비");
@@ -114,20 +121,25 @@ public class ReadyRoomFrame{
 	}
 	public JPanel createUserPanel(Player player) {
 		JPanel userPanel = new JPanel(new BorderLayout());
+		userPanel.setOpaque(false);
 		userPanel.add(createUserInfoPanel(player.getProfile(), player.getPlayerName(),player.getReady(), player.getId()));
 		return userPanel;
 	}
 	public JPanel createUserInfoPanel(ImageIcon profile, String name, boolean readyState, int id) {
 		JPanel userInfoPanel = new JPanel(new GridLayout(1,0));
-		
+		 userInfoPanel.setOpaque(false);
 		
 		JPanel imgPanel = new JPanel(new BorderLayout());
+		imgPanel.setOpaque(false);
+		
+		
 		ImageIcon icon = profile;
         Image scaledImage = icon.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
         JLabel titleImgLabel = new JLabel(new ImageIcon(scaledImage));
         imgPanel.add(titleImgLabel);
         
 		JLabel userName = new JLabel(name);
+		userName.setForeground(Color.blue);
 		JLabel userPoketmon = new JLabel("");
 		JLabel userReadyState;
 	
@@ -142,6 +154,7 @@ public class ReadyRoomFrame{
 		if(id == this.user.getId()) {
 			userPoketmonLabel.setText(Poketmon.PoketmonArray.poketmons.elementAt(user.getPoketmonIdx()).getName());
 			userReadyStateLabel.setText(userReadyState.getText());
+			userPoketmonLabel.setForeground(Color.blue);
 			
 			userInfoPanel.add(imgPanel);
 			userInfoPanel.add(userName);
@@ -149,7 +162,7 @@ public class ReadyRoomFrame{
 			userInfoPanel.add(userPoketmonLabel);
 		}
 		else {
-			userName.setForeground(Color.GRAY);
+			userName.setForeground(Color.DARK_GRAY);
 			userInfoPanel.add(imgPanel);
 			userInfoPanel.add(userName);
 			userInfoPanel.add(userReadyState);

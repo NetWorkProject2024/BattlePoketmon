@@ -29,14 +29,18 @@ public class WorldFrame {
 		this.worldInfo = worldInfo;
 		this.user = user;
 		this.myCoinLabel.setText("   내 코인 : "+user.getCoin());
+		myCoinLabel.setForeground(Color.WHITE);
 		poketmonFrame = new PoketmonFrame();
 	}
 	
 	public void create(Player user) {
 		worldFrame = new JFrame("BattlePoketmon_WORLD");
 		worldFrame.setBounds(200,200,800,600);
-		JPanel entirePanel = new JPanel(new BorderLayout());
-		
+//		JPanel entirePanel = new JPanel(new BorderLayout());
+
+        BackgroundPanel entirePanel = new BackgroundPanel("src/poketmon/world_Background.png");
+        entirePanel.setLayout(new BorderLayout());
+        
 		entirePanel.add(createAbovePanel(), BorderLayout.NORTH);
 		
 		entirePanel.add(createCenterPanel(),BorderLayout.CENTER);
@@ -48,6 +52,7 @@ public class WorldFrame {
 	
 	public JPanel createUserInfoPanel(Player player) {
 		JPanel userInfoPanel = new JPanel(new GridLayout(1,0));
+		userInfoPanel.setOpaque(false);
 		JLabel userName = new JLabel(player.getPlayerName());
 		JLabel userReadyState;
 		JLabel userWinCountLabel = new JLabel("승 : "+player.getWinCount());
@@ -71,6 +76,9 @@ public class WorldFrame {
 			
 		if(player.getId() == this.user.getId()) {
 			userReadyStateLabel.setText(userReadyState.getText());
+			userName.setForeground(Color.blue);
+			userWinCountLabel.setForeground(Color.blue);
+			userLoseCountLabel.setForeground(Color.blue);	
 		}
 		else {
 			userName.setForeground(Color.GRAY);
@@ -86,6 +94,7 @@ public class WorldFrame {
 	
 	public JPanel createAbovePanel() {
 		JPanel abovePanel = new JPanel(new GridLayout(0,2));
+		abovePanel.setOpaque(false);
 		readyBtn = new JButton("준비");
 		readyBtn.setHorizontalAlignment(SwingConstants.CENTER);
 		readyBtn.addActionListener(new ActionListener() {
@@ -121,6 +130,7 @@ public class WorldFrame {
 	
 	public JPanel createCenterPanel() {
 		centerPanel = new JPanel(new GridLayout(0,1));
+		centerPanel.setOpaque(false);
 		
 		for (Player player : worldInfo.getUsers()) {
 	        centerPanel.add(createUserInfoPanel(player));
@@ -130,7 +140,6 @@ public class WorldFrame {
 		
 	
 	public void repaint() {
-		System.out.println("현재 내 준비상태 : "+user.getReady());
 		if(user.getReady()) {
 			userReadyStateLabel.setText("준비");
 		}
