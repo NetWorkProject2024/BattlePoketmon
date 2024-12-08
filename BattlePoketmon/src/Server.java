@@ -275,7 +275,7 @@ public class Server extends JFrame{
 						rooms.add(newRoom);
 						Vector<ReadyRoom> readyRooms = new Vector<ReadyRoom>();
 						roomCopy(rooms, readyRooms);
-						printDisplay(msg.player + "가 " + newRoom.getRoomName() + "방을 생성했습니다.");
+						printDisplay(msg.player.getPlayerName() + "가 " + newRoom.getRoomName() + "방을 생성했습니다.");
 						send(new ChatMsg(msg.player, ChatMsg.MODE_ROOM_CREATE, newRoom, newRoom.roomId));
 						broadcasting(new ChatMsg(msg.player, ChatMsg.MODE_HOME_UPDATE, readyRooms,0));
 					}
@@ -358,19 +358,17 @@ public class Server extends JFrame{
 					}
 					else if(msg.mode == ChatMsg.MODE_BATTLE_END) {//배틀 끝났을 시
 						Player other = (Player)(msg.object);
-						printDisplay(msg.player.getId() + "가 졌다. " + other.getId() + "와의 배틀에서");
+						printDisplay(other.getPlayerName() + "와의 배틀에서"+msg.player.getPlayerName() + "가 졌다. ");
 						for(int i=0; i < users.size(); i++) {
 							if(users.elementAt(i).client.getId()==msg.player.getId()) {
-								printDisplay("진 사람: " + users.elementAt(i).client.getId());
+								printDisplay("진 사람: " + users.elementAt(i).client.getPlayerName());
 								users.elementAt(i).client.increaseLoseCount();		
-								printDisplay(users.elementAt(i).client.getLoseCount() + "<-loseCount");
 								users.elementAt(i).send(msg);
 								broadcastingInSameWorld(users.elementAt(i).client.getWorld(), new ChatMsg(users.elementAt(i).client, ChatMsg.MODE_BATTLE_RESULT, (long)0));
 							}
 							if(users.elementAt(i).client.getId()==other.getId()) {//이긴 사람
-								printDisplay("이긴 사람: " + users.elementAt(i).client.getId());
+								printDisplay("이긴 사람: " + users.elementAt(i).client.getPlayerName());
 								users.elementAt(i).client.increaseWinCount();//이긴 사람 승수 올리기	
-								printDisplay(users.elementAt(i).client.getWinCount() + "<-winCount");
 								users.elementAt(i).send(msg);
 								broadcastingInSameWorld(users.elementAt(i).client.getWorld(), new ChatMsg(users.elementAt(i).client, ChatMsg.MODE_BATTLE_RESULT, (long)1));//프레임에서 배틀 결과 업데이트
 								if(users.elementAt(i).client.getWinCount()==3) {

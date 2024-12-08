@@ -178,7 +178,6 @@ public class Home extends JFrame{
 
 	
 	public void joinReadyRoom(ReadyRoom room) {
-		player.getClient().sendMessage(player.getId() + "가 "+room.roomId + "대기방 ㄱㄱ");
 		player.setReadyRoom(room);
 		if(room.getUsers().contains(player)) {
 			return;
