@@ -27,12 +27,12 @@ public class ChatMsg implements Serializable{
 	
 	
 	public Player player;
-	int mode;
-	String message;
-	Object object;
-	Object object2;
-	ImageIcon img;
-	long size;
+	public int mode;
+	public String message;
+	public Object object;
+	public Object object2;
+	public ImageIcon img;
+	public long size;
 	public Vector <ReadyRoom> serverRooms;
 	public Vector <Player> worldPlayers; //월드 내 플레이어
 	
@@ -43,8 +43,7 @@ public class ChatMsg implements Serializable{
 		this.message = message;
 		this.object = object;
 		this.size = size;
-		this.serverRooms = null;
-		
+		this.serverRooms = null;		
 	}
 	
 	public ChatMsg(Player player, int code, String message,  Object object) {
@@ -55,7 +54,6 @@ public class ChatMsg implements Serializable{
 	}
 	
 	public ChatMsg(Player player, int code, String message) {
-//		this(player, code, message, null);
 		this.player=player;
 	    this.mode = code;
 	    this.message = message;
@@ -87,13 +85,11 @@ public class ChatMsg implements Serializable{
 	}
 	
 	public ChatMsg(Player player, int code, Object object) {
-//		this(player, code, null, object, 0);
 		this.player=player;
 	    this.mode = code;
 	    this.object = object;
 	}
 	public ChatMsg(Player player, int code, Object object, Object object2, long size) {
-//		this(player, code, null, object, 0);
 		this.player=player;
 	    this.mode = code;
 	    this.object = object;

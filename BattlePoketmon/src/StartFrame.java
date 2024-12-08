@@ -106,7 +106,6 @@ public class StartFrame extends JFrame{
 		return userInfoPanel;
 	}
 	public void startFrameDispose() {
-		System.out.println("StartFrame dispose");
 		startFrame.dispose();
 	}
 	

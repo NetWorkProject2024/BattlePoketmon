@@ -27,20 +27,12 @@ public class World implements Serializable{
 		Poketmon newPoketmon = new Poketmon(Poketmon.PoketmonArray.poketmons.elementAt(user.getPoketmonIdx()));
 		newPoketmon.createSkills();
 		user.setPoketmon(newPoketmon);
-		System.out.println(user.getPoketmon() + "유저 포켓몬 소지 유무");
 		if (this.frame == null) {
             this.frame = new WorldFrame(this, user); // frame 객체가 없으면 새로 생성            
         }
-//		user.getClient().sendPlayerReady(false);
 		user.setWorld(this);
 		user.getClient().sendWorldReady(false);
-		System.out.println(user.getWorld());
 		this.frame.create(user);
-		System.out.println(user.getWorld() + "내 월드" + user.getWorld().id);
-		
-		System.out.println(this.users.size() + "들어왔을 때 월드 인원 수");
-		System.out.println(user.getWorld().users + "월드 내 유저들 확인");
-
 		this.frame.repaint();
 		this.frame.updateUserList();
 	}
@@ -79,12 +71,6 @@ public class World implements Serializable{
 	public int getWorldId() {
 		return this.id;
 	}
-//	public void increaseReadyCount() {
-//		this.readyCount++;
-//	}
-//	public void decreaseReadyCount() {
-//		this.readyCount--;
-//	}
 	public void setReadyCount(int count) {
 		this.readyCount=count;
 	}
@@ -97,8 +83,4 @@ public class World implements Serializable{
 	public Vector<Player> getUsers() {
 	    return users;
 	}
-	
-	
-	
-
 }

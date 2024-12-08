@@ -16,7 +16,7 @@ public class WorldFrame {
 	private JPanel centerPanel;
 	private World worldInfo;
 	private JButton readyBtn;
-	JFrame worldFrame;
+	private JFrame worldFrame;
 	private Player user;
 	private PoketmonFrame poketmonFrame;
 	private JLabel userReadyStateLabel = new JLabel();
@@ -36,7 +36,6 @@ public class WorldFrame {
 	public void create(Player user) {
 		worldFrame = new JFrame("BattlePoketmon_WORLD");
 		worldFrame.setBounds(200,200,800,600);
-//		JPanel entirePanel = new JPanel(new BorderLayout());
 		ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
         Image image = icon.getImage();
         worldFrame.setIconImage(image);
@@ -49,7 +48,6 @@ public class WorldFrame {
 		worldFrame.add(entirePanel);
 		worldFrame.setVisible(true);
 		this.user = user;
-//		return worldFrame;		
 	}
 	
 	public JPanel createUserInfoPanel(Player player) {
@@ -127,9 +125,6 @@ public class WorldFrame {
 		abovePanel.add(b_poketmon);
 		return abovePanel;
 	}
-	
-	
-	
 	public JPanel createCenterPanel() {
 		centerPanel = new JPanel(new GridLayout(0,1));
 		centerPanel.setOpaque(false);
@@ -157,7 +152,6 @@ public class WorldFrame {
 	    centerPanel.removeAll(); // 기존 사용자 패널 제거
 
 	    // roomInfo의 모든 유저를 표시
-	    
 	    for (Player player : worldInfo.getUsers()) {
 	        centerPanel.add(createUserInfoPanel(player));
 	    }
@@ -168,7 +162,6 @@ public class WorldFrame {
 	}
 	
 	public void worldFrameDispose() {
-		System.out.println("WorldFrame dispose");
 		worldFrame.dispose();
 	}
 	

@@ -33,8 +33,6 @@ public class ReadyRoomFrame{
 	public void create(JFrame homeFrame, Player user) {
 		if(frame != null) {
 			repaint();
-			System.out.println("frame != null 확인!!");
-//			frame.dispose();
 			return;
 		}
 		frame = new JFrame("BattlePoketmon_ReadyRoom");
@@ -42,12 +40,9 @@ public class ReadyRoomFrame{
         Image image = icon.getImage();
         frame.setIconImage(image);
 		frame.setBounds(50,50,400,400);
-//		JPanel entirePanel = new JPanel(new BorderLayout());
-		
 		
 		BackgroundPanel entirePanel = new BackgroundPanel("src/poketmon/ready_Background.jpg");
         entirePanel.setLayout(new BorderLayout());
-		
 		
 		entirePanel.add(createAbovePanel(), BorderLayout.NORTH);
 		entirePanel.add(createCenterPanel(),BorderLayout.CENTER);
@@ -57,9 +52,6 @@ public class ReadyRoomFrame{
 		this.homeFrame=homeFrame;
 		this.user = user;
 		homeFrame.setVisible(false);
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//return frame;
-		
 	}
 	public JPanel createAbovePanel() {
 		JPanel abovePanel = new JPanel(new GridLayout(1,3));
@@ -94,11 +86,7 @@ public class ReadyRoomFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				homeFrame.setVisible(true);
-				
 				roomInfo.exitRoom(user);
-
-				System.out.println("방 나감 확인 버튼");
-				
 				frame.dispose();
 			}
 		});
@@ -112,8 +100,6 @@ public class ReadyRoomFrame{
 		b_ready.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//user.setReady(!user.getReady());
-				//user.getClient().sendPlayerReady(user.getReady());
 				user.getClient().sendPlayerReady(!user.getReady());
 			}
 		});
@@ -178,9 +164,7 @@ public class ReadyRoomFrame{
 	
 	public void updateUserList() {
 	    centerPanel.removeAll(); // 기존 사용자 패널 제거
-
-	    // roomInfo의 모든 유저를 표시
-	    
+	    // roomInfo의 모든 유저를 표시	    
 	    for (Player player : roomInfo.getUsers()) {
 	        centerPanel.add(createUserPanel(player));
 	    }
@@ -193,7 +177,6 @@ public class ReadyRoomFrame{
 
 	
 	public void repaint() {
-		System.out.println("현재 인원수 : "+roomInfo.getUsers().size());
 		userCountLabel.setText(roomInfo.getUsers().size()+"/"+roomInfo.getMaxPlayerCount());
 		userPoketmonLabel.setText(Poketmon.PoketmonArray.poketmons.elementAt(user.getPoketmonIdx()).getName());
 		if(roomInfo.getUsers().size() == roomInfo.getMaxPlayerCount()) {

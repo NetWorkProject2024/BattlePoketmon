@@ -23,7 +23,6 @@ public class PoketmonStoreFrame {
    
    public void create() {
       JFrame frame = new JFrame("BattlePoketmon_Store");
-//      JPanel p = new JPanel(new GridLayout(4,0));
       ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
       Image image = icon.getImage();
       frame.setIconImage(image);

@@ -21,7 +21,6 @@ import javax.swing.JTextField;
 
 public class Home extends JFrame{
 
-//	public Vector<ReadyRoom> rooms = new Vector<>();
 	public static int roomCount = 0;//방 만들때++
 	private JPanel roomListPanel;
 	private JScrollPane scrollPane;
@@ -38,12 +37,10 @@ public class Home extends JFrame{
 		buildHomeGUI(serverRooms);
 		setSize(600,450);
 		setLocation(500,0);
-//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
 	
 	private void buildHomeGUI(Vector<ReadyRoom> serverRooms) {
-//		setLayout(new BorderLayout());
 		 BackgroundPanel mainPanel = new BackgroundPanel("src/poketmon/home_background.png");
 	        mainPanel.setLayout(new BorderLayout());
 	        mainPanel.add(topPanel(), BorderLayout.NORTH);
@@ -100,7 +97,6 @@ public class Home extends JFrame{
 	    roomListPanel.setPreferredSize(calculatePreferredSize(rooms));
 	    roomListPanel.revalidate();
 	    roomListPanel.repaint();
-	   System.out.println("리스트업데이트");
     }
 	
 	private JButton createRoomBtn(ReadyRoom room) {
@@ -176,7 +172,6 @@ public class Home extends JFrame{
 	}
 
 	public void createReadyRoom(Player user, String roomName, int maxPlayers) {
-		System.out.println("방 생성 메세지 만들기");
 		user.getClient().sendCreateRoom(roomName, (long)maxPlayers);
 		return;
 	}
@@ -188,9 +183,7 @@ public class Home extends JFrame{
 		if(room.getUsers().contains(player)) {
 			return;
 		}
-//		room.enterRoom(player);
 		player.getClient().sendEnterRoom(room);
-		System.out.println(room.roomId  + "<- roomId");
 	}
 	public void addBtn(RoomBtn newBtn) {
 		if(!roomBtns.contains(newBtn)) roomBtns.add(newBtn);
@@ -199,7 +192,6 @@ public class Home extends JFrame{
 		for(int i=0; i < roomBtns.size(); i++) {
 			roomBtns.elementAt(i).setPlayerCount();
 			roomBtns.elementAt(i).repaint();
-			System.out.println("버튼을 다시 그리는 중입니다.");
 		}
 	}
 	class RoomBtn {
@@ -227,16 +219,13 @@ public class Home extends JFrame{
 	        {
 	        	System.out.println(this.room);
 	        	if(this.room.getUsers().size()< this.room.getMaxPlayerCount()) {
-//	        		player.getClient().sendEnterRoom(this.room);
 		        	joinReadyRoom(this.room);
 		     
 	        	}
-	        	
 	        }
 	        );
 		}
 		void setPlayerCount() {
-			System.out.println("setPlayerCount에서의 방의 현재 인원수 : "+this.room.getUsers().size());
 			playerCountLabel.setText(String.format("(%d / %d)", this.room.getUsers().size(), this.room.getMaxPlayerCount()));
 		}
 		void repaint() {

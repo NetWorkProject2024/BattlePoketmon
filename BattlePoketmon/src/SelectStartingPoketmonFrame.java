@@ -29,7 +29,6 @@ public class SelectStartingPoketmonFrame {
         Image image = icon.getImage();
         frame.setIconImage(image);
 		frame.setBounds(100,100,400,300);
-//		JPanel panel = new JPanel(new BorderLayout());
 		BackgroundPanel panel = new BackgroundPanel("src/poketmon/selectPoketmon_Background.png");
         panel.setLayout(new BorderLayout());
 		

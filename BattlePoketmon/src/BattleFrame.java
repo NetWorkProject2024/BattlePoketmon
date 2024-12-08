@@ -35,7 +35,6 @@ public class BattleFrame extends JFrame{
 	}
 	
 	public JFrame create() {
-//		JPanel entirePanel = new JPanel(new BorderLayout());
 		BackgroundPanel entirePanel = new BackgroundPanel("src/poketmon/battle_Back.png");
         entirePanel.setLayout(new BorderLayout());
         ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
@@ -154,13 +153,8 @@ public class BattleFrame extends JFrame{
 						attack += 20;
 					}
 					
-					
-					System.out.println("attack 값: " + (int)attack);
-					System.out.println("공격버튼 누른 사람: " + me.getPlayerName());
-					
 					int result = other.getPoketmon().getCurrentHP();
 					result -= (int)(attack/10);
-					System.out.println("상대 " + other.getPlayerName());
 					other.getPoketmon().setCurrentHP(result);								
 					me.setTurn(0);
 					other.setTurn(1);
@@ -219,7 +213,6 @@ public class BattleFrame extends JFrame{
 	}
 	
 	public void battleFrameDispose() {
-		System.out.println("BattleFrame dispose");
 		battleFrame.dispose();
 	}
 	

@@ -41,10 +41,8 @@ public class Poketmon implements Serializable{
       // 0 : 불, 1 : 물, 2 : 풀
       private static int[] typeIdx = {0, 1, 2,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2};
       private static int[] attackPower = {100, 100, 100, 120,120,140,140,140,160,160,160,140,120,120,140,140,160,160,160,120,120,140,140,160,160,140,160};
-//      private static int[] defensePower = {100, 100, 100};
       static {
          for(int i=0; i < names.length; i++) {
-//            poketmons.add(new Poketmon(names[i], typeIdx[i], attackPower[i], defensePower[i], icons[i]));
         	 poketmons.add(new Poketmon(names[i], typeIdx[i], attackPower[i], icons[i]));
          }
       }
@@ -61,10 +59,7 @@ public class Poketmon implements Serializable{
    
    public int getAttackPower() {
       return attackPower;
-   }
-//   public int getDefensePower() {
-//	      return defensePower;
-//   }
+   } 
    public int getCurrentHP() {
 	   return this.currentHp;
    }

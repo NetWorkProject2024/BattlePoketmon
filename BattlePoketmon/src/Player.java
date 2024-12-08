@@ -128,7 +128,5 @@ public class Player implements Serializable{
    public void increaseLoseCount() {
 	   this.loseCount++;
    }
-   
-   
 }
 

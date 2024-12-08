@@ -22,14 +22,12 @@ public class ResultFrame {
    }
    public void create() {
       JFrame frame = new JFrame("BattlePoketmon_Ending");
-//      JPanel panel = new JPanel(new GridLayout(0,1));
       ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
       Image image = icon.getImage();
       frame.setIconImage(image);
       frame.setBounds(200,200,600,400);
       BackgroundPanel panel = new BackgroundPanel("src/poketmon/End.png");
       panel.setLayout(new GridLayout(0, 1));
-
       
       users.sort(new WinCountComparator());
       for(int i=0; i < users.size(); i++) {
@@ -54,17 +52,14 @@ public class ResultFrame {
       
       JLabel nameLabel = new JLabel(user.getPlayerName());
       JLabel winCountLabel = new JLabel("승 : "+user.getWinCount());
-      JLabel loseCountLabel = new JLabel("패 : "+user.getLoseCount());
       
       orderLabel.setForeground(Color.GREEN);
       nameLabel.setForeground(Color.WHITE);
       winCountLabel.setForeground(Color.RED);
-      loseCountLabel.setForeground(Color.WHITE);
       panel.add(orderLabel);
       panel.add(imgPanel);
       panel.add(nameLabel);
       panel.add(winCountLabel);
-      panel.add(loseCountLabel);
       return panel;
    }
    class WinCountComparator implements Comparator<Player>{

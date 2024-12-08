@@ -15,16 +15,16 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class Client{
-	private transient Home home = null;
+	private Home home = null;
 	
 	private String serverAddress;
 	private int serverPort;
 	
-	private transient Socket socket;
+	private Socket socket;
 
-	private transient ObjectOutputStream out;
+	private ObjectOutputStream out;
 	private BattleFrame battleFrame=null;
-	private transient Thread receiveThread = null;
+	private Thread receiveThread = null;
 	private int userId = 0;
 	private Player player;
 	private ReadyRoom room = null;
@@ -33,7 +33,6 @@ public class Client{
 	
 	
 	public Client(String serverAddress, int serverPort) {
-//		this.id = userId++;
 		this.serverAddress=serverAddress;
 		this.serverPort = serverPort;
 		
@@ -41,7 +40,6 @@ public class Client{
 		
 		try {
 			connectToServer(this.player);
-//			sendUserID();
 		}catch(IOException e) {
 			
 		}
@@ -52,7 +50,7 @@ public class Client{
 		try {
 			local = InetAddress.getLocalHost();
 			addr = local.getHostAddress();
-			System.out.println(addr);
+
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -82,19 +80,11 @@ public class Client{
 						case ChatMsg.MODE_LOGIN:
 							home = new Home(player, inMsg.serverRooms);
 							player.setId(inMsg.size);
-							System.out.println("id바뀜??" +player.getId());
+
 							break;
 						case ChatMsg.MODE_TX_STRING:
 							break;
-						case ChatMsg.MODE_HOME_UPDATE:
-//			                home.updateRooms(inMsg.room);			                
-//							SwingUtilities.invokeLater(() -> {
-//	                            home.updateRoomListPanel();	                          
-//	                        });
-							System.out.println(inMsg.serverRooms + "<- 뭐가 넘어오니");
-							for(int i=0; i < inMsg.serverRooms.size(); i++) {
-								System.out.println("Update 될 때의 각 방의 현재 인원: "+inMsg.serverRooms.elementAt(i).getUsers());
-							}							
+						case ChatMsg.MODE_HOME_UPDATE:						
 							home.updateRoomListPanel(inMsg.serverRooms);
 							home.repaint();
 	                        break;						
@@ -121,11 +111,9 @@ public class Client{
 									player.getReadyRoom().getUsers().remove(player.getReadyRoom().getUsers().elementAt(i));
 								}
 							}
-							System.out.println("방의 유저 수 : "+((ReadyRoom)inMsg.object).getUsers() + "남아있는 방 유저들");
 							player.getReadyRoom().getRoomFrame().updateUserList();
 							break;
 						case ChatMsg.MODE_ROOM_CREATE:
-							System.out.println("방 서버가 생성");
 							home.joinReadyRoom(((ReadyRoom)inMsg.object));
 							home.repaint();
 							break;
@@ -137,18 +125,14 @@ public class Client{
 							else {
 								state = true;
 							}
-							System.out.println("서버에서 준비 상태 받는 중 >> player : "+inMsg.player+" , ready 상태 : "+state);
 							if(player.getId()==inMsg.player.getId()) {
 								player.setReady(state);
 							}
 							player.getReadyRoom().changeReadyState(inMsg.player, state);
 							
-							System.out.println(player.getReadyRoom().getCurrentReadyCount() + "레디 상태 받았을 때 변화");
 							break;							
 						case ChatMsg.MODE_WORlD_ENTER:							
-							System.out.println("월드_서버가 생성");
 							((World)inMsg.object).enterWorld(player);
-							System.out.println("생성한 월드의 인원수: " + player.getWorld().users);
 							break;
 							
 						case ChatMsg.MODE_WORLD_PLAYERREADY:
@@ -159,21 +143,16 @@ public class Client{
 							else if(inMsg.size == (long)1){
 								worldReadyState = true;
 							}
-							System.out.println("서버에서 준비 상태 받는 중 >> player : "+inMsg.player+" , ready 상태 : "+worldReadyState + "ㅇㅇ" + ((World)inMsg.object).users);
 							if(player.getId()==inMsg.player.getId()) {
 								player.setReady(worldReadyState);
 							}
 							player.getWorld().changeReadyState(inMsg.player, worldReadyState);
-							
-							System.out.println(player.getReadyRoom().getUsers() + "레디 상태 받았을 때 인원수");
 							break;
 							
 						case ChatMsg.MODE_MATCHING:
 							if(player.getId()==inMsg.player.getId()) {
-								
 								player.setOtherPlayer((Player)inMsg.object);
 								player.getOtherPlayer().setPoketmon((Poketmon)inMsg.object2);
-								System.out.println("포켓몬 소유 확인 : " + player.getPoketmon()+", "+ player.getOtherPlayer().getPoketmon());
 								player.setTurn(inMsg.size);
 								player.getOtherPlayer().setTurn(1-(inMsg.size));
 								battleFrame = new BattleFrame(player.getOtherPlayer(), player);
@@ -181,45 +160,19 @@ public class Client{
 							}
 							break;
 						case ChatMsg.MODE_ATTACK:
-							System.out.println("공격받음" + inMsg.player.getId());
 							int result = 0;
-							System.out.println(result + "결과값");
-							System.out.println((int)inMsg.size);
-//							System.out.println(player.getPoketmon().getDefensePower());
-							//sendResult(player, ChatMsg.MODE_ATTACK_RESULT, result);
-							if(inMsg.player.getId()==player.getId()) {
-								
+							if(inMsg.player.getId()==player.getId()) {								
 								result = player.getPoketmon().getCurrentHP();
 								result -= (int)(inMsg.size/10);
-								
-//								if(player.getPoketmon().getType().getStrength().getName().equals(((Type)inMsg.object).getName())) {
-//									result -= 2;
-//								}
-//								else if(player.getPoketmon().getType().getWeakness().getName().equals(((Type)inMsg.object).getName())) {
-//									result += 2;
-//								}
-								//물 -> 불-강하게
-								//물-> 풀 - 약하게
-								//풀 -> 물 - 강하게
-								//풀 -> 불 - 약하게
-								//불 -> 풀 - 강하게
-								//불 -> 물-약하게
-								
-								System.out.println("나 " + player.getId());
 								player.getPoketmon().setCurrentHP(result);
 								player.setTurn(1);
 								player.getOtherPlayer().setTurn(0);
-
 								if(result<=0) {
 									sendBattleResult(player, ChatMsg.MODE_BATTLE_END, player.getOtherPlayer());//진 사람이 보낸다
-									System.out.println(player.getId() + "가 졌다" + player.getOtherPlayer().getId() + "와의 배틀에서");
 								}
-							}
-							
+							}							
 							battleFrame.repaint();
 							battleFrame.btnEnabled(true);
-							
-							
 							break;
 							
 						case ChatMsg.MODE_BATTLE_END:
@@ -233,9 +186,7 @@ public class Client{
 					            battleFrame = null;
 					        }
 							player.getPoketmon().setCurrentHP(100);
-							player.getOtherPlayer().getPoketmon().setCurrentHP(100);
-							System.out.println("포켓몬 체력 초기화 >> 내 포켓몬 : "+player.getPoketmon().getCurrentHP()+" 상대방 포켓몬 : "+player.getOtherPlayer().getPoketmon().getCurrentHP());
-							
+							player.getOtherPlayer().getPoketmon().setCurrentHP(100);							
 							if(player.getId() == winner.getId()) {
 								player.increaseWinCount();
 							}
@@ -263,10 +214,7 @@ public class Client{
 
 							break;
 						case ChatMsg.MODE_WORLD_END:
-							System.out.println("월드 엔딩");
 							player.getWorld().getWorldFrame().worldFrameDispose();
-							
-							//
 							if(battleFrame!=null) {
 								battleFrame.battleFrameDispose();
 							}
@@ -282,8 +230,6 @@ public class Client{
 							sendPlayerReady(false);
 							break;
 						}
-						
-						
 					}catch (IOException e) {
 						System.err.println("서버 연결 끊김: " + e.getMessage());
 						System.exit(-1);
@@ -350,9 +296,7 @@ public class Client{
 		if (room == null) {
 		    System.err.println("room 객체가 null 상태입니다");
 		} else {
-			System.out.println(room.getUsers() + "룸에 있는 사람들");
 			send(new ChatMsg(this.player, ChatMsg.MODE_ROOM_ENTER, room, 0));
-		    System.out.println(room.getRoomName());
 		}
 	}
 	public void sendExitRoom(ReadyRoom room) {
@@ -366,26 +310,22 @@ public class Client{
 	public void sendPlayerReady(boolean state) {
 		int size = 0;
 		if(state) {
-			
 			size = 1;
 		}
 		else {
 			size = 0;
 		}
-		System.out.println("서버에게 준비 상태 알리는 중 >> player : " +this.player +" , ready 상태 : "+state +" , size : " +size);
 		send(new ChatMsg(this.player, ChatMsg.MODE_ROOM_PLAYERREADY, size));
 	}
 	
 	public void sendWorldReady(boolean state) {
 		int size = 0;
 		if(state) {
-			
 			size = 1;
 		}
 		else {
 			size = 0;
 		}
-		System.out.println("월드 입장 중 서버에게 준비 상태 공지>> player : " +this.player +" , ready 상태 : "+state +" , world : " +this.player.getWorld() + " 내 포켓몬: " + this.player.getPoketmon());
 		send(new ChatMsg(this.player, ChatMsg.MODE_WORLD_PLAYERREADY, this.player.getPoketmon(),size));
 	}
 	public void sendAttack(Player other, int mode, Object object, int attack) {
@@ -401,7 +341,6 @@ public class Client{
 	
 	private void showMessage(String title, String message) {
 	    JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
-	    
 	}
 	
 	public Player getPlayer() {

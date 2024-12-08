@@ -19,7 +19,6 @@ public class ReadyRoom implements Serializable{
 		this.maxPlayerCount=maxPlayerCount;
 		this.enable=true;
 		this.roomId =id;
-		//this.frame = new ReadyRoomFrame(this);
 	}
 	
 	public void enterRoom(Player user) {
@@ -32,18 +31,12 @@ public class ReadyRoom implements Serializable{
 		if(this.users.size() >= this.maxPlayerCount) {
 			this.enable=false;
 		}
-//		this.frame.addUser(user);
 		System.out.println(this.currentReadyCount + "들어왔을 때 레디 인원 수");
-		
-	
-//		this.frame.createUserInfoPanel(user.getPlayerName(), false); // 플레이어 목록 업데이트
 		this.frame.repaint();
 		this.frame.updateUserList();
 	}
 	public void exitRoom(Player user) {
-	
 		this.enable=true;
-
 		user.getClient().sendExitRoom(user.getReadyRoom());
 		
 	}
@@ -72,7 +65,7 @@ public class ReadyRoom implements Serializable{
 		this.frame.updateUserList();
 	}
 	public void poketmonPick(Player user, int idx) {
-		//user.setPoketmonIdx(idx);
+		user.setPoketmonIdx(idx);
 	}
 	public void poketmonPick(Player user) {
 		poketmonPick(user, 0);
@@ -110,9 +103,7 @@ public class ReadyRoom implements Serializable{
 	public void addUser(Player player) {
 	    if (!users.contains(player)) {//중복X
 	        users.add(player);
-	        System.out.println(users + "addUser!!!!!");
 	    }
-	    //player.getClient().sendEnterRoom(this);
 	}
 	
 }

@@ -30,16 +30,11 @@ import javax.swing.SwingUtilities;
 public class Server extends JFrame{
 	
 	private int port;
-	private ServerSocket serverSocket = null;
-	
+	private ServerSocket serverSocket = null;	
 	private Thread acceptThread = null;
-
-	
 	private Vector<ClientHandler> users = new Vector<ClientHandler>();
-	
 	private JTextArea t_display;
 	private JButton b_exit;
-	
 	private static Vector<ReadyRoom> rooms = new Vector<ReadyRoom>();
 	private static Vector<World> worlds = new Vector<World>();
 	private static int roomIdCounter = 0;
@@ -114,13 +109,11 @@ public class Server extends JFrame{
 		try {
 			serverSocket = new ServerSocket(port);
 			printDisplay("서버가 시작되었습니다: " + getLocalAddr());
-			System.out.println("서버가 시작되었습니다.");
 
 			while (acceptThread == Thread.currentThread()) {
 				clientSocket = serverSocket.accept();
 				String cAddr = clientSocket.getInetAddress().getHostAddress();
 				t_display.append("클라이언트가 연결되었습니다: " + cAddr + "\n");
-				System.out.println("클라이언트가 연결되었습니다.\n");
 				
 				ClientHandler cHandler = new ClientHandler(clientSocket);
 				users.add(cHandler);
@@ -177,7 +170,6 @@ public class Server extends JFrame{
 		try {
 			local = InetAddress.getLocalHost();
 			addr = local.getHostAddress();
-			System.out.println(addr);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -216,7 +208,6 @@ public class Server extends JFrame{
 						for(int i = 0; i<users.size();i++) {
 							if(users.elementAt(i).client != null && msg.player.getId()==users.elementAt(i).client.getId()) {
 								users.elementAt(i).client.setProfile(msg.img);
-								System.out.println(users.elementAt(i).client.getProfile() + "프로필");
 							}
 						}
 						
@@ -227,7 +218,6 @@ public class Server extends JFrame{
 						printDisplay("새 참가자: " + uid);
 						printDisplay("현재 참가자 수: " + users.size());
 						sendLogin(client);						
-//						continue;
 					}else if (msg.mode == ChatMsg.MODE_LOGOUT) {
 						break;
 					}else if(msg.mode == ChatMsg.MODE_TX_STRING) {
@@ -236,51 +226,39 @@ public class Server extends JFrame{
 						broadcasting(msg);
 						
 					}else if (msg.mode == ChatMsg.MODE_HOME_UPDATE) {
-						System.out.println(((ReadyRoom)msg.object) + "-업데이트");						
 						msg.serverRooms = new Vector<>(rooms); // rooms 값을 복사하여 설정
-						System.out.println(msg.serverRooms + "-방송전");
 						broadcasting(msg);
 					}else if (msg.mode == ChatMsg.MODE_ROOM_ENTER) {
-						System.out.println("방에 "+msg.player+"가 들어왔습니다");
-						System.out.println(((ReadyRoom)msg.object));
+						printDisplay(((ReadyRoom)msg.object).getRoomName()+"방에 "+msg.player.getPlayerName()+"가 들어왔습니다");
 						for(int i=0; i <rooms.size(); i++) {
 							if(rooms.elementAt(i).roomId==((ReadyRoom)msg.object).roomId) {
 								rooms.elementAt(i).addUser(msg.player);
 								((ReadyRoom)msg.object).roomId=rooms.elementAt(i).roomId;
 								roomCopy(rooms.elementAt(i),((ReadyRoom)msg.object));
-								System.out.println(rooms.elementAt(i).getUsers() + "check!!");
 							}
 						}
 						broadcastingInSameRoom((ReadyRoom)msg.object,msg);
 						send(msg);
 						client.setReadyRoom(((ReadyRoom)msg.object));
-						System.out.println("copy후의 >>"+((ReadyRoom)msg.object).getUsers()+"방의 현재 인원수");
-						
 						Vector<ReadyRoom> readyRooms = new Vector<ReadyRoom>();
 						roomCopy(rooms, readyRooms);
-						for(int i=0; i <rooms.size(); i++) {
-							System.out.println("readyRooms 의 유저 >> "+readyRooms.elementAt(i).getUsers() + "check!!");
-						}
 						broadcasting(new ChatMsg(msg.player, ChatMsg.MODE_HOME_UPDATE, readyRooms, 0));
 					}
 					
 					
 					
 					else if(msg.mode == ChatMsg.MODE_ROOM_EXIT) {
-						System.out.println(msg.player+"가 " + ((ReadyRoom)msg.object) + "방을 나갔습니다");
+						printDisplay(msg.player+"가 " + ((ReadyRoom)msg.object) + "방을 나갔습니다");
 						for(int i=0; i <rooms.size(); i++) {
 							if(rooms.elementAt(i).roomId==((ReadyRoom)msg.object).roomId) {
 								rooms.elementAt(i).removeUser(msg.player);
 								((ReadyRoom)msg.object).roomId=rooms.elementAt(i).roomId;
 								
 								roomCopy(rooms.elementAt(i), ((ReadyRoom)msg.object));
-								System.out.println(rooms.elementAt(i).getUsers() + "check!!");								
 															
 							}
 						}						
 						broadcastingInSameRoom((ReadyRoom)msg.object,msg);
-						System.out.println("copy후의 >>"+((ReadyRoom)msg.object).getUsers()+"방의 현재 인원수");
-						
 						for(int i=0; i <rooms.size(); i++) {
 							if(rooms.elementAt(i).getUsers().size()==0) {
 								rooms.removeElementAt(i);
@@ -288,20 +266,18 @@ public class Server extends JFrame{
 						}						
 						Vector<ReadyRoom> readyRooms = new Vector<ReadyRoom>();
 						roomCopy(rooms, readyRooms);
-						for(int i=0; i <rooms.size(); i++) {
-							System.out.println("readyRooms 의 유저 >> "+readyRooms.elementAt(i).getUsers() + "check!!");
-						}
 						broadcasting(new ChatMsg(msg.player, ChatMsg.MODE_HOME_UPDATE, readyRooms, 0));
 						msg.player.getReadyRoom().decreaseCurrentReadyCount();
 					}
 					else if(msg.mode == ChatMsg.MODE_ROOM_CREATE) {
+						
 						ReadyRoom newRoom = new ReadyRoom(msg.message, msg.player, (int)msg.size, generateRoomId());
 						rooms.add(newRoom);
 						Vector<ReadyRoom> readyRooms = new Vector<ReadyRoom>();
 						roomCopy(rooms, readyRooms);
+						printDisplay(msg.player + "가 " + newRoom.getRoomName() + "방을 생성했습니다.");
 						send(new ChatMsg(msg.player, ChatMsg.MODE_ROOM_CREATE, newRoom, newRoom.roomId));
 						broadcasting(new ChatMsg(msg.player, ChatMsg.MODE_HOME_UPDATE, readyRooms,0));
-						
 					}
 					
 					else if(msg.mode == ChatMsg.MODE_ROOM_PLAYERREADY) {
@@ -310,10 +286,8 @@ public class Server extends JFrame{
 						}
 						else {
 							msg.player.setReady(true);
-							
 						}
 						ChatMsg newMsg = new ChatMsg(msg.player, msg.mode, msg.player.getReadyRoom(), msg.size);
-						System.out.println("클라이언트에게 준비 상태 받는 중 >> player : "+newMsg.player+", size : "+newMsg.size);
 						broadcastingInSameRoom((ReadyRoom)newMsg.object,  newMsg);
 						
 						ReadyRoom currentRoom = roomReadyCount((ReadyRoom)newMsg.object, msg.player.getReady());//월드 진입
@@ -322,14 +296,12 @@ public class Server extends JFrame{
 							worlds.add(newWorld);
 							setWorldInSameRoom(newWorld);
 							broadcastingInSameRoom((ReadyRoom)newMsg.object, new ChatMsg(msg.player, ChatMsg.MODE_WORlD_ENTER, newWorld));
-							
+							printDisplay(currentRoom.getRoomName() + "방에서 게임을 시작했습니다.");
 						}
-						
 					}
 					
 					
 					else if(msg.mode == ChatMsg.MODE_WORLD_PLAYERREADY) {
-						System.out.println(msg.size  + "상태 뭔데");
 						World currentWorld=null;
 						for(int i=0; i < worlds.size(); i++) {
 							if(worlds.elementAt(i).getWorldId()==msg.player.getWorld().getWorldId()) {
@@ -338,41 +310,31 @@ public class Server extends JFrame{
 						}
 						if(msg.size==(long)0) {
 							msg.player.setReady(false);
-//							currentWorld.decreaseReadyCount();
 						}
 						else if(msg.size==(long)1){
 							msg.player.setReady(true);
-							System.out.println(msg.player.getId() + "준비된 플레이어");
 							for(int i=0; i < users.size(); i++) {
 								if(msg.player.getId()==users.elementAt(i).client.getId()) {
-									
 									users.elementAt(i).client.setPoketmon((Poketmon)msg.object);
-									System.out.println("포켓몬 설정 완료" + users.elementAt(i).client.getPoketmon());
 								}
 							}
-//							currentWorld.increaseReadyCount();
 						}
 						ChatMsg newMsg = new ChatMsg(msg.player, msg.mode, currentWorld, msg.size);
-					
-						System.out.println("클라이언트에게 월드 준비 상태 받는 중 >> player : "+newMsg.player+"size : "+newMsg.size+"world : "+(World)newMsg.object);
 						broadcastingInSameWorld((World)newMsg.object, newMsg);
 						
 						int readyCount = 0;
 						for(int i=0; i < currentWorld.getUsers().size(); i++) {
 							for(int j=0; j < users.size(); j++) {
 								if(currentWorld.getUsers().elementAt(i).getId() == users.elementAt(j).client.getId()) {
-
 									if(currentWorld.getUsers().elementAt(i).getReady()) {
 										readyCount++;
 									}
 									currentWorld.getUsers().elementAt(i).setPoketmon(users.elementAt(j).client.getPoketmon());
 									users.elementAt(j).client.setPoketmon(currentWorld.getUsers().elementAt(i).getPoketmon());
-									System.out.println("포켓몬 저장 확인 _ 서버"+users.elementAt(j).client.getPoketmon());
 								}
 							}
 						}
 						currentWorld.setReadyCount(readyCount);
-						System.out.println("월드 준비 인원 수 확인 : "+((World)newMsg.object).getReadyCount());
 						if(currentWorld.getReadyCount() == currentWorld.getMaxNum()) {
 							matching(currentWorld);
 						}
@@ -381,7 +343,6 @@ public class Server extends JFrame{
 						Player other=null;
 						for(int i=0; i < users.size(); i++) {
 							if(users.elementAt(i).client.getId()==msg.player.getId()) {
-								System.out.println("맞는 사람: " + users.elementAt(i).client.getId());
 								int result=(int)msg.size;
 								if(users.elementAt(i).client.getPoketmon().getType().getStrength().getName().equals(((PType)msg.object).getName())) {
 									result -= 20;
@@ -400,26 +361,23 @@ public class Server extends JFrame{
 						printDisplay(msg.player.getId() + "가 졌다. " + other.getId() + "와의 배틀에서");
 						for(int i=0; i < users.size(); i++) {
 							if(users.elementAt(i).client.getId()==msg.player.getId()) {
-								System.out.println("진 사람: " + users.elementAt(i).client.getId());
+								printDisplay("진 사람: " + users.elementAt(i).client.getId());
 								users.elementAt(i).client.increaseLoseCount();		
 								printDisplay(users.elementAt(i).client.getLoseCount() + "<-loseCount");
 								users.elementAt(i).send(msg);
 								broadcastingInSameWorld(users.elementAt(i).client.getWorld(), new ChatMsg(users.elementAt(i).client, ChatMsg.MODE_BATTLE_RESULT, (long)0));
 							}
 							if(users.elementAt(i).client.getId()==other.getId()) {//이긴 사람
-								System.out.println("이긴 사람: " + users.elementAt(i).client.getId());
+								printDisplay("이긴 사람: " + users.elementAt(i).client.getId());
 								users.elementAt(i).client.increaseWinCount();//이긴 사람 승수 올리기	
 								printDisplay(users.elementAt(i).client.getWinCount() + "<-winCount");
 								users.elementAt(i).send(msg);
 								broadcastingInSameWorld(users.elementAt(i).client.getWorld(), new ChatMsg(users.elementAt(i).client, ChatMsg.MODE_BATTLE_RESULT, (long)1));//프레임에서 배틀 결과 업데이트
-								
-								if(users.elementAt(i).client.getWinCount()==1) {
+								if(users.elementAt(i).client.getWinCount()==3) {
 									broadcastingInSameWorld(users.elementAt(i).client.getWorld(), new ChatMsg(users.elementAt(i).client, ChatMsg.MODE_WORLD_END, users.elementAt(i).client.getWorld()));//월드 END									
+									printDisplay(users.elementAt(i).client.getReadyRoom().getRoomName()+"방 게임 종료");
 								}
 							}
-							
-							
-							
 						}		
 						
 					}		
@@ -501,7 +459,6 @@ public class Server extends JFrame{
 		
 		private void broadcasting(ChatMsg msg) {
 
-            System.out.println(msg.serverRooms +"방송중");
 			for (ClientHandler c : users) {
 	            c.send(msg);
 	        }
@@ -511,7 +468,6 @@ public class Server extends JFrame{
 			for (ClientHandler c : users) {
 				if(c.client.getReadyRoom().roomId == room.roomId) {
 					c.send(msg);
-					System.out.println("sameRoom broadcasting");
 				}	            
 	        }
 		}
@@ -519,14 +475,10 @@ public class Server extends JFrame{
 		private void broadcastingInSameWorld(World world, ChatMsg msg) {
 		    for (ClientHandler c : users) {
 		        World playerWorld = c.client.getWorld(); // 클라이언트의 월드 가져오기
-		        if (playerWorld == null) {
-		        	System.out.println("nullll");
-		        }
 		        if (playerWorld != null && playerWorld.getWorldId() == world.getWorldId()) {
 		            c.send(msg);
-		            System.out.println("Broadcasting to sameWorld succeeded");
 		        } else {
-		            System.out.println("Skipping client: World is null or doesn't match");
+		        	printDisplay("Skipping client: World is null or doesn't match");
 		        }
 		    }
 		}
@@ -541,19 +493,17 @@ public class Server extends JFrame{
 				}
 			}
 		}
-//		/////유저 매칭 필요!!				
+		// 배틀 - 유저 매칭				
 		private void matching(World world) {
-
 			Collections.shuffle(world.users);
-			System.out.println(world.users);
 			for (int i = 0; i< world.users.size();i+=2) {
 				ChatMsg msg = new ChatMsg(world.users.elementAt(i), ChatMsg.MODE_MATCHING, world.users.elementAt(i+1), world.users.elementAt(i+1).getPoketmon(), 1);
 				broadcastingInSameWorld(world, msg);
 				world.users.elementAt(i).setOtherPlayer(world.users.elementAt(i+1));
 				msg = new ChatMsg(world.users.elementAt(i+1), ChatMsg.MODE_MATCHING, world.users.elementAt(i), world.users.elementAt(i).getPoketmon(), 0);
 				broadcastingInSameWorld(world, msg);
-				System.out.println("매칭 중 포켓몬 소유 확인" + world.users.elementAt(i).getPoketmon()+", " +world.users.elementAt(i+1).getPoketmon());
 				world.users.elementAt(i+1).setOtherPlayer(world.users.elementAt(i));
+				printDisplay(world.users.elementAt(i+1).getPlayerName()+"와 " + world.users.elementAt(i+1).getOtherPlayer().getPlayerName()+"가 배틀합니다.");
 			}
 			for(int i=0; i < users.size(); i++) {
 				for(int j=0; j < world.users.size(); j++) {
@@ -562,12 +512,9 @@ public class Server extends JFrame{
 					}
 				}
 			}
-			
 			if(world == null){
-				System.out.println("Matching failed");//확인용
+				printDisplay("Matching failed");//확인용
 			}		
-			
-			
 		}
 
 		

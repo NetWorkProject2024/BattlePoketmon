@@ -31,7 +31,6 @@ public class PoketmonFrame {
         Image image = icon.getImage();
         frame.setIconImage(image);
 		frame.setBounds(200,200,400,500);
-//		JPanel entirePanel = new JPanel(new BorderLayout());
 		
 		BackgroundPanel entirePanel = new BackgroundPanel("src/poketmon/poketmon_Back.png");
 	    entirePanel.setLayout(new BorderLayout());
@@ -52,7 +51,6 @@ public class PoketmonFrame {
         Image image = icon.getImage();
         frame.setIconImage(image);
 		frame.setBounds(200,200,400,500);
-//		JPanel entirePanel = new JPanel(new BorderLayout());
 		
 		BackgroundPanel entirePanel = new BackgroundPanel("src/poketmon/poketmon_Back.png");
 	    entirePanel.setLayout(new BorderLayout());
@@ -90,7 +88,6 @@ public class PoketmonFrame {
         JLabel xLabel2 = new JLabel("");
         JLabel xLabel3 = new JLabel("");
         JLabel xLabel4 = new JLabel("");
-		
 		
         infoPanel.add(nameLabel);
         infoPanel.add(xLabel);
@@ -163,6 +160,5 @@ public class PoketmonFrame {
 		return btnPanel;
 		
 	}
-	
 	
 }
