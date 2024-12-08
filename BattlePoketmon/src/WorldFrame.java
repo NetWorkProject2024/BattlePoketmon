@@ -81,9 +81,12 @@ public class WorldFrame {
 			userLoseCountLabel.setForeground(Color.blue);	
 		}
 		else {
-			userName.setForeground(Color.GRAY);
-			userWinCountLabel.setForeground(Color.GRAY);
-			userLoseCountLabel.setForeground(Color.GRAY);					
+			userName.setForeground(Color.RED);
+			userWinCountLabel.setForeground(Color.RED);
+			userLoseCountLabel.setForeground(Color.RED);		
+//			userName.setForeground(Color.GRAY);
+//			userWinCountLabel.setForeground(Color.GRAY);
+//			userLoseCountLabel.setForeground(Color.GRAY);
 		}
 		userInfoPanel.add(userName);
 		userInfoPanel.add(userReadyState);	

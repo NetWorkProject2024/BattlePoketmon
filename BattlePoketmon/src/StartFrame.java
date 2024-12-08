@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class StartFrame extends JFrame{
@@ -25,6 +27,7 @@ public class StartFrame extends JFrame{
      private JLabel profileImgLabel = new JLabel(new ImageIcon(scaledImage));
      
 	public StartFrame(Player player) {
+		UIManager.put("Label.font", new Font("Malgun Gothic", Font.BOLD, 15)); // 기본 폰트 변경
 		startFrame = new JFrame("BattlePoketmon");
 		startFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		startFrame.setBounds(200,200,550,500);

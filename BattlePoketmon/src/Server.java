@@ -1,6 +1,7 @@
 
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -25,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 
 public class Server extends JFrame{
@@ -533,5 +535,6 @@ public class Server extends JFrame{
 	public static void main(String[] args) {
 		int port = 54321;
 		Server s = new Server(port);
+		
 	}
 }
