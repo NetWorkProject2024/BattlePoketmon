@@ -145,7 +145,16 @@ public class BattleFrame extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					float attack = (float)(((currentSkill.getAttack()))*me.getPoketmon().getAttackPower()/100.0);
-					me.getClient().sendAttack(other, ChatMsg.MODE_ATTACK, (int)attack);
+					me.getClient().sendAttack(other, ChatMsg.MODE_ATTACK,currentSkill.getType(), (int)attack);
+					
+					if(other.getPoketmon().getType().getStrength().getName().equals(currentSkill.getType().getName())) {
+						attack -= 20;
+					}
+					else if(other.getPoketmon().getType().getWeakness().getName().equals(currentSkill.getType().getName())) {
+						attack += 20;
+					}
+					
+					
 					System.out.println("attack 값: " + (int)attack);
 					System.out.println("공격버튼 누른 사람: " + me.getPlayerName());
 					

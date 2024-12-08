@@ -191,6 +191,20 @@ public class Client{
 								
 								result = player.getPoketmon().getCurrentHP();
 								result -= (int)(inMsg.size/10);
+								
+//								if(player.getPoketmon().getType().getStrength().getName().equals(((Type)inMsg.object).getName())) {
+//									result -= 2;
+//								}
+//								else if(player.getPoketmon().getType().getWeakness().getName().equals(((Type)inMsg.object).getName())) {
+//									result += 2;
+//								}
+								//물 -> 불-강하게
+								//물-> 풀 - 약하게
+								//풀 -> 물 - 강하게
+								//풀 -> 불 - 약하게
+								//불 -> 풀 - 강하게
+								//불 -> 물-약하게
+								
 								System.out.println("나 " + player.getId());
 								player.getPoketmon().setCurrentHP(result);
 								player.setTurn(1);
@@ -374,8 +388,8 @@ public class Client{
 		System.out.println("월드 입장 중 서버에게 준비 상태 공지>> player : " +this.player +" , ready 상태 : "+state +" , world : " +this.player.getWorld() + " 내 포켓몬: " + this.player.getPoketmon());
 		send(new ChatMsg(this.player, ChatMsg.MODE_WORLD_PLAYERREADY, this.player.getPoketmon(),size));
 	}
-	public void sendAttack(Player other, int mode, int attack) {
-		send(new ChatMsg(other, mode, attack));
+	public void sendAttack(Player other, int mode, Object object, int attack) {
+		send(new ChatMsg(other, mode, object, attack));
 	}
 	public JFrame getHome() {
 		return home;

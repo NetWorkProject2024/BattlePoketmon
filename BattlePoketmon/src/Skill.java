@@ -3,12 +3,12 @@ import java.util.Vector;
 
 public class Skill implements Serializable{
    private String name;
-   private Type type;
+   private PType type;
    private int attack;
    
    public Skill(String name, int typeIdx, int attack) {
       this.name = name;
-      this.type = Type.TypeArray.types.elementAt(typeIdx);
+      this.type = PType.TypeArray.types.elementAt(typeIdx);
       this.attack=attack;
    }
    public static class SkillArray{
@@ -35,7 +35,7 @@ public class Skill implements Serializable{
    public String getName() {
 	   return this.name;
    }
-   public Type getType() {
+   public PType getType() {
       return this.type;
    }
    public int getAttack() {

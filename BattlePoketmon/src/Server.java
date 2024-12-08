@@ -7,10 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -218,7 +214,7 @@ public class Server extends JFrame{
 				while ((msg = (ChatMsg)in.readObject()) != null){
 					if(msg.mode == ChatMsg.MODE_IMG_REQUEST) {
 						for(int i = 0; i<users.size();i++) {
-							if(msg.player.getId()==users.elementAt(i).client.getId()) {
+							if(users.elementAt(i).client != null && msg.player.getId()==users.elementAt(i).client.getId()) {
 								users.elementAt(i).client.setProfile(msg.img);
 								System.out.println(users.elementAt(i).client.getProfile() + "프로필");
 							}
@@ -386,7 +382,14 @@ public class Server extends JFrame{
 						for(int i=0; i < users.size(); i++) {
 							if(users.elementAt(i).client.getId()==msg.player.getId()) {
 								System.out.println("맞는 사람: " + users.elementAt(i).client.getId());
-								users.elementAt(i).send(msg);//맞은 사람이 떄린 사람에게 보낸다.
+								int result=(int)msg.size;
+								if(users.elementAt(i).client.getPoketmon().getType().getStrength().getName().equals(((PType)msg.object).getName())) {
+									result -= 20;
+								}
+								else if(users.elementAt(i).client.getPoketmon().getType().getWeakness().getName().equals(((PType)msg.object).getName())) {
+									result += 20;
+								}
+								users.elementAt(i).send(new ChatMsg(msg.player, msg.mode, msg.object, result));//맞은 사람이 떄린 사람에게 보낸다.
 								other = users.elementAt(i).client.getOtherPlayer();
 							}
 						}

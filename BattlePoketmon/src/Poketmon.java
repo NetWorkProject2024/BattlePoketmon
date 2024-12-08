@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 
 public class Poketmon implements Serializable{
    private String name;
-   private Type type;
+   private PType type;
    private Skill[] skills = new Skill[4];
    private int attackPower;
    private int maxHp=100;
@@ -15,7 +15,7 @@ public class Poketmon implements Serializable{
    
    public Poketmon(String name, int typeIdx, int attackPower, String icon) {
       this.name = name;
-      this.type = Type.TypeArray.types.elementAt(typeIdx);
+      this.type = PType.TypeArray.types.elementAt(typeIdx);
       this.attackPower = attackPower;
       this.icon = new ImageIcon(icon);
    }
@@ -55,7 +55,7 @@ public class Poketmon implements Serializable{
    public String getName() {
       return name;
    }
-   public Type getType() {
+   public PType getType() {
       return type;
    }
    
@@ -88,7 +88,7 @@ public class Poketmon implements Serializable{
         	 continue;
          }
          Skill newSkill = Skill.SkillArray.skills.elementAt(idx);
-         if(newSkill.getType()==Type.TypeArray.types.elementAt(3) ||newSkill.getType()==type) {
+         if(newSkill.getType()==PType.TypeArray.types.elementAt(3) ||newSkill.getType()==type) {
             this.skills[skillCount]=newSkill;
             skillIdxArray[idx]=true;
             skillCount++;
