@@ -36,6 +36,7 @@ public class WorldFrame {
 	public void create(Player user) {
 		worldFrame = new JFrame("BattlePoketmon_WORLD");
 		worldFrame.setBounds(200,200,800,600);
+		
 		ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
         Image image = icon.getImage();
         worldFrame.setIconImage(image);
@@ -48,6 +49,8 @@ public class WorldFrame {
 		worldFrame.add(entirePanel);
 		worldFrame.setVisible(true);
 		this.user = user;
+		repaint();
+		updateUserList();
 	}
 	
 	public JPanel createUserInfoPanel(Player player) {

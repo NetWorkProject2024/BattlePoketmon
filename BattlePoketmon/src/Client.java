@@ -131,7 +131,7 @@ public class Client{
 							player.getReadyRoom().changeReadyState(inMsg.player, state);
 							
 							break;							
-						case ChatMsg.MODE_WORlD_ENTER:							
+						case ChatMsg.MODE_WORlD_ENTER:	
 							((World)inMsg.object).enterWorld(player);
 							break;
 							
@@ -222,13 +222,15 @@ public class Client{
 							ResultFrame resultFrame = new ResultFrame(player.getWorld().users);
 							resultFrame.create();
 							//엔딩 프레임 얻기
-							
+
 							//정보 초기화
 							player.setCoin(100);
 							player.setLoseCount(0);
 							player.setWinCount(0);
 							sendPlayerReady(false);
+							sendWorldEnd();
 							break;
+						
 						}
 					}catch (IOException e) {
 						System.err.println("서버 연결 끊김: " + e.getMessage());
@@ -277,6 +279,9 @@ public class Client{
 	    } catch (IOException e) {
 	        System.err.println("메시지 전송 오류: " + e.getMessage() + e.toString());
 	    }
+	}
+	public void sendWorldEnd() {
+		send(new ChatMsg(player, ChatMsg.MODE_WORLD_END));
 	}
 	public void sendUserProfile() {
 		send(new ChatMsg(player, ChatMsg.MODE_IMG_REQUEST, player.getProfile()));

@@ -16,8 +16,8 @@ public class World implements Serializable{
 		this.users = new Vector<Player>();
 		for(int i=0; i < users.size(); i++) {
 			this.users.add(users.elementAt(i));
+	    	
 		}
-		
 		this.maxNum = maxNum;
 		this.id = worldId;
 	}
@@ -27,9 +27,12 @@ public class World implements Serializable{
 		Poketmon newPoketmon = new Poketmon(Poketmon.PoketmonArray.poketmons.elementAt(user.getPoketmonIdx()));
 		newPoketmon.createSkills();
 		user.setPoketmon(newPoketmon);
-		if (this.frame == null) {
-            this.frame = new WorldFrame(this, user); // frame 객체가 없으면 새로 생성            
-        }
+		for(int i=0; i < users.size(); i++) {
+			users.elementAt(i).setCoin(100);
+			users.elementAt(i).setWinCount(0);
+			users.elementAt(i).setLoseCount(0);
+		}
+		this.frame = new WorldFrame(this, user);
 		user.setWorld(this);
 		user.getClient().sendWorldReady(false);
 		this.frame.create(user);

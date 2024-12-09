@@ -291,11 +291,6 @@ public class Server extends JFrame{
 						}
 						ChatMsg newMsg = new ChatMsg(msg.player, msg.mode, msg.player.getReadyRoom(), msg.size);
 						broadcastingInSameRoom((ReadyRoom)newMsg.object,  newMsg);
-						if(client.getId()==msg.player.getId()) {
-							client.setCoin(msg.player.getCoin());
-							client.setLoseCount(msg.player.getLoseCount());
-							client.setWinCount(msg.player.getWinCount());
-						}
 						
 						
 						ReadyRoom currentRoom = roomReadyCount((ReadyRoom)newMsg.object, msg.player.getReady());//월드 진입
@@ -379,7 +374,7 @@ public class Server extends JFrame{
 								users.elementAt(i).client.increaseWinCount();//이긴 사람 승수 올리기	
 								users.elementAt(i).send(msg);
 								broadcastingInSameWorld(users.elementAt(i).client.getWorld(), new ChatMsg(users.elementAt(i).client, ChatMsg.MODE_BATTLE_RESULT, (long)1));//프레임에서 배틀 결과 업데이트
-								if(users.elementAt(i).client.getWinCount()==2) {
+								if(users.elementAt(i).client.getWinCount()==3) {
 									broadcastingInSameWorld(users.elementAt(i).client.getWorld(), new ChatMsg(users.elementAt(i).client, ChatMsg.MODE_WORLD_END, users.elementAt(i).client.getWorld()));//월드 END									
 									printDisplay(users.elementAt(i).client.getReadyRoom().getRoomName()+"방 게임 종료");
 //									for(int j=0; j < worlds.size(); j++) {
@@ -389,9 +384,19 @@ public class Server extends JFrame{
 //									}
 								}
 							}
-						}		
+						}
 						
-					}		
+					}
+					else if(msg.mode == ChatMsg.MODE_WORLD_END) {
+						for(int i=0; i < users.size(); i++) {
+							if(msg.player.getId()==users.elementAt(i).client.getId()) {
+								users.elementAt(i).client.setCoin(100);
+								users.elementAt(i).client.setWinCount(0);
+								users.elementAt(i).client.setLoseCount(0);
+							}
+						}
+						
+					}
 					
 				}
 				
