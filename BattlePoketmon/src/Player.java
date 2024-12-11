@@ -38,7 +38,6 @@ public class Player implements Serializable{
    }
    public void setReady(boolean ready) {
       this.ready = ready;
-      System.out.println(this + "준비 됐나?");
    }
    public void setReadyRoom(ReadyRoom myRoom) {
       this.room = myRoom;

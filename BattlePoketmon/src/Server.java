@@ -1,13 +1,14 @@
 
 
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -26,12 +27,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 
 
 public class Server extends JFrame{
 	
 	private int port;
+	private String host;
 	private ServerSocket serverSocket = null;	
 	private Thread acceptThread = null;
 	private Vector<ClientHandler> users = new Vector<ClientHandler>();
@@ -44,7 +45,7 @@ public class Server extends JFrame{
 	private static int worldIdCounter = 0;
 	
 	
-	public Server(int port) {
+	public Server(String host, int port) {
 		super("BattlePoketmon_Server");
 		ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
         Image image = icon.getImage();
@@ -54,7 +55,8 @@ public class Server extends JFrame{
 		setLocation(100,0);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-
+		
+		this.host = host;
 		this.port = port;
 		
 		acceptThread = new Thread(new Runnable() {
@@ -108,8 +110,10 @@ public class Server extends JFrame{
 	
 	private void startServer() {
 		Socket clientSocket = null;
+		
 		try {
-			serverSocket = new ServerSocket(port);
+			serverSocket = new ServerSocket(port, 50, InetAddress.getByName("0.0.0.0"));
+//			serverSocket = new ServerSocket(port);
 			printDisplay("서버가 시작되었습니다: " + getLocalAddr());
 
 			while (acceptThread == Thread.currentThread()) {
@@ -377,11 +381,6 @@ public class Server extends JFrame{
 								if(users.elementAt(i).client.getWinCount()==3) {
 									broadcastingInSameWorld(users.elementAt(i).client.getWorld(), new ChatMsg(users.elementAt(i).client, ChatMsg.MODE_WORLD_END, users.elementAt(i).client.getWorld()));//월드 END									
 									printDisplay(users.elementAt(i).client.getReadyRoom().getRoomName()+"방 게임 종료");
-//									for(int j=0; j < worlds.size(); j++) {
-//										if(worlds.elementAt(j).getWorldId()==users.elementAt(i).client.getWorld().getWorldId()) {
-//											worlds.remove(users.elementAt(i).client.getWorld());
-//										}
-//									}
 								}
 							}
 						}
@@ -523,14 +522,14 @@ public class Server extends JFrame{
 			}
 			for(int i=0; i < users.size(); i++) {
 				for(int j=0; j < world.users.size(); j++) {
-					if(world.users.elementAt(j).getId()==users.elementAt(i).getId()) {
+					if(world.users.elementAt(j).getId()==users.elementAt(i).client.getId()) {
 						users.elementAt(i).client.setOtherPlayer(world.users.elementAt(j).getOtherPlayer());
 					}
 				}
 			}
-			if(world == null){
-				printDisplay("Matching failed");//확인용
-			}		
+//			if(world == null){
+//				printDisplay("Matching failed");//확인용
+//			}		
 		}
 
 		
@@ -549,8 +548,19 @@ public class Server extends JFrame{
 	
     
 	public static void main(String[] args) {
+		String filePath = "C:\\address.txt";
+		
+		String host=null;
 		int port = 54321;
-		Server s = new Server(port);
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(filePath));
+			host = reader.readLine();
+			port = Integer.parseInt(reader.readLine());
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		Server s = new Server(host, port);
 		
 	}
 }

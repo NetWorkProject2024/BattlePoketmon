@@ -27,11 +27,9 @@ public class ReadyRoom implements Serializable{
         }
 		this.frame.create(user.getClient().getHome(), user);
 		poketmonPick(user);
-		System.out.println("방의 인원수 : "+users.size()+" enterRoom에서 호출");
 		if(this.users.size() >= this.maxPlayerCount) {
 			this.enable=false;
 		}
-		System.out.println(this.currentReadyCount + "들어왔을 때 레디 인원 수");
 		this.frame.repaint();
 		this.frame.updateUserList();
 	}

@@ -1,6 +1,8 @@
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -9,10 +11,9 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
-
+import javax.swing.SwingUtilities;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 public class Client{
 	private Home home = null;
@@ -359,6 +360,14 @@ public class Client{
 		String serverAddress="localhost";
 		int serverPort = 54321;
 		
+		String filePath = "C:\\address.txt";
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(filePath));
+			serverAddress = reader.readLine();
+			serverPort = Integer.parseInt(reader.readLine());
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
 		Client client = new Client(serverAddress, serverPort);
 
 	}

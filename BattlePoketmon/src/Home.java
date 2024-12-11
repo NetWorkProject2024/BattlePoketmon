@@ -216,7 +216,6 @@ public class Home extends JFrame{
         	}
 	        roomBtn.addActionListener(e -> 
 	        {
-	        	System.out.println(this.room);
 	        	if(this.room.getUsers().size()< this.room.getMaxPlayerCount()) {
 		        	joinReadyRoom(this.room);
 		     
