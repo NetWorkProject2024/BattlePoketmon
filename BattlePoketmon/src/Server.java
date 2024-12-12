@@ -112,8 +112,8 @@ public class Server extends JFrame{
 		Socket clientSocket = null;
 		
 		try {
-			serverSocket = new ServerSocket(port, 50, InetAddress.getByName("0.0.0.0"));
-//			serverSocket = new ServerSocket(port);
+//			serverSocket = new ServerSocket(port, 50, InetAddress.getByName("0.0.0.0"));
+			serverSocket = new ServerSocket(port);
 			printDisplay("서버가 시작되었습니다: " + getLocalAddr());
 
 			while (acceptThread == Thread.currentThread()) {
@@ -548,17 +548,18 @@ public class Server extends JFrame{
 	
     
 	public static void main(String[] args) {
-		String filePath = "C:\\address.txt";
-		
 		String host=null;
 		int port = 54321;
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(filePath));
-			host = reader.readLine();
-			port = Integer.parseInt(reader.readLine());
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
+		
+//		String filePath = "C:\\address.txt";
+//
+//		try {
+//			BufferedReader reader = new BufferedReader(new FileReader(filePath));
+//			host = reader.readLine();
+//			port = Integer.parseInt(reader.readLine());
+//		}catch(IOException e) {
+//			e.printStackTrace();
+//		}
 		
 		Server s = new Server(host, port);
 		
