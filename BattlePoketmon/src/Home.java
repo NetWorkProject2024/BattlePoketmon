@@ -42,7 +42,7 @@ public class Home extends JFrame{
 	}
 	
 	private void buildHomeGUI(Vector<ReadyRoom> serverRooms) {
-		 BackgroundPanel mainPanel = new BackgroundPanel("/poketmon/home_background.png");
+		 BackgroundPanel mainPanel = new BackgroundPanel("/poketmon/home_Background.png");
 	        mainPanel.setLayout(new BorderLayout());
 	        mainPanel.add(topPanel(), BorderLayout.NORTH);
 	        mainPanel.add(createRoomListPanel(serverRooms), BorderLayout.CENTER);
