@@ -35,10 +35,10 @@ public class BattleFrame extends JFrame{
 	}
 	
 	public JFrame create() {
-		BackgroundPanel entirePanel = new BackgroundPanel("poketmon/battle_Back.png");
+		BackgroundPanel entirePanel = new BackgroundPanel("/poketmon/battle_Back.png");
         entirePanel.setLayout(new BorderLayout());
         
-        ImageIcon icon = new ImageIcon(getClass().getResource("poketmon/Title.png"));
+        ImageIcon icon = new ImageIcon(getClass().getResource("/poketmon/Title.png"));
         Image image = icon.getImage();
         battleFrame.setIconImage(image);
 		entirePanel.add(createAbovePanel(),BorderLayout.CENTER);

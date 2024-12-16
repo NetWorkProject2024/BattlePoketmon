@@ -22,7 +22,8 @@ public class Player implements Serializable{
    public Player(String name, Client client) {
       this.playerName = name;
       this.client = client;
-      this.profile = new ImageIcon("src/poketmon/default.png");
+      
+      this.profile = new ImageIcon(getClass().getResource("/poketmon/default.png"));
       StartFrame startFrame = new StartFrame(this);
       startFrame.create();
    }

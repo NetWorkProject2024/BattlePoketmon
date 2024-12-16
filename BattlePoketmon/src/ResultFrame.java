@@ -22,11 +22,11 @@ public class ResultFrame {
    }
    public void create() {
       JFrame frame = new JFrame("BattlePoketmon_Ending");
-      ImageIcon icon = new ImageIcon(getClass().getResource("poketmon/Title.png"));
+      ImageIcon icon = new ImageIcon(getClass().getResource("/poketmon/Title.png"));
       Image image = icon.getImage();
       frame.setIconImage(image);
       frame.setBounds(200,200,600,400);
-      BackgroundPanel panel = new BackgroundPanel("poketmon/End.png");
+      BackgroundPanel panel = new BackgroundPanel("/poketmon/End.png");
       panel.setLayout(new GridLayout(0, 1));
       
       users.sort(new WinCountComparator());

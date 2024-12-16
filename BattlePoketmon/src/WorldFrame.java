@@ -37,10 +37,10 @@ public class WorldFrame {
 		worldFrame = new JFrame("BattlePoketmon_WORLD");
 		worldFrame.setBounds(200,200,800,600);
 		
-		ImageIcon icon = new ImageIcon(getClass().getResource("poketmon/Title.png"));
+		ImageIcon icon = new ImageIcon(getClass().getResource("/poketmon/Title.png"));
         Image image = icon.getImage();
         worldFrame.setIconImage(image);
-        BackgroundPanel entirePanel = new BackgroundPanel("poketmon/world_Background.png");
+        BackgroundPanel entirePanel = new BackgroundPanel("/poketmon/world_Background.png");
         entirePanel.setLayout(new BorderLayout());
         
 		entirePanel.add(createAbovePanel(), BorderLayout.NORTH);

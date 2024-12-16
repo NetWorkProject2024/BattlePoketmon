@@ -23,12 +23,12 @@ public class PoketmonStoreFrame {
    
    public void create() {
       JFrame frame = new JFrame("BattlePoketmon_Store");
-      ImageIcon icon = new ImageIcon(getClass().getResource("poketmon/Title.png"));
+      ImageIcon icon = new ImageIcon(getClass().getResource("/poketmon/Title.png"));
       Image image = icon.getImage();
       frame.setIconImage(image);
-      BackgroundPanel p = new BackgroundPanel("poketmon/store_Back.png");
+      BackgroundPanel p = new BackgroundPanel("/poketmon/store_Back.png");
       p.setLayout(new GridLayout(0,1));
-      ImageIcon egg = new ImageIcon(getClass().getResource("poketmon/poketmon_egg.png"));//포켓몬 알 이미지
+      ImageIcon egg = new ImageIcon(getClass().getResource("/poketmon/poketmon_egg.png"));//포켓몬 알 이미지
       Image scaledImage = egg.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
       JLabel eggImgLabel = new JLabel(new ImageIcon(scaledImage));
       
