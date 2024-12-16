@@ -36,12 +36,12 @@ public class ReadyRoomFrame{
 			return;
 		}
 		frame = new JFrame("BattlePoketmon_ReadyRoom");
-		ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
+		ImageIcon icon = new ImageIcon(getClass().getResource("/poketmon/Title.png"));
         Image image = icon.getImage();
         frame.setIconImage(image);
 		frame.setBounds(50,50,400,400);
 		
-		BackgroundPanel entirePanel = new BackgroundPanel("src/poketmon/ready_Background.jpg");
+		BackgroundPanel entirePanel = new BackgroundPanel("/poketmon/ready_Background.jpg");
         entirePanel.setLayout(new BorderLayout());
 		
 		entirePanel.add(createAbovePanel(), BorderLayout.NORTH);

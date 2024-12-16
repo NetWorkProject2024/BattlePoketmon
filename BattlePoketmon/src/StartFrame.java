@@ -22,7 +22,7 @@ public class StartFrame extends JFrame{
 	 private JFrame startFrame;
 	 private Player player;
 	
-	 private ImageIcon profile = new ImageIcon("src/poketmon/default.png");//기본 프로필 이미지
+	 private ImageIcon profile = new ImageIcon(getClass().getResource("/poketmon/default.png"));//기본 프로필 이미지
      private Image scaledImage = profile.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
      private JLabel profileImgLabel = new JLabel(new ImageIcon(scaledImage));
      
@@ -32,7 +32,7 @@ public class StartFrame extends JFrame{
 		startFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		startFrame.setBounds(200,200,550,500);
 
-        ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
+        ImageIcon icon = new ImageIcon(getClass().getResource("/poketmon/Title.png"));
         Image image = icon.getImage();
         startFrame.setIconImage(image);
 		this.player = player;
@@ -40,7 +40,7 @@ public class StartFrame extends JFrame{
 	
 	public JFrame create() {		
 		// 배경 패널 사용
-        BackgroundPanel mainPanel = new BackgroundPanel("src/poketmon/Start.png");
+        BackgroundPanel mainPanel = new BackgroundPanel("/poketmon/Start.png");
         mainPanel.setLayout(new BorderLayout());
         
         mainPanel.add(createTitleImgPanel(),BorderLayout.CENTER);

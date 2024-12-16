@@ -30,7 +30,8 @@ public class Home extends JFrame{
 	
 	public Home(Player player, Vector<ReadyRoom> serverRooms) {
 		super("Battle Poketmon");
-		ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
+		
+		ImageIcon icon = new ImageIcon(getClass().getResource("/poketmon/Title.png"));
         Image image = icon.getImage();
         this.setIconImage(image);
         this.player = player;
@@ -41,7 +42,7 @@ public class Home extends JFrame{
 	}
 	
 	private void buildHomeGUI(Vector<ReadyRoom> serverRooms) {
-		 BackgroundPanel mainPanel = new BackgroundPanel("src/poketmon/home_background.png");
+		 BackgroundPanel mainPanel = new BackgroundPanel("/poketmon/home_background.png");
 	        mainPanel.setLayout(new BorderLayout());
 	        mainPanel.add(topPanel(), BorderLayout.NORTH);
 	        mainPanel.add(createRoomListPanel(serverRooms), BorderLayout.CENTER);
@@ -108,7 +109,7 @@ public class Home extends JFrame{
 	//방 만들기
 	private void openCreateRoomDialog() {
 	    JFrame createRoomFrame = new JFrame("방 만들기");
-	    ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
+	    ImageIcon icon = new ImageIcon(getClass().getResource("/poketmon/Title.png"));
         Image image = icon.getImage();
         createRoomFrame.setIconImage(image);
 	    createRoomFrame.setSize(400, 200);

@@ -37,10 +37,10 @@ public class WorldFrame {
 		worldFrame = new JFrame("BattlePoketmon_WORLD");
 		worldFrame.setBounds(200,200,800,600);
 		
-		ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
+		ImageIcon icon = new ImageIcon(getClass().getResource("/poketmon/Title.png"));
         Image image = icon.getImage();
         worldFrame.setIconImage(image);
-        BackgroundPanel entirePanel = new BackgroundPanel("src/poketmon/world_Background.png");
+        BackgroundPanel entirePanel = new BackgroundPanel("/poketmon/world_Background.png");
         entirePanel.setLayout(new BorderLayout());
         
 		entirePanel.add(createAbovePanel(), BorderLayout.NORTH);
@@ -87,9 +87,6 @@ public class WorldFrame {
 			userName.setForeground(Color.RED);
 			userWinCountLabel.setForeground(Color.RED);
 			userLoseCountLabel.setForeground(Color.RED);		
-//			userName.setForeground(Color.GRAY);
-//			userWinCountLabel.setForeground(Color.GRAY);
-//			userLoseCountLabel.setForeground(Color.GRAY);
 		}
 		userInfoPanel.add(userName);
 		userInfoPanel.add(userReadyState);	
@@ -106,7 +103,8 @@ public class WorldFrame {
 		readyBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				user.getClient().sendWorldReady(!user.getReady());		}
+				user.getClient().sendWorldReady(!user.getReady());
+				}
 		});
 		abovePanel.add(myCoinLabel);
 		abovePanel.add(readyBtn);

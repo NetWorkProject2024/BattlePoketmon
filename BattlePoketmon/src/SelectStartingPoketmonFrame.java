@@ -25,11 +25,11 @@ public class SelectStartingPoketmonFrame {
 	}
 	public JFrame create() {
 		frame = new JFrame("Select_MyPoketmon");
-		ImageIcon icon = new ImageIcon("src/poketmon/Title.png");
+		ImageIcon icon = new ImageIcon(getClass().getResource("/poketmon/Title.png"));
         Image image = icon.getImage();
         frame.setIconImage(image);
 		frame.setBounds(100,100,400,300);
-		BackgroundPanel panel = new BackgroundPanel("src/poketmon/selectPoketmon_Background.png");
+		BackgroundPanel panel = new BackgroundPanel("/poketmon/selectPoketmon_Background.png");
         panel.setLayout(new BorderLayout());
 		
 		
