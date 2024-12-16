@@ -28,12 +28,12 @@ public class PoketmonFrame {
 		this.poketmon = poketmon;
 		frame = new JFrame("NewPoketmon");
 		
-		ImageIcon icon = new ImageIcon(getClass().getResource("/poketmon/Title.png"));
+		ImageIcon icon = new ImageIcon(getClass().getResource("poketmon/Title.png"));
         Image image = icon.getImage();
         frame.setIconImage(image);
 		frame.setBounds(200,200,400,500);
 		
-		BackgroundPanel entirePanel = new BackgroundPanel("/poketmon/poketmon_Back.png");
+		BackgroundPanel entirePanel = new BackgroundPanel("poketmon/poketmon_Back.png");
 	    entirePanel.setLayout(new BorderLayout());
 		
 		entirePanel.add(createCenterPanel(),BorderLayout.NORTH);
@@ -48,12 +48,12 @@ public class PoketmonFrame {
 	public JFrame create_Inventory(Poketmon poketmon) {
 		this.poketmon = poketmon;
 		frame = new JFrame("MyPoketmon");
-		ImageIcon icon = new ImageIcon(getClass().getResource("/poketmon/Title.png"));
+		ImageIcon icon = new ImageIcon(getClass().getResource("poketmon/Title.png"));
         Image image = icon.getImage();
         frame.setIconImage(image);
 		frame.setBounds(200,200,400,500);
 		
-		BackgroundPanel entirePanel = new BackgroundPanel("/poketmon/poketmon_Back.png");
+		BackgroundPanel entirePanel = new BackgroundPanel("poketmon/poketmon_Back.png");
 	    entirePanel.setLayout(new BorderLayout());
 		
 		entirePanel.add(createCenterPanel(),BorderLayout.NORTH);
