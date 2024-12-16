@@ -357,17 +357,17 @@ public class Client{
 	public static void main(String[] args) {
 //		String serverAddress = "172.29.81.194";
 //				172.29.81.194
-		String serverAddress="localhost";
+		String serverAddress=null;
 		int serverPort = 54321;
 		
-//		String filePath = "C:\\address.txt";
-//		try {
-//			BufferedReader reader = new BufferedReader(new FileReader(filePath));
-//			serverAddress = reader.readLine();
-//			serverPort = Integer.parseInt(reader.readLine());
-//		}catch(IOException e) {
-//			e.printStackTrace();
-//		}
+		String filePath = "C:\\server.txt";
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(filePath));
+			serverAddress = reader.readLine();
+			serverPort = Integer.parseInt(reader.readLine());
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
 		Client client = new Client(serverAddress, serverPort);
 
 	}
